@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Savvy Squad Academy — Financial Literacy Universe</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0a0e1a;--bg2:#111827;--bg3:#1a2235;--surface:#1e2a3d;--surface2:#243347;
+  --text:#f0f4ff;--text2:#8899bb;--text3:#556688;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.16);
+  --r:10px;--rl:14px;--rx:20px;--rxx:28px;
+  --gold:#F5C842;--gold-d:#7a5f00;
+  --teal:#00C896;--teal-d:#003d2b;
+  --purple:#9B8FF0;--purple-d:#1a1440;
+  --coral:#FF7055;--coral-d:#3d1200;
+  --blue:#4BA3F5;--blue-d:#001b3d;
+  --green:#5ECC6A;--green-d:#0d2e10;
+  --pink:#F06EB0;--pink-d:#3d0025;
+  --amber:#FFB830;--amber-d:#3d2a00;
+}
+html,body{height:100%;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--text);overflow:hidden}
+.shell{max-width:430px;margin:0 auto;height:100%;display:flex;flex-direction:column;position:relative;background:var(--bg);overflow:hidden}
+
+/* Stars background */
+.stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:0}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle linear infinite}
+@keyframes twinkle{0%,100%{opacity:.15}50%{opacity:.8}}
+
+/* ─── DISCLAIMER ─── */
+#disclaimer{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;padding:20px}
+.disc-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rl);padding:22px;max-width:390px;width:100%;text-align:center}
+.disc-box h2{font-size:16px;font-weight:800;color:var(--gold);margin-bottom:10px}
+.disc-box p{font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:14px}
+.disc-btn{width:100%;padding:13px;border-radius:var(--r);border:none;background:var(--gold);font-family:inherit;font-size:14px;font-weight:800;color:#1a0e00;cursor:pointer}
+
+/* ─── ONBOARDING ─── */
+#onboarding{position:absolute;inset:0;z-index:100;display:flex;flex-direction:column;background:linear-gradient(160deg,#050a18 0%,#0d1a30 60%,#0a1220 100%);overflow-y:auto}
+.ob-inner{padding:32px 24px;display:flex;flex-direction:column;align-items:center;min-height:100%}
+.ob-logo{font-size:32px;font-weight:900;color:var(--text);letter-spacing:-1px;margin-bottom:4px;text-align:center}
+.ob-logo span{color:var(--gold)}
+.ob-tag{font-size:12px;color:var(--text2);margin-bottom:28px;text-align:center;font-weight:500}
+.age-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;width:100%;margin-bottom:22px}
+.age-card{padding:14px 10px;border-radius:var(--rl);border:1.5px solid var(--border2);background:var(--surface);cursor:pointer;text-align:center;transition:all .2s}
+.age-card:hover,.age-card.sel{border-color:var(--gold);background:rgba(245,200,66,.08)}
+.age-card .age-em{font-size:26px;margin-bottom:5px}
+.age-card .age-lbl{font-size:13px;font-weight:700;color:var(--text)}
+.age-card .age-sub{font-size:10px;color:var(--text2);margin-top:2px}
+.av-row{display:flex;gap:9px;justify-content:center;margin-bottom:18px;flex-wrap:wrap}
+.av-pick{width:50px;height:50px;border-radius:50%;border:2px solid transparent;cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center;background:var(--surface);transition:all .2s}
+.av-pick.sel{border-color:var(--gold);background:rgba(245,200,66,.15);transform:scale(1.1)}
+.ob-inp{width:100%;padding:14px 16px;border-radius:var(--rx);border:1.5px solid var(--border2);background:var(--surface);font-size:15px;color:var(--text);font-family:inherit;margin-bottom:12px;text-align:center}
+.ob-inp::placeholder{color:var(--text3)}
+.ob-inp:focus{outline:none;border-color:var(--gold)}
+.ob-btn{width:100%;padding:15px;border-radius:var(--rx);border:none;background:linear-gradient(135deg,var(--gold),#ffaa00);font-family:inherit;font-size:16px;font-weight:900;color:#1a0e00;cursor:pointer;letter-spacing:.3px;box-shadow:0 4px 24px rgba(245,200,66,.35)}
+.ob-btn:hover{opacity:.92}
+.ob-fine{font-size:10px;color:var(--text3);text-align:center;margin-top:14px;line-height:1.6}
+
+/* ─── SCRIPTURE OVERLAY ─── */
+#scripture-overlay{display:none;position:absolute;inset:0;z-index:90;align-items:center;justify-content:center;padding:24px;background:rgba(5,10,24,.95)}
+.scrip-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rl);padding:26px;max-width:370px;text-align:center}
+.scrip-world{font-size:32px;margin-bottom:10px}
+.scrip-name{font-size:14px;font-weight:800;color:var(--gold);margin-bottom:14px}
+.scrip-verse{font-size:15px;font-weight:600;color:var(--text);line-height:1.7;font-style:italic;margin-bottom:8px}
+.scrip-ref{font-size:11px;color:var(--text2);font-weight:600;margin-bottom:18px}
+.scrip-btn{width:100%;padding:12px;border-radius:var(--r);border:none;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer}
+
+/* ─── HEADER ─── */
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(10,14,26,.95);border-bottom:1px solid var(--border);flex-shrink:0;z-index:10;position:relative}
+.logo{font-size:14px;font-weight:900;color:var(--text);letter-spacing:-.3px}
+.logo span{color:var(--gold)}
+.hdr-chips{display:flex;align-items:center;gap:7px}
+.chip{background:var(--surface);border:1px solid var(--border2);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:3px}
+.chip.gold{background:rgba(245,200,66,.15);border-color:rgba(245,200,66,.4);color:var(--gold)}
+.chip.fire{color:var(--coral);background:rgba(255,112,85,.12);border-color:rgba(255,112,85,.3)}
+
+/* ─── TABS ─── */
+.tabs{display:flex;overflow-x:auto;scrollbar-width:none;padding:7px 9px;gap:3px;background:rgba(10,14,26,.95);border-bottom:1px solid var(--border);flex-shrink:0}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:6px 10px;border-radius:var(--r);border:none;background:transparent;font-family:inherit;font-size:10px;font-weight:700;color:var(--text2);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:56px}
+.tab.on{background:rgba(245,200,66,.15);color:var(--gold)}
+.tab svg{width:15px;height:15px}
+
+/* ─── SCREENS ─── */
+.screens{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative;z-index:1}
+.screen{display:none;padding:14px}
+.screen.on{display:block}
+
+/* ─── HUB ─── */
+.hub-greeting{margin-bottom:14px}
+.hub-greeting h2{font-size:20px;font-weight:900;color:var(--text);letter-spacing:-.3px}
+.hub-greeting p{font-size:12px;color:var(--text2);margin-top:2px}
+.worlds-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.world-card{border-radius:var(--rl);padding:16px 13px;cursor:pointer;position:relative;overflow:hidden;border:1px solid transparent;transition:transform .2s,box-shadow .2s;min-height:130px;display:flex;flex-direction:column;justify-content:space-between}
+.world-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.world-card:active{transform:translateY(0)}
+.world-card .lock{position:absolute;top:10px;right:10px;font-size:16px;opacity:.7}
+.world-em{font-size:30px;margin-bottom:8px;display:block}
+.world-name{font-size:13px;font-weight:800;margin-bottom:2px}
+.world-sub{font-size:10px;font-weight:600;opacity:.75}
+.world-prog{height:4px;border-radius:2px;background:rgba(255,255,255,.15);margin-top:9px;overflow:hidden}
+.world-prog-fill{height:100%;border-radius:2px;background:rgba(255,255,255,.8);transition:width .4s}
+.daily-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--rl);padding:14px;margin-bottom:10px}
+
+/* ─── CARDS / LAYOUT ─── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:14px;margin-bottom:10px}
+.card.glow-gold{border-color:rgba(245,200,66,.3);background:rgba(245,200,66,.06)}
+.sec-title{font-size:17px;font-weight:900;color:var(--text);margin-bottom:3px;letter-spacing:-.3px}
+.sec-sub{font-size:11px;color:var(--text2);margin-bottom:13px;font-weight:500}
+.meta{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;color:var(--text2)}
+.pbar{height:7px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden}
+.pfill{height:100%;border-radius:4px;transition:width .5s}
+.tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:var(--r);font-size:10px;font-weight:700}
+.sg3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:10px}
+.sg4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-bottom:10px}
+.stat-box{background:var(--surface2);border-radius:var(--r);padding:10px;text-align:center}
+.stat-n{font-size:19px;font-weight:900;line-height:1}
+.stat-l{font-size:9px;color:var(--text2);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+.divider{height:1px;background:var(--border);margin:10px 0}
+
+/* ─── BUTTONS ─── */
+.btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px 16px;border-radius:var(--r);border:1px solid var(--border2);background:var(--surface);font-family:inherit;font-size:13px;font-weight:700;color:var(--text);cursor:pointer;margin-top:8px;transition:all .15s}
+.btn:hover{opacity:.88;transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn.gold{background:linear-gradient(135deg,var(--gold),#ffaa00);border-color:var(--gold);color:#1a0e00}
+.btn.teal{background:var(--teal);border-color:var(--teal);color:#00150d}
+.btn.purple{background:var(--purple);border-color:var(--purple);color:#0d0a2a}
+.btn.coral{background:var(--coral);border-color:var(--coral);color:#1a0500}
+.btn.green{background:var(--green);border-color:var(--green);color:#061209}
+.btn.blue{background:var(--blue);border-color:var(--blue);color:#000f26}
+.btn.pink{background:var(--pink);border-color:var(--pink);color:#1a0010}
+.btn.ghost{background:transparent;border-color:var(--border2)}
+.btn.half{width:calc(50% - 4px);margin-top:0}
+.btn.sm{padding:8px 12px;font-size:11px;margin-top:0}
+
+/* ─── LESSONS ─── */
+.lcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:13px;margin-bottom:9px;cursor:pointer;transition:all .2s}
+.lcard:hover{border-color:var(--border2);transform:translateY(-1px)}
+.lcard.locked{opacity:.38;cursor:not-allowed;transform:none!important}
+.lcard.done{border-color:rgba(0,200,150,.35)}
+
+/* ─── QUIZ ─── */
+.abtn{width:100%;text-align:left;padding:12px 14px;border:1px solid var(--border2);border-radius:var(--r);background:var(--surface);font-family:inherit;font-size:12px;font-weight:600;color:var(--text);cursor:pointer;margin-bottom:7px;display:block;transition:all .15s}
+.abtn:hover:not(:disabled){background:var(--surface2);transform:translateX(2px)}
+.abtn.ok{background:rgba(0,200,150,.15);border-color:rgba(0,200,150,.5);color:#00ffaa;transform:none}
+.abtn.no{background:rgba(255,112,85,.12);border-color:rgba(255,112,85,.4);color:#ff9988;transform:none}
+
+/* ─── FLASHCARDS ─── */
+.fc-wrap{perspective:1200px;cursor:pointer;margin-bottom:12px;height:220px}
+.fc{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1)}
+.fc.flipped{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;border-radius:var(--rl);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;backface-visibility:hidden;-webkit-backface-visibility:hidden;text-align:center;border:1px solid var(--border2)}
+.fc-back{transform:rotateY(180deg);background:var(--surface2)}
+.fc-hint{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;opacity:.55}
+.fc-term{font-size:22px;font-weight:900;line-height:1.2;letter-spacing:-.3px}
+.fc-def{font-size:13px;line-height:1.6;font-weight:500;color:var(--text)}
+.fc-cat{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;margin-top:8px}
+
+/* ─── LEADERBOARD ─── */
+.lb-row{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:1px solid var(--border)}
+.av-sm{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;background:var(--surface2)}
+
+/* ─── TRADE ─── */
+.up{color:#00C896;font-weight:700}
+.dn{color:#FF7055;font-weight:700}
+
+/* ─── BADGES ─── */
+.bdg-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.bdg{text-align:center;padding:13px 6px;border:1px solid var(--border);border-radius:var(--rl);transition:all .2s}
+.bdg.earned{border-color:rgba(245,200,66,.4);background:rgba(245,200,66,.06)}
+.bdg.locked2{opacity:.3}
+
+/* ─── PORTFOLIO ─── */
+.stk-card{border:1px solid var(--border);border-radius:var(--rl);padding:13px;margin-bottom:9px;background:var(--surface)}
+.stk-card.owned{border-color:rgba(0,200,150,.3)}
+.inp{padding:8px 11px;border:1px solid var(--border2);border-radius:var(--r);background:var(--bg2);font-family:inherit;font-size:12px;color:var(--text)}
+.inp:focus{outline:none;box-shadow:0 0 0 2px rgba(0,200,150,.3)}
+.inp-sm{width:60px}
+
+/* ─── MINI GAME ─── */
+.game-canvas-wrap{position:relative;border-radius:var(--rl);overflow:hidden;margin-bottom:10px;background:var(--bg2)}
+.fl-anim{animation:fl .35s ease}
+@keyframes fl{0%{opacity:.1}100%{opacity:1}}
+@keyframes pop{0%{transform:scale(.8);opacity:0}70%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+.pop{animation:pop .35s ease forwards}
+@keyframes slide-up{0%{transform:translateY(30px);opacity:0}100%{transform:translateY(0);opacity:1}}
+.slide-up{animation:slide-up .4s ease forwards}
+
+/* ─── WORLD-SPECIFIC THEMES ─── */
+.w-money{background:linear-gradient(135deg,#0d1f2d,#0a1a0d);border-color:rgba(0,200,150,.25)}
+.w-market{background:linear-gradient(135deg,#1a0d2e,#2d1a0d);border-color:rgba(155,143,240,.25)}
+.w-chart{background:linear-gradient(135deg,#0d1a2e,#1a0d20);border-color:rgba(75,163,245,.25)}
+.w-trade{background:linear-gradient(135deg,#2e1a0d,#0d0d2e);border-color:rgba(255,184,48,.25)}
+.w-vpa{background:linear-gradient(135deg,#2e0d2e,#0d2e2e);border-color:rgba(240,110,176,.25)}
+.w-risk{background:linear-gradient(135deg,#1a0d0d,#1a1a0d);border-color:rgba(255,112,85,.25)}
+.w-prop{background:linear-gradient(135deg,#0d0d1a,#1a0d1a);border-color:rgba(94,204,106,.25)}
+.w-eco{background:linear-gradient(135deg,#0d2e1a,#2e2e0d);border-color:rgba(75,163,245,.25)}
+
+/* ─── LEVEL BADGE ─── */
+.lvl-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800}
+</style>
+</head>
+<body>
+
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<!-- DISCLAIMER -->
+<div id="disclaimer">
+  <div class="disc-box">
+    <div style="font-size:28px;margin-bottom:8px">⚖️</div>
+    <h2>Important Notice</h2>
+    <p>Savvy Squad Academy is designed for <strong>educational and entertainment purposes only</strong>. All trading games, simulations, and investment scenarios use <strong>virtual currency only</strong> — no real money is involved at any time. Nothing in this app constitutes financial, investment, or legal advice. Past performance does not guarantee future results. Trading and investing carry real risk. Always consult a licensed financial professional before making any investment decisions. By proceeding, you confirm you understand this is a learning tool.</p>
+    <p style="font-size:11px;margin-bottom:14px;color:#556688">© Savvy Mommy LLC — Faith · Finance · Fitness</p>
+    <button class="disc-btn" onclick="acceptDisclaimer()">I Understand — Let's Learn! 🚀</button>
+  </div>
+</div>
+
+<!-- ONBOARDING -->
+<div id="onboarding" style="display:none">
+  <div class="ob-inner">
+    <div style="font-size:48px;margin-bottom:12px;text-align:center">🏆</div>
+    <div class="ob-logo">Savvy <span>Squad</span><br>Academy</div>
+    <div class="ob-tag">The Financial Literacy Universe — Ages 5 & Up</div>
+    <div style="font-size:11px;color:#5ECC6A;font-weight:700;margin-bottom:20px;text-align:center;font-style:italic">"Whoever gathers money little by little makes it grow." — Proverbs 13:11</div>
+
+    <div style="font-size:12px;color:#8899bb;font-weight:700;margin-bottom:10px;width:100%">Choose your level 👇</div>
+    <div class="age-grid">
+      <div class="age-card sel" data-age="5" onclick="pickAge(this)"><div class="age-em">🌟</div><div class="age-lbl">Little Savvy</div><div class="age-sub">Ages 5–7</div></div>
+      <div class="age-card" data-age="8" onclick="pickAge(this)"><div class="age-em">🚀</div><div class="age-lbl">Savvy Kid</div><div class="age-sub">Ages 8–12</div></div>
+      <div class="age-card" data-age="13" onclick="pickAge(this)"><div class="age-em">⚡</div><div class="age-lbl">Savvy Teen</div><div class="age-sub">Ages 13–17</div></div>
+      <div class="age-card" data-age="18" onclick="pickAge(this)"><div class="age-em">💎</div><div class="age-lbl">Savvy Pro</div><div class="age-sub">Ages 18+</div></div>
+    </div>
+    <div style="font-size:12px;color:#8899bb;font-weight:700;margin-bottom:10px;width:100%">Pick your avatar 👇</div>
+    <div class="av-row">
+      <div class="av-pick sel" data-av="🦁" onclick="pickAv(this)">🦁</div>
+      <div class="av-pick" data-av="🐯" onclick="pickAv(this)">🐯</div>
+      <div class="av-pick" data-av="🦊" onclick="pickAv(this)">🦊</div>
+      <div class="av-pick" data-av="🐼" onclick="pickAv(this)">🐼</div>
+      <div class="av-pick" data-av="🦋" onclick="pickAv(this)">🦋</div>
+      <div class="av-pick" data-av="🚀" onclick="pickAv(this)">🚀</div>
+    </div>
+    <input class="ob-inp" id="ob-name" placeholder="Enter your first name" maxlength="18" onkeydown="if(event.key==='Enter')startApp()">
+    <button class="ob-btn" onclick="startApp()">Enter the Academy 🌍</button>
+    <div class="ob-fine">For entertainment and education only. No real money involved. Not financial advice.<br>© Savvy Mommy LLC — Faith · Finance · Fitness</div>
+  </div>
+</div>
+
+<!-- SCRIPTURE OVERLAY -->
+<div id="scripture-overlay" style="display:none">
+  <div class="scrip-box slide-up">
+    <div class="scrip-world" id="scrip-em"></div>
+    <div class="scrip-name" id="scrip-world-name"></div>
+    <div class="scrip-verse" id="scrip-verse"></div>
+    <div class="scrip-ref" id="scrip-ref"></div>
+    <button class="scrip-btn" id="scrip-btn" onclick="closeScripture()">Enter World →</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="shell" id="main-app" style="display:none">
+  <div class="hdr">
+    <div class="logo">Savvy <span>Squad</span></div>
+    <div class="hdr-chips">
+      <div class="chip fire">🔥 <span id="hdr-streak">1</span></div>
+      <div class="chip gold">★ <span id="hdr-sb">0</span> SB</div>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" id="t-hub" onclick="go('hub')">
+      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 2v6l3 3"/></svg>Worlds
+    </button>
+    <button class="tab" id="t-trade" onclick="go('trade')">
+      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><path d="M1 12l4-4 3 3 4-5 3-3"/></svg>Trade
+    </button>
+    <button class="tab" id="t-cards" onclick="go('cards')">
+      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><rect x="1" y="3" width="14" height="10" rx="1.5"/><path d="M1 7h14"/></svg>Flashcards
+    </button>
+    <button class="tab" id="t-port" onclick="go('port')">
+      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><rect x="1" y="5" width="14" height="10" rx="1.5"/><path d="M5 5V4a3 3 0 016 0v1"/></svg>Portfolio
+    </button>
+    <button class="tab" id="t-ranks" onclick="go('ranks')">
+      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><path d="M8 1l1.5 4h4l-3.3 2.4 1.3 4L8 9l-3.5 2.4 1.3-4L2.5 5h4z"/></svg>Ranks
+    </button>
+    <button class="tab" id="t-badges" onclick="go('badges')">
+      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><circle cx="8" cy="6" r="4"/><path d="M5.5 9.5L4 15l4-2 4 2-1.5-5.5"/></svg>Badges
+    </button>
+  </div>
+  <div class="screens">
+
+<!-- ─── HUB / WORLD MAP ─── -->
+<div class="screen on" id="s-hub">
+  <div class="hub-greeting">
+    <h2 id="hub-greeting-txt">Welcome back! 👋</h2>
+    <p id="hub-subtitle">Choose a world to enter</p>
+  </div>
+  <div class="sg4">
+    <div class="stat-box"><div class="stat-n" style="color:var(--gold)" id="st-sb">0</div><div class="stat-l">SB Total</div></div>
+    <div class="stat-box"><div class="stat-n" style="color:var(--coral)" id="st-streak2">1</div><div class="stat-l">Streak</div></div>
+    <div class="stat-box"><div class="stat-n" style="color:var(--teal)" id="st-lessons">0</div><div class="stat-l">Lessons</div></div>
+    <div class="stat-box"><div class="stat-n" style="color:var(--purple)" id="st-badges">0</div><div class="stat-l">Badges</div></div>
+  </div>
+  <div class="worlds-grid" id="worlds-grid"></div>
+  <div class="daily-card">
+    <div class="meta">Today's Scripture</div>
+    <div style="font-size:13px;color:var(--text);font-style:italic;line-height:1.65;font-weight:600" id="daily-verse"></div>
+    <div style="font-size:10px;color:var(--gold);font-weight:700;margin-top:5px" id="daily-ref"></div>
+  </div>
+</div>
+
+<!-- ─── WORLD INNER (lessons) ─── -->
+<div class="screen" id="s-world">
+  <button class="btn ghost sm" style="width:auto;margin-bottom:13px;margin-top:0;padding:6px 12px" onclick="go('hub')">← All Worlds</button>
+  <div id="world-header"></div>
+  <div id="world-lessons"></div>
+</div>
+
+<!-- ─── LESSON DETAIL ─── -->
+<div class="screen" id="s-lesson">
+  <button class="btn ghost sm" style="width:auto;margin-bottom:12px;margin-top:0;padding:6px 0;border:none;color:var(--text2)" onclick="go('world')">← Back</button>
+  <div id="lesson-content"></div>
+  <button class="btn gold" id="quiz-btn" onclick="startQuiz()">Start Quiz — Earn SB</button>
+</div>
+
+<!-- ─── QUIZ ─── -->
+<div class="screen" id="s-quiz">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+    <div style="font-size:11px;color:var(--text2);font-weight:700;white-space:nowrap" id="q-prog">Q 1/3</div>
+    <div class="pbar" style="flex:1"><div class="pfill" id="q-pfill" style="background:var(--purple);width:33%"></div></div>
+    <div style="font-size:11px;color:var(--gold);font-weight:800" id="q-reward">+30 SB</div>
+  </div>
+  <div class="card">
+    <div class="meta" style="color:var(--purple)" id="q-world-lbl">World</div>
+    <div style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.4;letter-spacing:-.2px" id="q-text">Question</div>
+    <div id="q-opts"></div>
+    <div id="q-fb" style="display:none;margin-top:10px;padding:12px;border-radius:var(--r);font-size:13px;font-weight:700;line-height:1.4"></div>
+    <button class="btn teal" id="q-next" style="display:none;margin-top:10px" onclick="nextQ()">Next →</button>
+  </div>
+</div>
+
+<!-- ─── QUIZ DONE ─── -->
+<div class="screen" id="s-done">
+  <div style="text-align:center;padding:18px 0">
+    <div style="font-size:56px;margin-bottom:12px" id="done-em">⭐</div>
+    <div style="font-size:23px;font-weight:900;color:var(--text);letter-spacing:-.4px;margin-bottom:4px" id="done-title">Complete!</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:22px;font-weight:600" id="done-sub"></div>
+    <div style="background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.35);border-radius:var(--rl);padding:20px;margin-bottom:12px">
+      <div class="meta" style="color:var(--gold)">Savvy Bucks Earned</div>
+      <div style="font-size:42px;font-weight:900;color:var(--gold)" id="done-bucks">+0 SB</div>
+      <div style="font-size:11px;color:rgba(245,200,66,.6);margin-top:5px;font-weight:600" id="done-total"></div>
+    </div>
+    <div id="done-badge-wrap" style="display:none;margin-bottom:12px" class="card">
+      <div class="meta" style="color:var(--coral)">Badge Unlocked! 🏅</div>
+      <div style="font-size:22px;margin:6px 0" id="done-badge-em"></div>
+      <div style="font-size:13px;font-weight:700;color:var(--text)" id="done-badge-name"></div>
+    </div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:18px;font-weight:600" id="done-score"></div>
+    <button class="btn gold" onclick="go('world')">Next Lesson →</button>
+    <button class="btn ghost" onclick="go('hub')" style="margin-top:6px">Back to Worlds</button>
+    <div style="margin-top:14px;padding:12px;border-radius:var(--r);background:rgba(94,204,106,.08);border:1px solid rgba(94,204,106,.2)">
+      <div style="font-size:10px;color:var(--green);font-weight:700;margin-bottom:4px">FROM THE WORD</div>
+      <div style="font-size:12px;color:var(--text);font-style:italic;line-height:1.6;font-weight:600" id="done-verse"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── TRADING FLOOR ─── -->
+<div class="screen" id="s-trade">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+    <div><div class="sec-title">Trading Floor</div><div class="sec-sub" style="margin-bottom:0">Read the chart. Predict the candle.</div></div>
+    <div style="text-align:right">
+      <div style="font-size:9px;color:var(--text2);font-weight:700;text-transform:uppercase">Streak</div>
+      <div style="font-size:28px;font-weight:900;color:var(--gold)" id="trade-streak">0</div>
+    </div>
+  </div>
+  <div class="card" style="padding:12px">
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text2);font-weight:700;margin-bottom:9px">
+      <span id="trade-sym">AAPL — Apple</span><span id="trade-tf">1H Chart</span>
+    </div>
+    <canvas id="trade-canvas" width="380" height="185" style="width:100%;display:block;border-radius:var(--r);background:var(--bg2)"></canvas>
+    <div style="display:flex;justify-content:space-between;margin-top:7px">
+      <div style="font-size:10px;font-weight:700;color:var(--teal)">● Green = Bullish</div>
+      <div style="font-size:10px;font-weight:700;color:var(--coral)">● Red = Bearish</div>
+    </div>
+  </div>
+  <div id="trade-q-box" class="card" style="background:var(--purple-d);border-color:rgba(155,143,240,.3);text-align:center">
+    <div style="font-size:14px;font-weight:800;color:var(--purple);margin-bottom:3px">What is the NEXT candle?</div>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:12px">Use VPA + price action to read the market</div>
+    <div style="display:flex;gap:7px">
+      <button class="btn green half" id="bull-btn" onclick="tradeGuess('bull')">🟢 BULL</button>
+      <button class="btn coral half" id="bear-btn" onclick="tradeGuess('bear')">🔴 BEAR</button>
+    </div>
+  </div>
+  <div id="trade-res-box" style="display:none" class="card">
+    <div style="font-size:14px;font-weight:800;margin-bottom:4px" id="trade-res-title"></div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:4px;line-height:1.55;font-weight:500" id="trade-res-exp"></div>
+    <div style="font-size:13px;font-weight:800;color:var(--gold);margin-bottom:10px" id="trade-res-sb"></div>
+    <div style="font-size:11px;color:var(--text2);font-style:italic;background:rgba(94,204,106,.08);padding:9px;border-radius:var(--r);margin-bottom:10px;border:1px solid rgba(94,204,106,.15)" id="trade-vpa-tip"></div>
+    <button class="btn teal" onclick="newTrade()">Next Chart →</button>
+  </div>
+  <div class="card" style="background:rgba(245,200,66,.05);border-color:rgba(245,200,66,.2)">
+    <div class="meta" style="color:var(--gold)">VPA Key — Anna Couling</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px;color:var(--text2);line-height:1.55;font-weight:500">
+      <div>High volume + narrow spread = strength hidden<br>Low volume + no progress = weakness</div>
+      <div>Volume validates price. No volume = no conviction<br>Effort vs. Result reveals true intent</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FLASHCARDS ─── -->
+<div class="screen" id="s-cards">
+  <div class="sec-title">Flashcard Arena</div>
+  <div class="sec-sub">Master every concept. Tap to flip.</div>
+  <div style="display:flex;gap:7px;margin-bottom:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px" id="fc-cats"></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+    <button class="btn ghost sm" style="width:auto;margin-top:0;padding:7px 13px" onclick="fcPrev()">← Prev</button>
+    <span style="font-size:12px;color:var(--text2);font-weight:700" id="fc-count">1 / 50</span>
+    <button class="btn ghost sm" style="width:auto;margin-top:0;padding:7px 13px" onclick="fcNext()">Next →</button>
+  </div>
+  <div class="fc-wrap" onclick="flipCard()">
+    <div class="fc" id="fc-card">
+      <div class="fc-face" id="fc-front" style="background:var(--surface)">
+        <div class="fc-hint" id="fc-front-hint">Tap to reveal</div>
+        <div class="fc-term" id="fc-term"></div>
+        <div class="fc-cat" id="fc-cat-badge"></div>
+      </div>
+      <div class="fc-face fc-back">
+        <div class="fc-hint" style="color:var(--text2)">Definition</div>
+        <div class="fc-def" id="fc-def"></div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:7px;margin-bottom:12px">
+    <button class="btn ghost" style="flex:1;border-color:rgba(255,112,85,.4);color:var(--coral);font-size:12px;margin-top:0" onclick="fcRate(false)">Still Learning</button>
+    <button class="btn teal sm" style="flex:1;margin-top:0" onclick="fcRate(true)">Got It! ✓</button>
+  </div>
+  <div class="card">
+    <div class="meta">Mastery Progress</div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text2);font-weight:600;margin-bottom:4px"><span>Cards mastered</span><span id="fc-mastered-ct">0 / 50</span></div>
+    <div class="pbar"><div class="pfill" id="fc-pbar" style="background:var(--teal);width:0%"></div></div>
+  </div>
+</div>
+
+<!-- ─── PORTFOLIO ─── -->
+<div class="screen" id="s-port">
+  <div class="sec-title">My Portfolio</div>
+  <div class="sec-sub">Virtual investing — start with $1,000 paper money</div>
+  <div class="sg3" style="margin-bottom:10px">
+    <div class="stat-box"><div style="font-size:9px;color:var(--text2);font-weight:700;text-transform:uppercase;margin-bottom:3px">CASH</div><div style="font-size:14px;font-weight:900;color:var(--text)" id="p-cash">$1,000</div></div>
+    <div class="stat-box"><div style="font-size:9px;color:var(--text2);font-weight:700;text-transform:uppercase;margin-bottom:3px">PORTFOLIO</div><div style="font-size:14px;font-weight:900;color:var(--text)" id="p-val">$0</div></div>
+    <div class="stat-box"><div style="font-size:9px;color:var(--text2);font-weight:700;text-transform:uppercase;margin-bottom:3px">RETURN</div><div style="font-size:14px;font-weight:900" id="p-ret">—</div></div>
+  </div>
+  <div style="font-size:11px;color:var(--teal);font-weight:700;margin-bottom:8px">● Live prices — updating every few seconds</div>
+  <div style="font-size:10px;color:var(--text3);font-weight:600;margin-bottom:8px">⚖️ Paper trading only. No real money. Educational simulation.</div>
+  <div id="stock-list"></div>
+</div>
+
+<!-- ─── RANKINGS ─── -->
+<div class="screen" id="s-ranks">
+  <div class="sec-title">Global Rankings</div>
+  <div class="sec-sub">Top Savvy Squad members worldwide</div>
+  <div id="lb-list"></div>
+</div>
+
+<!-- ─── BADGES ─── -->
+<div class="screen" id="s-badges">
+  <div class="sec-title">Badge Collection</div>
+  <div class="sec-sub" id="badge-sub">0 of 18 badges earned</div>
+  <div class="bdg-grid" id="badge-grid"></div>
+</div>
+
+  </div><!-- /screens -->
+</div><!-- /main-app -->
+<script>
+// ═══════════════════════════════════════════════════════════
+// DATA: WORLDS, SCRIPTURES, LESSONS, FLASHCARDS, BADGES
+// ═══════════════════════════════════════════════════════════
+
+const SCRIPTURES=[
+  {verse:"Whoever gathers money little by little makes it grow.",ref:"Proverbs 13:11",world:"all"},
+  {verse:"The plans of the diligent lead to profit as surely as haste leads to poverty.",ref:"Proverbs 21:5",world:"all"},
+  {verse:"Commit to the LORD whatever you do, and he will establish your plans.",ref:"Proverbs 16:3",world:"all"},
+  {verse:"Invest in seven ventures, yes, in eight — you do not know what disaster may come.",ref:"Ecclesiastes 11:2",world:"economy"},
+  {verse:"Know well the condition of your flocks, and give careful attention to your herds — for riches do not endure forever.",ref:"Proverbs 27:23–24",world:"chart"},
+  {verse:"The rich rule over the poor, and the borrower is slave to the lender.",ref:"Proverbs 22:7",world:"prop"},
+  {verse:"Remember the LORD your God, for it is he who gives you the ability to produce wealth.",ref:"Deuteronomy 8:18",world:"money"},
+  {verse:"Whoever can be trusted with very little can also be trusted with much.",ref:"Luke 16:10",world:"risk"},
+  {verse:"Honor the LORD with your wealth, with the firstfruits of all your crops.",ref:"Proverbs 3:9",world:"all"},
+  {verse:"Do you see someone skilled in their work? They will serve before kings.",ref:"Proverbs 22:29",world:"trade"},
+  {verse:"A generous person will prosper — whoever refreshes others will be refreshed.",ref:"Proverbs 11:25",world:"all"},
+  {verse:"Before you build a tower, sit down and count the cost.",ref:"Luke 14:28",world:"risk"},
+  {verse:"My God will meet all your needs according to the riches of his glory in Christ Jesus.",ref:"Philippians 4:19",world:"all"},
+  {verse:"Seek first his kingdom and his righteousness, and all these things will be given to you.",ref:"Matthew 6:33",world:"all"},
+  {verse:"The beginning of wisdom is this: Get wisdom — though it cost all you have.",ref:"Proverbs 4:7",world:"cards"}
+];
+
+const WORLDS=[
+  {id:"money",name:"Money Mountain",icon:"🏔️",em:"🏔️",theme:"w-money",color:"var(--teal)",verse:6,minAge:5,
+   desc:"Budgeting, saving, cash flow, compound interest",
+   lessons:["Needs vs. Wants","Budget Basics","Compound Interest","Cash Flow","Assets vs. Liabilities","Net Worth"]},
+  {id:"market",name:"Market City",icon:"🏙️",em:"🏙️",theme:"w-market",color:"var(--purple)",verse:3,minAge:5,
+   desc:"Supply & demand, prices, economics",
+   lessons:["Supply & Demand","How Prices Work","Scarcity","Inflation & Deflation","Interest Rates","The Business Cycle"]},
+  {id:"chart",name:"Chart Kingdom",icon:"📊",em:"📊",theme:"w-chart",color:"var(--blue)",verse:4,minAge:8,
+   desc:"Candlesticks, patterns, technical analysis",
+   lessons:["Candlestick Basics","Chart Patterns","Trend Lines","Support & Resistance","Moving Averages","Market Structure"]},
+  {id:"trade",name:"Trading Floor",icon:"⚡",em:"⚡",theme:"w-trade",color:"var(--amber)",verse:9,minAge:10,
+   desc:"ICT killzones, price action, entries",
+   lessons:["Buy Low Sell High","ICT Killzones","Liquidity Grabs","FVGs & Imbalances","The Strat","Timeframe Analysis"]},
+  {id:"vpa",name:"VPA Vault",icon:"🔮",em:"🔮",theme:"w-vpa",color:"var(--pink)",verse:1,minAge:13,
+   desc:"Volume Price Analysis — Anna Couling method",
+   lessons:["Volume is the Fuel","Wyckoff 4 Phases","Accumulation","Distribution","Stopping Volume","Effort vs. Result"]},
+  {id:"risk",name:"Risk Castle",icon:"🛡️",em:"🛡️",theme:"w-risk",color:"var(--coral)",verse:7,minAge:10,
+   desc:"Risk management, position sizing, discipline",
+   lessons:["Risk vs. Reward","The 1% Rule","Stop Losses","Position Sizing","Trading Psychology","Drawdown Management"]},
+  {id:"prop",name:"Prop Firm HQ",icon:"🏦",em:"🏦",theme:"w-prop",color:"var(--green)",verse:5,minAge:16,
+   desc:"Funded trading, prop firms, margin",
+   lessons:["What is a Prop Firm?","Evaluation Stages","Funded Account Rules","Margin Explained","Profit Splits","FTMO vs Apex vs Tradeify"]},
+  {id:"eco",name:"Economy World",icon:"🌍",em:"🌍",theme:"w-eco",color:"var(--blue)",verse:3,minAge:12,
+   desc:"Macro economics, Fed, GDP, seasonality",
+   lessons:["GDP & Growth","Federal Reserve","Inflation","Unemployment","Seasonality in Markets","Economic Cycles"]}
+];
+
+const LESSON_DATA={
+  money:{
+    "Needs vs. Wants":{xp:25,badge:"Budget Boss",
+      concepts:["NEEDS are essentials for survival: food, shelter, clean water, clothing, healthcare","WANTS are extras that make life more fun but are not required: toys, candy, the newest phone","Every smart money decision starts with one question: Is this a need or a want?"],
+      fact:"Warren Buffett still lives in the same house he bought in 1958 for $31,500. He could buy any mansion — but he chooses needs over wants every day.",
+      verse:{text:"Whoever loves money never has enough; whoever loves wealth is never satisfied with their income.",ref:"Ecclesiastes 5:10"}},
+    "Budget Basics":{xp:35,badge:"Money Tracker",
+      concepts:["A budget is a plan that tells your money where to go BEFORE you spend it","Income – Expenses = Savings. Keep this number positive always","The 50/30/20 rule: 50% needs, 30% wants, 20% savings. Small amounts saved consistently become enormous over time."],
+      fact:"People who write a budget save an average of 20% more each month than those who don't.",
+      verse:{text:"The plans of the diligent lead to profit as surely as haste leads to poverty.",ref:"Proverbs 21:5"}},
+    "Compound Interest":{xp:45,badge:"Compound Champion",
+      concepts:["Compound interest = earning interest on your interest. Your money multiplies itself over time","$1 per day starting at age 10, at 7% return = over $300,000 by age 65. That is the power of starting EARLY","The Rule of 72: Divide 72 by your interest rate to know how many years your money doubles. At 8%, money doubles every 9 years!"],
+      fact:"Einstein reportedly called compound interest the eighth wonder of the world: 'He who understands it, earns it; he who doesn't, pays it.'",
+      verse:{text:"Whoever gathers money little by little makes it grow.",ref:"Proverbs 13:11"}},
+    "Cash Flow":{xp:50,badge:"Cash Flow Master",
+      concepts:["Cash flow = money coming IN minus money going OUT in any given period","Positive cash flow: you earn more than you spend. This is wealth building mode!","Negative cash flow: you spend more than you earn. This leads to debt. Track yours weekly."],
+      fact:"Rich Dad Poor Dad teaches that the wealthy buy ASSETS that create cash flow. The middle class buys liabilities they think are assets.",
+      verse:{text:"Know well the condition of your flocks, and give careful attention to your herds.",ref:"Proverbs 27:23"}},
+    "Assets vs. Liabilities":{xp:50,badge:"Asset Builder",
+      concepts:["An ASSET puts money IN your pocket: stocks, rental property, business, royalties","A LIABILITY takes money OUT of your pocket: car payments, credit cards, loans you cannot repay","Robert Kiyosaki's rule: Rich people acquire assets. Everyone else acquires liabilities thinking they are assets."],
+      fact:"A house you live in is a liability (costs money monthly). A house you rent out is an asset (earns money monthly). Context is everything.",
+      verse:{text:"Remember the LORD your God, for it is he who gives you the ability to produce wealth.",ref:"Deuteronomy 8:18"}},
+    "Net Worth":{xp:55,badge:"Net Worth Tracker",
+      concepts:["Net Worth = All your ASSETS minus all your LIABILITIES","It is the most important financial number you can track — it shows true financial health","Build net worth by: increasing income, reducing debt, buying assets, and letting compound interest work"],
+      fact:"The average American millionaire has a net worth of $3.5 million, drives a used car, and has been investing consistently for over 20 years.",
+      verse:{text:"Honor the LORD with your wealth, with the firstfruits of all your crops.",ref:"Proverbs 3:9"}}
+  },
+  market:{
+    "Supply & Demand":{xp:30,badge:"Market Maker",
+      concepts:["SUPPLY is how much of something is available. More supply → lower price","DEMAND is how much people want something. More demand → higher price","When supply and demand meet, a PRICE is born. This drives every market in the world — stocks, food, houses, everything."],
+      fact:"When Apple releases a new iPhone, high demand + limited supply = people paying over $1,000. Supply and demand in action!",
+      verse:{text:"Invest in seven ventures, yes, in eight — you do not know what disaster may come.",ref:"Ecclesiastes 11:2"}},
+    "How Prices Work":{xp:30,badge:"Price Action Pro",
+      concepts:["Prices rise when more people want to BUY than sell (demand > supply)","Prices fall when more people want to SELL than buy (supply > demand)","Equilibrium is the price where supply equals demand — markets always seek this point"],
+      fact:"In 2020, oil prices went NEGATIVE. Supply was so high and demand so low that sellers literally paid people to take oil. Extreme supply and demand!",
+      verse:{text:"The beginning of wisdom is this: Get wisdom — though it cost all you have.",ref:"Proverbs 4:7"}},
+    "Scarcity":{xp:30,badge:"Scarcity Scout",
+      concepts:["Scarcity means there is not enough of something for everyone who wants it","Scarcity creates value. Diamonds are valuable because they are rare. Air is not valuable because it is everywhere","Every economic decision is about allocating scarce resources: time, money, materials"],
+      fact:"Bitcoin has a maximum supply of 21 million coins — ever. Scarcity is programmed in. That is why some people treat it like digital gold.",
+      verse:{text:"My God will meet all your needs according to the riches of his glory in Christ Jesus.",ref:"Philippians 4:19"}},
+    "Inflation & Deflation":{xp:40,badge:"Inflation Expert",
+      concepts:["Inflation: prices rise over time, so your dollar buys LESS. $100 in 1990 buys what $230 buys today","Deflation: prices fall over time — sounds good but signals economic trouble","The Fed targets 2% annual inflation. Too much = crisis. Too little = stagnation. Balance is everything."],
+      fact:"Zimbabwe experienced hyperinflation in 2008 — prices doubled every 24 hours. A loaf of bread cost 35 million Zimbabwean dollars.",
+      verse:{text:"A generous person will prosper — whoever refreshes others will be refreshed.",ref:"Proverbs 11:25"}},
+    "Interest Rates":{xp:45,badge:"Rate Watcher",
+      concepts:["Interest is the cost of borrowing money. Higher rates = more expensive to borrow","The Federal Reserve controls the key interest rate that ripples through ALL markets","Low rates → people borrow and spend more → economy grows. High rates → borrowing slows → inflation cools"],
+      fact:"In 2022-2023, the Fed raised rates from 0% to 5.25% in 18 months — the fastest hike in 40 years. Markets felt it everywhere.",
+      verse:{text:"The rich rule over the poor, and the borrower is slave to the lender.",ref:"Proverbs 22:7"}},
+    "The Business Cycle":{xp:50,badge:"Cycle Tracker",
+      concepts:["Expansion: economy grows, jobs increase, markets rise — the good times","Recession: two or more quarters of economic decline — companies cut costs, unemployment rises","Recovery: economy starts growing again after a recession. Savvy investors prepare DURING the recession to profit in recovery."],
+      fact:"The average economic expansion lasts 58 months. The average recession lasts only 11 months. Good times last longer — stay patient!",
+      verse:{text:"Commit to the LORD whatever you do, and he will establish your plans.",ref:"Proverbs 16:3"}}
+  },
+  chart:{
+    "Candlestick Basics":{xp:40,badge:"Candle Reader",
+      concepts:["GREEN candle: Close price is HIGHER than Open. Buyers won this period — bullish!","RED candle: Close price is LOWER than Open. Sellers won this period — bearish!","The body shows Open and Close. The WICK shows High and Low. Every candle tells a story of the battle between buyers and sellers."],
+      fact:"Candlestick charts were invented by Japanese rice trader Munehisa Homma in the 1700s. He became so wealthy from reading charts that he was made a samurai!",
+      verse:{text:"Know well the condition of your flocks, and give careful attention to your herds.",ref:"Proverbs 27:23"}},
+    "Chart Patterns":{xp:50,badge:"Pattern Spotter",
+      concepts:["Head and Shoulders: a bearish reversal pattern — signals the uptrend is ending","Double Top/Bottom: price tests a level twice and fails — strong reversal signal","Triangle patterns (ascending, descending, symmetrical) signal consolidation before a breakout"],
+      fact:"The head and shoulders pattern has been documented since the 1930s. It remains one of the most reliable reversal patterns in all of technical analysis.",
+      verse:{text:"Seek first his kingdom and his righteousness, and all these things will be given to you.",ref:"Matthew 6:33"}},
+    "Trend Lines":{xp:40,badge:"Trend Master",
+      concepts:["An UPTREND has higher highs and higher lows. Draw the trend line connecting the lows","A DOWNTREND has lower highs and lower lows. Draw the trend line connecting the highs","The TREND is your friend — trade with it, not against it, until it clearly breaks"],
+      fact:"'The trend is your friend until the end when it bends' — one of the oldest and truest sayings in all of technical analysis.",
+      verse:{text:"The plans of the diligent lead to profit as surely as haste leads to poverty.",ref:"Proverbs 21:5"}},
+    "Support & Resistance":{xp:50,badge:"S&R Expert",
+      concepts:["SUPPORT is a price level where buying is strong enough to stop price falling further — like a floor","RESISTANCE is where selling is strong enough to stop price rising — like a ceiling","When support BREAKS, it often becomes resistance. When resistance BREAKS, it becomes support. This is called a 'role reversal'."],
+      fact:"Anna Couling describes support and resistance as 'floors and ceilings.' Price bounces between them like a ball in a room — until someone breaks a window.",
+      verse:{text:"Before you build a tower, sit down and count the cost.",ref:"Luke 14:28"}},
+    "Moving Averages":{xp:45,badge:"MA Analyst",
+      concepts:["A Moving Average (MA) smooths price data to reveal the trend direction clearly","50 MA: medium-term trend. 200 MA: long-term trend. 20 MA: short-term momentum","When the 50 MA crosses ABOVE the 200 MA = Golden Cross (bullish). When it crosses BELOW = Death Cross (bearish)."],
+      fact:"The Golden Cross (50 MA crossing above 200 MA) has historically preceded major bull markets in stocks. It appeared before rallies in 2003, 2009, and 2019.",
+      verse:{text:"Whoever can be trusted with very little can also be trusted with much.",ref:"Luke 16:10"}},
+    "Market Structure":{xp:55,badge:"Structure Pro",
+      concepts:["Market structure = the pattern of highs and lows on a chart","UPTREND = HH (Higher Highs) + HL (Higher Lows). Price is climbing a staircase upward","DOWNTREND = LH (Lower Highs) + LL (Lower Lows). A break in structure = Change of Character (ChoCH) — a potential reversal signal"],
+      fact:"ICT (Inner Circle Trader) calls structure breaks 'displacement.' When price aggressively breaks a key level with a large candle, the structure has shifted — smart money has moved.",
+      verse:{text:"Do you see someone skilled in their work? They will serve before kings.",ref:"Proverbs 22:29"}}
+  },
+  trade:{
+    "Buy Low Sell High":{xp:35,badge:"Trader Starter",
+      concepts:["The simplest trading principle: buy at a low price, sell at a higher price = profit","In SHORT selling (advanced): you can also profit when prices FALL — borrow, sell high, buy back low","The challenge is knowing WHAT is low and WHAT is high — that is what all of trading education teaches you to identify"],
+      fact:"Jesse Livermore made $100 million in the 1929 crash by short selling. He understood supply, demand, and price structure decades before modern technical analysis existed.",
+      verse:{text:"Do you see someone skilled in their work? They will serve before kings.",ref:"Proverbs 22:29"}},
+    "ICT Killzones":{xp:55,badge:"Killzone Pro",
+      concepts:["NY Open (9:30–11:00 AM EST): Highest volume. Best ICT price action setups. Institutional activity at its peak","London Open (3:00–5:00 AM EST): Sets the DAILY direction. London moves more money than any other session","Asian Session (8 PM–Midnight EST): Quiet. Price consolidates and builds liquidity for London to come in and SWEEP"],
+      fact:"ICT (Inner Circle Trader Michael Huddleston) teaches that 80% of all meaningful daily price movement happens in just 4 hours: London Open + NY Open combined.",
+      verse:{text:"The plans of the diligent lead to profit as surely as haste leads to poverty.",ref:"Proverbs 21:5"}},
+    "Liquidity Grabs":{xp:60,badge:"Liquidity Hunter",
+      concepts:["Liquidity sits above HIGHS (buy stop orders) and below LOWS (sell stop orders) — placed by traders using tight stops","Smart money GRABS liquidity by briefly sweeping these levels, triggering stops, then reversing hard in the opposite direction","Recognizing a liquidity grab BEFORE the reversal is one of the highest-probability trade setups in ICT methodology"],
+      fact:"When you see price spike to a new high then immediately crash back down, that is a liquidity grab (also called a stop hunt). The big banks just filled their orders using your stop loss.",
+      verse:{text:"Whoever can be trusted with very little can also be trusted with much.",ref:"Luke 16:10"}},
+    "FVGs & Imbalances":{xp:65,badge:"FVG Finder",
+      concepts:["FVG = Fair Value Gap: A 3-candle pattern where the middle candle moves so fast it leaves a gap in price coverage","Price almost always returns to FILL the FVG — providing a high-probability entry zone","Bullish FVG: gap between candle 1 high and candle 3 low. Bearish FVG: gap between candle 1 low and candle 3 high"],
+      fact:"FVGs are one of the core ICT concepts taught in Inner Circle Trader's free YouTube course — thousands of traders use them daily across forex, futures, and stocks.",
+      verse:{text:"Commit to the LORD whatever you do, and he will establish your plans.",ref:"Proverbs 16:3"}},
+    "The Strat":{xp:65,badge:"Strat Trader",
+      concepts:["The Strat by Rob Smith uses just 3 candle types: 1 (inside), 2U (up/bullish), 2D (down/bearish), 3 (outside)","Candle 1 = inside bar (hidden inside previous candle). Candle 2U = makes a new HIGH. Candle 2D = makes a new LOW. Candle 3 = makes both new high and new low","Combos signal reversals or continuations. 2-1-2 reversal is one of the most powerful Strat setups."],
+      fact:"Rob Smith built The Strat from decades of observing that EVERY bar on every chart everywhere can only be one of these three types. Simple, universal, powerful.",
+      verse:{text:"Seek first his kingdom and his righteousness, and all these things will be given to you.",ref:"Matthew 6:33"}},
+    "Timeframe Analysis":{xp:55,badge:"Multi TF Master",
+      concepts:["Always analyze TOP DOWN: Weekly → Daily → 4H → 1H → 15M → 5M. Start big, zoom in","The higher timeframe always wins. If the daily is bearish, short-term bounces on the 15M are fighting the trend","Multi-timeframe confirmation: a signal on the 15M backed by the 4H direction = much higher probability trade"],
+      fact:"Anna Couling calls this creating a 'three-dimensional view' of the market. Most retail traders only look at one timeframe and miss the full picture.",
+      verse:{text:"Know well the condition of your flocks, and give careful attention to your herds.",ref:"Proverbs 27:23"}}
+  },
+  vpa:{
+    "Volume is the Fuel":{xp:60,badge:"Volume Spotter",
+      concepts:["Anna Couling: 'Volume is the fuel that drives the market. Without volume, nothing moves'","High volume confirms price moves are REAL. Low volume on a breakout is a red flag — the move may fail","Volume is the ONLY leading indicator — it shows you BEFORE price what is likely to happen next"],
+      fact:"Anna Couling spent 17+ years studying how professional traders use volume to see what the big money is doing. Her book VPA reveals what most retail traders never learn.",
+      verse:{text:"Whoever can be trusted with very little can also be trusted with much.",ref:"Luke 16:10"}},
+    "Wyckoff 4 Phases":{xp:70,badge:"Wyckoff Scholar",
+      concepts:["Richard Wyckoff (1870–1934) identified 4 market phases: Accumulation → Markup → Distribution → Markdown","ACCUMULATION: Smart money quietly BUYs at low prices while retail traders are scared. Volume is choppy but rising","MARKUP: Price rises sharply as the crowd finally sees the uptrend. Smart money rides the wave higher"],
+      fact:"Wyckoff's method was created over 100 years ago and still works today because it reflects how ALL markets move — driven by institutional behavior that never changes.",
+      verse:{text:"The plans of the diligent lead to profit as surely as haste leads to poverty.",ref:"Proverbs 21:5"}},
+    "Accumulation":{xp:65,badge:"Smart Money Tracker",
+      concepts:["Accumulation phase: institutions buy large amounts quietly. Price moves sideways — this is INTENTIONAL to hide their activity","Signs of accumulation: high volume but little price progress, narrow spread candles on high volume, price tests lows with LESS volume each time","Test bars: low volume tests of support during accumulation = insiders checking if selling pressure has dried up. It means breakout is near!"],
+      fact:"Wyckoff's Spring: price briefly dips BELOW support in accumulation, shaking out weak hands, then rockets back up. This is a classic trap by smart money.",
+      verse:{text:"Remember the LORD your God, for it is he who gives you the ability to produce wealth.",ref:"Deuteronomy 8:18"}},
+    "Distribution":{xp:65,badge:"Distribution Detective",
+      concepts:["Distribution phase: institutions quietly SELL at high prices while retail traders are excited and buying","Signs of distribution: high volume but price stops making new highs, bearish candles on high volume, upthrusts above resistance that fail","Upthrust: price spikes ABOVE resistance then closes back below it on high volume — a classic distribution signal (opposite of Wyckoff's Spring)"],
+      fact:"The 2021 crypto market top showed textbook distribution. Bitcoin kept making new highs but volume diverged lower — Anna Couling's VPA called this months before the crash.",
+      verse:{text:"Commit to the LORD whatever you do, and he will establish your plans.",ref:"Proverbs 16:3"}},
+    "Stopping Volume":{xp:70,badge:"Reversal Reader",
+      concepts:["Stopping volume = extremely high volume at the END of a trend with a narrow price spread — sellers/buyers are being absorbed","In a downtrend: a huge volume spike on a down candle with a narrow body = buyers are stopping the fall. Reversal incoming!","In an uptrend: huge volume on an up candle that fails to close at the high = sellers are stepping in. Distribution beginning."],
+      fact:"Anna Couling: 'Stopping volume is one of the most powerful signals in VPA. It tells you precisely when the insiders have stepped in to reverse the market.'",
+      verse:{text:"Whoever gathers money little by little makes it grow.",ref:"Proverbs 13:11"}},
+    "Effort vs. Result":{xp:75,badge:"VPA Master",
+      concepts:["Wyckoff's Law of Effort vs. Result: the effort (volume) should match the result (price movement)","High volume + big price move = effort matches result. The move is VALID and likely to continue","High volume + tiny price move = effort does NOT match result. Insiders are absorbing the move. Reversal is coming!"],
+      fact:"This is the foundational VPA test: every candle and volume bar should be questioned — did the effort produce the expected result? If not, something is wrong, and the market is about to reverse.",
+      verse:{text:"Do you see someone skilled in their work? They will serve before kings.",ref:"Proverbs 22:29"}}
+  },
+  risk:{
+    "Risk vs. Reward":{xp:40,badge:"Risk Aware",
+      concepts:["Risk:Reward ratio compares potential loss to potential gain on every trade","A 1:2 ratio means risk $1 to potentially earn $2. Never take a trade with less than 1:2","The math of trading: even with a 40% win rate, you can be profitable with consistent 1:3 risk:reward"],
+      fact:"The top prop firm traders aim for 1:3 or higher risk:reward. They win less than half their trades but are still consistently profitable because the wins are always bigger than the losses.",
+      verse:{text:"Before you build a tower, sit down and count the cost.",ref:"Luke 14:28"}},
+    "The 1% Rule":{xp:45,badge:"Risk Manager",
+      concepts:["Never risk more than 1-2% of your total account on any single trade — this is the golden rule","On a $10,000 account: 1% = maximum $100 risk per trade. This protects you from one bad day wiping you out","The 1% rule means you would need to lose 100 trades IN A ROW to blow your account. That is nearly impossible."],
+      fact:"Top prop firms like FTMO and Apex require maximum 2% daily loss limits and 5-10% total drawdown limits. Breaking these rules = losing your funded account.",
+      verse:{text:"Whoever can be trusted with very little can also be trusted with much.",ref:"Luke 16:10"}},
+    "Stop Losses":{xp:45,badge:"Stop Loss Pro",
+      concepts:["A stop loss is a pre-set order to automatically close your trade if price moves against you by X amount","Always place your stop loss BEFORE you enter a trade — not after — emotional decisions after entry = disaster","Stop loss placement: use natural market structure. Place stops BEYOND the last high/low, not at a round number"],
+      fact:"Anna Couling: 'Stops should be placed at natural market barriers, not at arbitrary percentages.' Structure-based stops get triggered less and give trades room to breathe.",
+      verse:{text:"The prudent see danger and take refuge, but the simple keep going and pay the penalty.",ref:"Proverbs 22:3"}},
+    "Position Sizing":{xp:55,badge:"Size Calculator",
+      concepts:["Position size = (Account size × Risk %) ÷ Distance to stop loss in dollars","Example: $10,000 account, 1% risk ($100), stop is $0.50 away = buy 200 shares maximum","Smaller position = less emotion. Most new traders overtrade and over-size. This is the #1 account killer."],
+      fact:"Professional traders obsess over position sizing more than entry signals. The entry gets you in — position sizing determines whether you survive the inevitable losing streaks.",
+      verse:{text:"Commit to the LORD whatever you do, and he will establish your plans.",ref:"Proverbs 16:3"}},
+    "Trading Psychology":{xp:55,badge:"Mind Master",
+      concepts:["Fear and greed are the two emotions that destroy traders. Fear causes early exits. Greed causes oversizing","The solution: a trading PLAN with rules, executed BEFORE emotion hits. Rules replace decisions","Your biggest enemy in trading is NOT the market — it is the person looking back at you in the mirror"],
+      fact:"Studies show that 90% of trading losses come from psychological errors — not wrong analysis. Successful traders manage their minds as carefully as they manage their money.",
+      verse:{text:"Do not be anxious about anything, but in every situation present your requests to God with thanksgiving.",ref:"Philippians 4:6"}},
+    "Drawdown Management":{xp:60,badge:"Drawdown Defender",
+      concepts:["Drawdown = the percentage drop from your account peak before recovery. All traders face drawdowns","Max drawdown: most prop firms allow 5-10% total drawdown. Exceed this = account closed","Recovery math: a 50% drawdown requires a 100% gain to recover. Protect the account first, profit second."],
+      fact:"A $100,000 account losing 50% becomes $50,000. To get back to $100,000 you need to DOUBLE your remaining money. Small losses are easy to recover from. Big ones can end careers.",
+      verse:{text:"The plans of the diligent lead to profit as surely as haste leads to poverty.",ref:"Proverbs 21:5"}}
+  },
+  prop:{
+    "What is a Prop Firm?":{xp:50,badge:"Prop Curious",
+      concepts:["A proprietary trading firm (prop firm) gives THEIR money to skilled traders to trade with","You trade their capital and keep a share of the profits — typically 70-90% goes to the trader","The firm earns by selling evaluation programs. If you pass: funded account. If you fail: they keep the fee"],
+      fact:"Apex Trader Funding, FTMO, TopstepTrader, and Tradeify are among the top prop firms. Tradeify, based in Boca Raton FL, focuses on futures traders — futures being MES, MNQ, ES, NQ.",
+      verse:{text:"Do you see someone skilled in their work? They will serve before kings.",ref:"Proverbs 22:29"}},
+    "Evaluation Stages":{xp:55,badge:"Eval Expert",
+      concepts:["Most prop firms use a 2-phase evaluation: Phase 1 (trading test) → Phase 2 (verification) → Funded","Phase 1: hit a profit target (typically 8-10%) without exceeding daily or max drawdown limits","Phase 2: same rules, smaller profit target. Proves your Phase 1 was not a lucky fluke"],
+      fact:"Apex Trader Funding uses a 1-step evaluation. Pass it and you get funded immediately — one of the fastest paths to a funded futures account available today.",
+      verse:{text:"Whoever can be trusted with very little can also be trusted with much.",ref:"Luke 16:10"}},
+    "Funded Account Rules":{xp:60,badge:"Rule Follower",
+      concepts:["Max Daily Loss: typically 2-3% of account. Break this on any single day = account disabled","Max Total Drawdown: typically 5-10% from starting balance. This is your absolute floor","News Trading Rules: many firms ban trading during major news events (NFP, FOMC) due to extreme volatility"],
+      fact:"Breaking prop firm rules is the #1 way traders lose funded accounts — not bad analysis. Discipline and rule-following matter MORE than finding the perfect entry.",
+      verse:{text:"Before you build a tower, sit down and count the cost.",ref:"Luke 14:28"}},
+    "Margin Explained":{xp:65,badge:"Margin Master",
+      concepts:["Margin is borrowed capital from your broker that allows you to control a larger position with less money","Example: $1,000 margin might let you control a $50,000 position. This is 50:1 leverage","Leverage amplifies BOTH profits AND losses. A 2% move against you on 50:1 leverage = 100% account loss"],
+      fact:"The MES (Micro E-mini S&P 500) futures contract requires roughly $50-100 margin per contract. One point of movement = $5. Leverage makes futures powerful but demanding of discipline.",
+      verse:{text:"The rich rule over the poor, and the borrower is slave to the lender.",ref:"Proverbs 22:7"}},
+    "Profit Splits":{xp:50,badge:"Profit Sharer",
+      concepts:["Most prop firms offer 70-90% profit splits: if you earn $10,000, you keep $7,000-9,000","Some firms offer 90% splits after hitting consistency milestones — reward for proven performance","Payouts are typically weekly or monthly — some firms pay within 24 hours of a withdrawal request"],
+      fact:"A funded $100K account at 80% split earning a modest 5% per month = $4,000 per month to the trader. Scaling that to multiple accounts multiplies the income.",
+      verse:{text:"Remember the LORD your God, for it is he who gives you the ability to produce wealth.",ref:"Deuteronomy 8:18"}},
+    "FTMO vs Apex vs Tradeify":{xp:60,badge:"Firm Analyst",
+      concepts:["FTMO: based in Prague. Offers forex, stocks, indices. 2-step evaluation. Up to $400K accounts. Very strict rules","Apex Trader Funding: US-based. Futures only (ES, NQ, MES, MNQ). 1-step evaluation. Among the most trader-friendly rules","Tradeify: Boca Raton, FL. Futures-focused. Known for competitive pricing and responsive support. Growing rapidly in the funded trader space"],
+      fact:"The funded trading industry has grown from near-zero to a multi-billion dollar industry since 2015. Over 500,000 traders have attempted prop firm evaluations worldwide — a sign of massive demand.",
+      verse:{text:"Commit to the LORD whatever you do, and he will establish your plans.",ref:"Proverbs 16:3"}}
+  },
+  eco:{
+    "GDP & Growth":{xp:45,badge:"GDP Expert",
+      concepts:["GDP (Gross Domestic Product) = the total value of all goods and services produced in a country in one year","Growing GDP = expanding economy = more jobs = higher corporate profits = rising stock markets generally","Recession = two consecutive quarters of negative GDP growth. Watch GDP reports closely."],
+      fact:"The US GDP is approximately $27 trillion per year — the largest in the world. China is second at around $18 trillion. These two economies drive global markets.",
+      verse:{text:"Invest in seven ventures, yes, in eight — you do not know what disaster may come.",ref:"Ecclesiastes 11:2"}},
+    "Federal Reserve":{xp:55,badge:"Fed Watcher",
+      concepts:["The Federal Reserve (Fed) is the US central bank — the most powerful financial institution in the world","The Fed controls interest rates, money supply, and banking regulations. Its decisions move ALL markets globally","When Fed raises rates: borrowing costs rise, growth slows, stocks often fall. When Fed cuts rates: opposite effects"],
+      fact:"Jerome Powell, the Fed Chair, speaks 8 times per year at FOMC meetings. Traders worldwide stop everything to watch these announcements — markets can move 2-3% in minutes.",
+      verse:{text:"Seek first his kingdom and his righteousness, and all these things will be given to you.",ref:"Matthew 6:33"}},
+    "Inflation":{xp:45,badge:"Inflation Analyst",
+      concepts:["Inflation = the rate at which prices for goods and services rise over time, reducing purchasing power","The Fed tracks CPI (Consumer Price Index) — a basket of everyday items — to measure inflation","Target inflation = 2% annually. Above 2% = Fed raises rates. Below = Fed may cut rates to stimulate spending"],
+      fact:"In 2022, US inflation hit 9.1% — the highest in 40 years. The Fed raised rates 11 times in response. Grocery prices, rent, and gas soared. Inflation affects everyone.",
+      verse:{text:"The plans of the diligent lead to profit as surely as haste leads to poverty.",ref:"Proverbs 21:5"}},
+    "Unemployment":{xp:40,badge:"Jobs Analyst",
+      concepts:["The unemployment rate measures the percentage of people looking for work who cannot find it","Low unemployment = strong economy. High unemployment = economic weakness","The NFP (Non-Farm Payrolls) report, released the first Friday of every month, is the most market-moving economic data point"],
+      fact:"The NFP report is known as 'the most important number in the world' by traders. Markets can swing hundreds of points in seconds when this number surprises expectations.",
+      verse:{text:"Do you see someone skilled in their work? They will serve before kings.",ref:"Proverbs 22:29"}},
+    "Seasonality in Markets":{xp:55,badge:"Seasonality Pro",
+      concepts:["Seasonality: markets tend to repeat similar patterns at the same time each year due to recurring economic events","'Sell in May and go away': historically, May-October is weaker for stocks than November-April","Q4 (October-December) is historically the strongest quarter for stocks — driven by holiday spending and year-end fund buying"],
+      fact:"ICT (Inner Circle Trader) teaches quarterly seasonality: Q1 is often accumulation, Q2 distribution, Q3 markdown, Q4 re-accumulation. These macro cycles inform macro bias for all trades.",
+      verse:{text:"Invest in seven ventures, yes, in eight — you do not know what disaster may come.",ref:"Ecclesiastes 11:2"}},
+    "Economic Cycles":{xp:55,badge:"Cycle Expert",
+      concepts:["The Kondratieff Wave: a 40-60 year economic super-cycle of boom and bust identified by Russian economist Nikolai Kondratieff in 1925","Presidential Cycle: stocks tend to perform best in year 3 and 4 of a 4-year presidential cycle","Knowing WHERE we are in the economic cycle guides portfolio strategy: growth stocks in expansion, defensive stocks in recession"],
+      fact:"ICT teaches that institutions plan their market moves MONTHS in advance based on seasonality and cycles. Understanding this gives retail traders insight into the 'smart money' roadmap.",
+      verse:{text:"Commit to the LORD whatever you do, and he will establish your plans.",ref:"Proverbs 16:3"}}
+  }
+};
+
+const QUESTIONS={
+  money:{
+    "Needs vs. Wants":[{q:"Food is a...",o:["Need","Want","Luxury","Investment"],a:0},{q:"New sneakers are a...",o:["Need","Want","Asset","Income"],a:1},{q:"Which is a NEED?",o:["Candy","Gaming console","Shelter","New toy"],a:2}],
+    "Budget Basics":[{q:"Income – Expenses = ?",o:["Debt","Savings","Loss","Tax"],a:1},{q:"50/30/20 rule: Save how much?",o:["50%","30%","20%","10%"],a:2},{q:"A budget helps you...",o:["Spend faster","Track & plan money","Avoid all spending","Get loans"],a:1}],
+    "Compound Interest":[{q:"Compound interest means...",o:["Paying extra fees","Earning interest on interest","Spending more","Losing money"],a:1},{q:"Rule of 72: Money doubles at 8% in...",o:["8 years","9 years","72 years","16 years"],a:1},{q:"Best time to start saving...",o:["Retirement","Age 30","As early as possible","Never"],a:2}],
+    "Cash Flow":[{q:"Positive cash flow means...",o:["You spend more than earn","You earn more than spend","You have no money","You have debt"],a:1},{q:"Cash flow is measured...",o:["Annually only","Weekly, monthly, yearly","Only when rich","Never"],a:1},{q:"A rental property creates...",o:["Negative cash flow","Positive cash flow","No cash flow","Expenses only"],a:1}],
+    "Assets vs. Liabilities":[{q:"An asset...",o:["Takes money from you","Puts money in your pocket","Only banks have","Is always a house"],a:1},{q:"A liability...",o:["Earns you money","Costs you money regularly","Is always good","Is a savings account"],a:1},{q:"Your personal home is typically...",o:["Always an asset","A liability (costs money)","A stock","Free money"],a:1}],
+    "Net Worth":[{q:"Net Worth = ?",o:["Income – Expenses","Assets – Liabilities","Savings + Debt","Cash only"],a:1},{q:"To build net worth, you should...",o:["Buy more liabilities","Reduce debt and buy assets","Spend everything","Ignore investments"],a:1},{q:"The most important financial number to track is...",o:["Your salary","Your spending","Your net worth","Your age"],a:2}]
+  },
+  market:{
+    "Supply & Demand":[{q:"When demand rises and supply stays same, price...",o:["Falls","Stays flat","Rises","Disappears"],a:2},{q:"Supply is...",o:["What people want","How much is available","The price","The profit"],a:1},{q:"When supply is very low and demand very high...",o:["Price falls","Price rises sharply","Nothing happens","Price is zero"],a:1}],
+    "How Prices Work":[{q:"Prices rise when...",o:["Supply > Demand","Demand > Supply","Nobody buys","Government decides"],a:1},{q:"Equilibrium price is where...",o:["Price is highest","Supply equals demand","Everyone is happy","No one trades"],a:1},{q:"Oil prices went negative in 2020 because...",o:["War started","Supply massively exceeded demand","Price glitch","Government policy"],a:1}],
+    "Scarcity":[{q:"Scarcity means...",o:["Things are free","Not enough for everyone","Prices are low","Lots of supply"],a:1},{q:"What makes diamonds valuable?",o:["They are pretty","They are rare (scarce)","They are cheap to mine","Everyone has one"],a:1},{q:"Bitcoin has a maximum supply of...",o:["1 million","100 million","21 million","Unlimited"],a:2}],
+    "Inflation & Deflation":[{q:"Inflation means your dollar...",o:["Buys more over time","Buys less over time","Stays the same","Doubles"],a:1},{q:"The Fed targets annual inflation of...",o:["0%","2%","10%","50%"],a:1},{q:"Zimbabwe's hyperinflation in 2008 showed...",o:["Prices stayed flat","Prices doubled every 24 hours","Economy was fine","Gold was worthless"],a:1}],
+    "Interest Rates":[{q:"When Fed raises interest rates, borrowing...",o:["Gets cheaper","Gets more expensive","Stays the same","Becomes free"],a:1},{q:"Low interest rates tend to...",o:["Slow the economy","Stimulate borrowing and spending","Create recessions","Reduce inflation"],a:1},{q:"In 2022-23, Fed raised rates from 0% to...",o:["1%","2%","5.25%","10%"],a:2}],
+    "The Business Cycle":[{q:"A recession is defined as...",o:["One bad quarter","Two quarters of negative GDP","Three bad years","When stocks fall 10%"],a:1},{q:"Average recession lasts about...",o:["5 years","3 years","11 months","1 month"],a:2},{q:"When should savvy investors start buying?",o:["At market peak","During recovery only","During recession (prepare)","After everyone else buys"],a:2}]
+  },
+  chart:{
+    "Candlestick Basics":[{q:"A green candle means price...",o:["Fell","Rose (close > open)","Stayed flat","Was deleted"],a:1},{q:"The wick shows...",o:["Open and close","High and low","Average price","Volume"],a:1},{q:"Candlestick charts were invented in...",o:["America","England","France","Japan"],a:3}],
+    "Chart Patterns":[{q:"Head and Shoulders signals...",o:["Trend continuation","Bearish reversal","Bullish breakout","Random movement"],a:1},{q:"A double top means price tested a level...",o:["Once and broke","Twice and failed","Three times","Never"],a:1},{q:"Triangle patterns signal...",o:["Immediate crash","Consolidation before breakout","Random movement","Always bear market"],a:1}],
+    "Trend Lines":[{q:"An uptrend has...",o:["Lower highs and lower lows","Higher highs and higher lows","Random movement","Flat price action"],a:1},{q:"Where do you draw an uptrend line?",o:["Connecting the highs","Connecting the lows","Through the middle","Randomly"],a:1},{q:"'The trend is your friend' means...",o:["Ignore the trend","Trade against it","Trade WITH the trend","Trends are imaginary"],a:2}],
+    "Support & Resistance":[{q:"Support acts as a...",o:["Ceiling (blocks up)","Floor (holds price up)","Random level","Volume indicator"],a:1},{q:"When support BREAKS, it often becomes...",o:["More support","Resistance","Irrelevant","A trend line"],a:1},{q:"This concept of 'role reversal' was described by...",o:["Warren Buffett","Anna Couling","Elon Musk","The Fed"],a:1}],
+    "Moving Averages":[{q:"The Golden Cross is...",o:["50 MA below 200 MA","50 MA crossing above 200 MA","200 MA only","No such thing"],a:1},{q:"A 200 MA represents...",o:["Short-term trend","Long-term trend","Daily average","Weekly close"],a:1},{q:"Death Cross signals...",o:["Bullish trend","Bearish trend (50 MA crosses below 200 MA)","Market crash certain","Strong buy signal"],a:1}],
+    "Market Structure":[{q:"HH = Higher Highs. HL = Higher Lows. This is...",o:["Downtrend","Uptrend","Sideways market","Random"],a:1},{q:"A Change of Character (ChoCH) signals...",o:["Trend continuation","Potential trend reversal","More of the same","Nothing important"],a:1},{q:"ICT calls aggressive structure breaks...",o:["Nothing special","Displacement","Support","Resistance"],a:1}]
+  },
+  trade:{
+    "Buy Low Sell High":[{q:"Short selling profits when prices...",o:["Rise","Fall","Stay flat","Double"],a:1},{q:"Jesse Livermore made $100M by...",o:["Long buying","Short selling the 1929 crash","Starting a bank","Random luck"],a:1},{q:"'Low' and 'high' in trading are determined by...",o:["Guessing","Education and analysis","Your feelings","News alone"],a:1}],
+    "ICT Killzones":[{q:"The NY Open killzone is at...",o:["6 AM EST","9:30 AM EST","12 PM EST","4 PM EST"],a:1},{q:"The London Open is most important because...",o:["It lasts longest","It sets the daily direction","It is most fun","Nothing"],a:1},{q:"The Asian session is characterized by...",o:["High volume","Consolidation and liquidity building","Crash risk","Random chaos"],a:1}],
+    "Liquidity Grabs":[{q:"Liquidity sits...",o:["In the middle of price","Above highs and below lows","Only on daily charts","In the news"],a:1},{q:"A stop hunt means...",o:["Price goes to your stop, then reverses","Your broker cheats you","Random bad luck","Market crash"],a:0},{q:"Recognizing a liquidity grab BEFORE reversal is...",o:["Impossible","A high-probability ICT setup","Banned","Guess work"],a:1}],
+    "FVGs & Imbalances":[{q:"FVG stands for...",o:["Fundamental Value Guide","Fair Value Gap","Fast Volume Growth","Fed Volume Goal"],a:1},{q:"Price tends to return to fill an FVG...",o:["Never","Usually yes","Only in bull markets","Only in stocks"],a:1},{q:"A bullish FVG gap is between...",o:["Candle 1 low and candle 3 high","Candle 1 high and candle 3 low","Two random candles","The wick only"],a:1}],
+    "The Strat":[{q:"In The Strat, a '2U' candle is...",o:["Inside bar","Up candle making new high","Down candle","Outside bar"],a:1},{q:"The Strat was created by...",o:["ICT","Anna Couling","Rob Smith","Jesse Livermore"],a:2},{q:"A 2-1-2 reversal in The Strat is...",o:["Random noise","A powerful reversal setup","Only for stocks","Impossible"],a:1}],
+    "Timeframe Analysis":[{q:"In top-down analysis, you start with...",o:["5-minute chart","Weekly or daily chart","1-minute chart","Any chart"],a:1},{q:"The higher timeframe...",o:["Can be ignored","Always wins / overrides lower TF","Is just a guess","Matters less"],a:1},{q:"Anna Couling calls multi-TF analysis...",o:["Useless","Creating a 3-dimensional view","Only for pros","Optional"],a:1}]
+  },
+  vpa:{
+    "Volume is the Fuel":[{q:"Anna Couling says volume is...",o:["Optional indicator","The fuel that drives the market","Less important than price","Just background noise"],a:1},{q:"High volume on a breakout means...",o:["Ignore the move","The move is likely valid","The move will fail","Nothing important"],a:1},{q:"Volume is the only...",o:["Lagging indicator","Leading indicator","Useless indicator","Weekly indicator"],a:1}],
+    "Wyckoff 4 Phases":[{q:"During accumulation, smart money is...",o:["Selling everything","Quietly buying at low prices","Waiting","Short selling"],a:1},{q:"The Markup phase is characterized by...",o:["Sideways choppy price","Sharp price rise as crowd buys in","Price crash","Volume falling"],a:1},{q:"Richard Wyckoff developed his method in...",o:["1990s","1870s–1930s","2010s","1950s"],a:1}],
+    "Accumulation":[{q:"High volume + little price progress in a range suggests...",o:["No interest","Accumulation by institutions","Market is broken","Random movement"],a:1},{q:"A Wyckoff Spring is...",o:["A season","Price dipping below support then reversing up","A chart pattern","Volume spike"],a:1},{q:"Test bars show...",o:["Strong selling","Selling pressure drying up (weak tests on low volume)","Market closing","Random bars"],a:1}],
+    "Distribution":[{q:"During distribution, smart money is...",o:["Buying aggressively","Quietly selling at high prices","Holding forever","Waiting"],a:1},{q:"An upthrust in distribution...",o:["Confirms the uptrend","Spikes above resistance then fails","Is a buy signal","Means more highs coming"],a:1},{q:"Distribution often looks like...",o:["Fast crash","Slow top with high volume but no new highs","Fast recovery","Straight up price"],a:1}],
+    "Stopping Volume":[{q:"Stopping volume at a downtrend low signals...",o:["More selling to come","Buyers absorbing sellers — possible reversal","No change","Volume anomaly only"],a:1},{q:"High volume on a down candle with a narrow body means...",o:["Sellers are winning","Buyers are supporting price — bullish","Random noise","Volume error"],a:1},{q:"Anna Couling describes stopping volume as...",o:["A minor signal","One of the most powerful VPA signals","Only for experts","Only on daily charts"],a:1}],
+    "Effort vs. Result":[{q:"High volume + big price move means...",o:["Suspicious — watch out","Effort matches result — move is valid","Market manipulation","Nothing"],a:1},{q:"High volume + tiny price move means...",o:["Strong trend","Insiders absorbing — reversal likely","Volume error","Buy signal always"],a:1},{q:"Wyckoff's Effort vs. Result is applied to...",o:["Only weekly charts","Every candle and volume bar","Only forex","Only stocks"],a:1}]
+  },
+  risk:{
+    "Risk vs. Reward":[{q:"A 1:2 risk:reward means...",o:["Risk $2 make $1","Risk $1 make $2","Equal risk and reward","No risk"],a:1},{q:"With 40% win rate and 1:3 R:R, a trader is...",o:["Losing money","Profitable","Breaking even","Random"],a:1},{q:"Minimum risk:reward to consider a trade...",o:["1:0.5","1:1","1:2 or better","Any ratio"],a:2}],
+    "The 1% Rule":[{q:"1% rule on $10,000 account = max risk per trade of...",o:["$500","$100","$1,000","$10"],a:1},{q:"The 1% rule protects you because...",o:["You always win","You need 100 consecutive losses to blow account","Banks require it","It doubles profits"],a:1},{q:"Most prop firms require max daily loss of...",o:["10%","50%","2-3%","None"],a:2}],
+    "Stop Losses":[{q:"Stop losses should be placed...",o:["After entering the trade","Before entering based on structure","At round numbers","At random"],a:1},{q:"Anna Couling recommends placing stops...",o:["At 5% below entry","Beyond natural market structure","At your gut feeling","Close to entry"],a:1},{q:"The main purpose of a stop loss is...",o:["To guarantee profit","To limit loss automatically","To slow your trading","Required by law"],a:1}],
+    "Position Sizing":[{q:"Position size uses: account size, risk %, and...",o:["Your age","Distance to stop loss","Your feelings","News today"],a:1},{q:"Overtrading and over-sizing leads to...",o:["More profits","Emotional decisions and blown accounts","Better discipline","Faster gains"],a:1},{q:"Professional traders obsess over...",o:["Entry signals only","Position sizing above all","Price prediction","Daily news"],a:1}],
+    "Trading Psychology":[{q:"The two main emotions destroying traders are...",o:["Joy and hope","Fear and greed","Patience and discipline","Excitement and calm"],a:1},{q:"The solution to psychological trading errors is...",o:["Trade more often","Follow a pre-written trading plan","Watch more YouTube","Check charts every minute"],a:1},{q:"Your biggest enemy in trading is...",o:["The market","Other traders","Yourself (psychology)","The broker"],a:2}],
+    "Drawdown Management":[{q:"A 50% drawdown requires what % gain to recover?",o:["50%","25%","100%","75%"],a:2},{q:"Most prop firms max total drawdown is...",o:["50%","25%","5-10%","100%"],a:2},{q:"The first priority of a professional trader is...",o:["Maximum profit","Protecting the account from large losses","Finding perfect entries","Trading every day"],a:1}]
+  },
+  prop:{
+    "What is a Prop Firm?":[{q:"A prop firm gives traders...",o:["Personal loans","Their own capital to trade","Free education","Guaranteed salary"],a:1},{q:"Trader profit split at most prop firms is...",o:["10-30%","70-90%","50-50","100%"],a:1},{q:"Prop firms earn money from...",o:["Trader salaries","Selling evaluation programs","Banking","Government"],a:1}],
+    "Evaluation Stages":[{q:"Most prop firms use how many evaluation phases?",o:["1","2","3","5"],a:1},{q:"Phase 1 requires hitting a profit target of typically...",o:["1-2%","8-10%","50%","100%"],a:1},{q:"Apex Trader Funding uses...",o:["5 phases","2 phases","1-step evaluation","No evaluation"],a:2}],
+    "Funded Account Rules":[{q:"Breaking the max daily loss rule means...",o:["Warning issued","Account disabled for the day or permanently","Nothing happens","Trade reversed"],a:1},{q:"Many firms ban trading during...",o:["Weekends","Major news events (NFP, FOMC)","Asian session","All Fridays"],a:1},{q:"Following rules strictly is...",o:["Optional for experienced traders","More important than entry analysis","Unnecessary","Just for beginners"],a:1}],
+    "Margin Explained":[{q:"Margin allows traders to...",o:["Control less with more","Control more with less capital","Trade for free","Borrow for personal use"],a:1},{q:"50:1 leverage + 2% adverse move = ...",o:["2% loss","4% loss","100% account loss","50% loss"],a:2},{q:"The MES futures contract is worth how much per point?",o:["$50","$5","$500","$1"],a:1}],
+    "Profit Splits":[{q:"80% profit split on $10,000 earned = trader keeps...",o:["$2,000","$8,000","$10,000","$4,000"],a:1},{q:"Top prop firms pay traders...",o:["Annually","Weekly or monthly","Never","Daily always"],a:1},{q:"Scaling funded accounts means...",o:["Trading only one account","Operating multiple funded accounts to multiply income","Reducing your account size","Trading smaller"],a:1}],
+    "FTMO vs Apex vs Tradeify":[{q:"FTMO is based in...",o:["New York","London","Prague","Tokyo"],a:2},{q:"Apex Trader Funding focuses on...",o:["Stocks only","Forex only","Futures (ES, NQ, MES, MNQ)","Crypto only"],a:2},{q:"Tradeify is headquartered in...",o:["New York","Chicago","Boca Raton, FL","London"],a:2}]
+  },
+  eco:{
+    "GDP & Growth":[{q:"GDP measures...",o:["Stock market size","Total value of goods and services produced","National debt","Tax revenue"],a:1},{q:"US GDP is approximately...",o:["$1 trillion","$5 trillion","$27 trillion","$100 trillion"],a:2},{q:"Recession = GDP declines for...",o:["1 quarter","2 consecutive quarters","1 full year","3 months"],a:1}],
+    "Federal Reserve":[{q:"The Federal Reserve is...",o:["A savings bank","US central bank — most powerful financial institution","A stock exchange","Congress"],a:1},{q:"FOMC meetings happen how many times per year?",o:["4","6","8","12"],a:2},{q:"Fed raising rates tends to...",o:["Stimulate growth","Cool inflation and slow growth","Create more jobs","Lower stock prices always"],a:0}],
+    "Inflation":[{q:"CPI measures...",o:["Stock market performance","Consumer price inflation","GDP","Federal debt"],a:1},{q:"The Fed's target inflation rate is...",o:["0%","2%","5%","10%"],a:1},{q:"2022 US inflation peaked at...",o:["2%","4%","9.1%","20%"],a:2}],
+    "Unemployment":[{q:"NFP stands for...",o:["National Financial Planning","Non-Farm Payrolls","Net Federal Profit","None of the above"],a:1},{q:"NFP is released...",o:["Every day","First Friday of each month","Annually","Randomly"],a:1},{q:"Low unemployment usually means...",o:["Economy is weak","Economy is strong","Inflation is zero","Markets fall"],a:1}],
+    "Seasonality in Markets":[{q:"'Sell in May and go away' suggests...",o:["May-October is historically strong","May-October is historically weaker for stocks","Buy everything in May","Sell all stocks forever"],a:1},{q:"Q4 is historically...",o:["Weakest for stocks","Strongest for stocks","Irrelevant","Always a crash"],a:1},{q:"ICT seasonality teaches Q1 is often...",o:["Distribution","Markdown","Accumulation","Random"],a:2}],
+    "Economic Cycles":[{q:"The Kondratieff Wave is a super-cycle lasting...",o:["4 years","10 years","40-60 years","100 years"],a:2},{q:"The Presidential Cycle says stocks do best in...",o:["Year 1 and 2","Year 3 and 4","Election year only","All years equally"],a:1},{q:"During expansion, the best stocks are usually...",o:["Defensive/utilities","Growth and cyclical","Only bonds","Only gold"],a:1}]
+  }
+};
+
+const ALL_FLASHCARDS=[
+  // BASICS
+  {term:"Bull Market",def:"A market where prices are RISING 20%+ from recent lows. Investors are optimistic. 🐂 charges upward!",cat:"Basics",col:"#00C896"},
+  {term:"Bear Market",def:"A market where prices are FALLING 20%+ from recent highs. Investors are pessimistic. 🐻 swipes downward!",cat:"Basics",col:"#FF7055"},
+  {term:"Stock",def:"A tiny piece of ownership in a company. Buy Apple stock → you own a fraction of Apple. Company grows → your stock grows.",cat:"Basics",col:"#4BA3F5"},
+  {term:"Compound Interest",def:"Earning interest ON your interest. Your money multiplies itself over time. Einstein called it the 8th wonder of the world.",cat:"Basics",col:"#FFB830"},
+  {term:"Diversification",def:"Spreading investments across many assets so one bad investment doesn't destroy you. 'Don't put all eggs in one basket.' — Ecclesiastes 11:2",cat:"Basics",col:"#9B8FF0"},
+  // CANDLESTICKS
+  {term:"Bullish Candle",def:"A GREEN candlestick. Close price is HIGHER than the open. Buyers controlled this time period. Upward pressure.",cat:"Candlesticks",col:"#00C896"},
+  {term:"Bearish Candle",def:"A RED candlestick. Close price is LOWER than the open. Sellers controlled this time period. Downward pressure.",cat:"Candlesticks",col:"#FF7055"},
+  {term:"Doji",def:"A candle where open = close. Price went up AND down but ended where it started. Indecision between buyers and sellers. Often precedes reversals.",cat:"Candlesticks",col:"#F5C842"},
+  {term:"Hammer",def:"A small body with a long lower wick. Sellers pushed price WAY down, then buyers pushed it back up. Bullish reversal signal at the BOTTOM of a downtrend.",cat:"Candlesticks",col:"#5ECC6A"},
+  {term:"Shooting Star",def:"A small body with a long upper wick. Buyers pushed price high, then sellers crushed it back down. Bearish reversal signal at the TOP of an uptrend.",cat:"Candlesticks",col:"#FF7055"},
+  {term:"Engulfing Candle",def:"A candle that completely swallows the previous candle's body. Bullish engulfing = strong buyers entering. Bearish engulfing = strong sellers entering.",cat:"Candlesticks",col:"#9B8FF0"},
+  // MARKET STRUCTURE
+  {term:"Higher High (HH)",def:"Price makes a new high above the PREVIOUS high. Sign of an uptrend — buyers are getting stronger.",cat:"Structure",col:"#4BA3F5"},
+  {term:"Higher Low (HL)",def:"Price pulls back but stays ABOVE the previous pullback low. Uptrend confirmation — buyers are defending higher levels.",cat:"Structure",col:"#5ECC6A"},
+  {term:"Lower Low (LL)",def:"Price falls below the previous low. Sign of a downtrend — sellers are overpowering buyers.",cat:"Structure",col:"#FF7055"},
+  {term:"Change of Character",def:"ChoCH — when a market in an uptrend suddenly makes a lower low, OR a downtrend makes a higher high. The first sign of a potential trend reversal.",cat:"Structure",col:"#FFB830"},
+  {term:"Break of Structure",def:"BOS — price convincingly breaks above a previous high (bullish BOS) or below a previous low (bearish BOS). Confirms trend direction.",cat:"Structure",col:"#9B8FF0"},
+  // VPA / WYCKOFF
+  {term:"Wyckoff Accumulation",def:"Phase where smart money quietly BUYS at low prices while retail is scared. Volume is high but choppy. Price moves sideways to disguise their buying.",cat:"VPA/Wyckoff",col:"#00C896"},
+  {term:"Wyckoff Distribution",def:"Phase where smart money quietly SELLS at high prices while retail is excited. Price tops out, volume diverges. Retail bags are being filled by institutions.",cat:"VPA/Wyckoff",col:"#FF7055"},
+  {term:"Stopping Volume",def:"Extremely high volume at end of trend, narrow price spread. Sellers/buyers are being ABSORBED. A powerful Anna Couling VPA reversal signal.",cat:"VPA/Wyckoff",col:"#F06EB0"},
+  {term:"Effort vs. Result",def:"Wyckoff's law: volume (effort) must match price movement (result). High volume + small move = reversal warning. High volume + big move = trend confirmation.",cat:"VPA/Wyckoff",col:"#FFB830"},
+  {term:"Upthrust",def:"Price spikes ABOVE resistance on high volume then closes BACK below it. Smart money selling into retail buyers at highs. Classic distribution signal.",cat:"VPA/Wyckoff",col:"#FF7055"},
+  {term:"Wyckoff Spring",def:"Price briefly dips BELOW support in accumulation, shakes out weak hands with their stop losses, then immediately reverses up. A trap set by smart money.",cat:"VPA/Wyckoff",col:"#5ECC6A"},
+  // ICT
+  {term:"Fair Value Gap (FVG)",def:"A 3-candle imbalance where price moves so fast it leaves a gap. The gap between candle 1's high and candle 3's low (bullish) or vice versa. Price usually returns to fill it.",cat:"ICT",col:"#9B8FF0"},
+  {term:"Liquidity",def:"Buy stop orders above highs and sell stop orders below lows. Smart money SWEEPS these levels to fill large orders before reversing price.",cat:"ICT",col:"#4BA3F5"},
+  {term:"NY Open Killzone",def:"9:30–11:00 AM EST. Highest institutional activity of the trading day. ICT's primary window for entries. Most valid ICT setups occur here.",cat:"ICT",col:"#FFB830"},
+  {term:"London Killzone",def:"3:00–5:00 AM EST. Sets the daily bias and direction. London moves more capital than any other session. Most FVGs and liquidity sweeps form here.",cat:"ICT",col:"#5ECC6A"},
+  // RISK
+  {term:"Stop Loss",def:"A pre-set automatic order to close your trade if it moves against you. Placed BEFORE entry based on market structure, never after entry.",cat:"Risk",col:"#FF7055"},
+  {term:"Risk:Reward Ratio",def:"Potential loss vs potential gain. 1:2 = risk $1 to make $2. Always target minimum 1:2. Professionals aim 1:3 or higher.",cat:"Risk",col:"#F5C842"},
+  {term:"Position Sizing",def:"Calculating exactly how many shares/contracts to buy based on (account × risk%) ÷ (distance to stop). Determines survival in drawdowns.",cat:"Risk",col:"#9B8FF0"},
+  {term:"Drawdown",def:"The % decline from account peak before recovery. 50% drawdown needs 100% gain to recover. This is why protecting the account comes FIRST.",cat:"Risk",col:"#FF7055"},
+  // PROP / ECON
+  {term:"Prop Firm",def:"A company that funds skilled traders with their capital. Trader earns 70-90% of profits. Evaluated through profit/drawdown targets first.",cat:"Prop/Econ",col:"#5ECC6A"},
+  {term:"Margin",def:"Borrowed capital from your broker to control a larger position. Amplifies both profits AND losses. Requires strict risk management.",cat:"Prop/Econ",col:"#FF7055"},
+  {term:"Inflation",def:"The rate at which prices rise, reducing the purchasing power of money. Fed targets 2% annually. Too much = crisis. Too little = stagnation.",cat:"Prop/Econ",col:"#FFB830"},
+  {term:"GDP",def:"Gross Domestic Product — total value of all goods and services produced in a country per year. Rising GDP = growing economy = bull market conditions.",cat:"Prop/Econ",col:"#4BA3F5"},
+  {term:"Seasonality",def:"Markets tend to repeat patterns at the same calendar times each year. ICT teaches Q1=accumulation, Q2=distribution, Q3=markdown, Q4=re-accumulation.",cat:"Prop/Econ",col:"#9B8FF0"},
+  {term:"Federal Reserve",def:"The US central bank. Controls interest rates, money supply, banking. Its decisions move ALL global markets. FOMC meets 8 times yearly.",cat:"Prop/Econ",col:"#F06EB0"}
+];
+
+const BADGES=[
+  {name:"First Steps",desc:"Complete 1st lesson",em:"🌟",cond:"lessons",n:1},
+  {name:"Budget Boss",desc:"Complete Money Mountain",em:"💰",cond:"world",w:"money"},
+  {name:"Market Maker",desc:"Complete Market City",em:"🏙️",cond:"world",w:"market"},
+  {name:"Chart Master",desc:"Complete Chart Kingdom",em:"📊",cond:"world",w:"chart"},
+  {name:"Trading Pro",desc:"Complete Trading Floor",em:"⚡",cond:"world",w:"trade"},
+  {name:"VPA Scholar",desc:"Complete VPA Vault",em:"🔮",cond:"world",w:"vpa"},
+  {name:"Risk Guardian",desc:"Complete Risk Castle",em:"🛡️",cond:"world",w:"risk"},
+  {name:"Prop Insider",desc:"Complete Prop Firm HQ",em:"🏦",cond:"world",w:"prop"},
+  {name:"Economist",desc:"Complete Economy World",em:"🌍",cond:"world",w:"eco"},
+  {name:"Quiz Wizard",desc:"Score 100% on any quiz",em:"🧙",cond:"perfect",n:1},
+  {name:"Card Master",desc:"Master 30+ flashcards",em:"🃏",cond:"cards",n:30},
+  {name:"Money Master",desc:"Earn 500+ Savvy Bucks",em:"👑",cond:"sb",n:500},
+  {name:"Trade Streak 5",desc:"5 correct trades in a row",em:"🔥",cond:"tradestreak",n:5},
+  {name:"Savvy Investor",desc:"Complete all 8 worlds",em:"💎",cond:"worlds",n:8},
+  {name:"Scripture Reader",desc:"Visit 5 different worlds",em:"✝️",cond:"worlds",n:5},
+  {name:"Gold Tier",desc:"Earn 1000+ Savvy Bucks",em:"🥇",cond:"sb",n:1000},
+  {name:"Flashcard Legend",desc:"Master all 35 flashcards",em:"⭐",cond:"cards",n:35},
+  {name:"Savvy Champion",desc:"Complete every lesson",em:"🏆",cond:"alllessons"}
+];
+
+const GLOBAL_LB=[
+  {name:"ZoeW_Atlanta",av:"🦁",sb:2840},{name:"MarcusB_NY",av:"🐯",sb:2520},
+  {name:"AmaraJ_TX",av:"🦊",sb:2180},{name:"KaiMoney",av:"🐼",sb:1930},
+  {name:"JordanTrades",av:"🦋",sb:1720},{name:"PhoenixC",av:"🚀",sb:1480},
+  {name:"RileyPro",av:"🦁",sb:1250},{name:"SageB_FL",av:"🐯",sb:1020},
+  {name:"HarperD",av:"🦊",sb:840},{name:"NiaR_Chi",av:"🐼",sb:680}
+];
+
+const STOCKS=[
+  {sym:"AAPL",name:"Apple Inc.",price:178.50,base:178.50},
+  {sym:"TSLA",name:"Tesla Inc.",price:245.00,base:245.00},
+  {sym:"MSFT",name:"Microsoft",price:380.25,base:380.25},
+  {sym:"AMZN",name:"Amazon",price:185.75,base:185.75},
+  {sym:"DIS",name:"Walt Disney",price:95.50,base:95.50},
+  {sym:"NFLX",name:"Netflix",price:625.00,base:625.00}
+];
+
+const VPA_TIPS=[
+  "High volume + narrow spread = insiders are hidden (Couling). Don't trust the move direction alone.",
+  "Low volume on a rally = no conviction. The move is likely to fail or reverse soon.",
+  "Stopping volume at a downtrend low = buyers absorbing sellers. Watch for reversal candles next.",
+  "Effort vs. Result: if volume is huge but price barely moves, something is wrong. Reversal coming.",
+  "Wyckoff Spring: price dips below support briefly then reverses. Classic accumulation trap.",
+  "An upthrust at resistance + high volume + close below resistance = distribution. Bears are winning.",
+  "Volume must CONFIRM price. If they diverge, trust the volume, not the price.",
+  "'It is only when volume and price combine that we have the explosive power of VPA.' — Anna Couling"
+];
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+const DEF_STATE={
+  name:'',avatar:'🦁',ageGroup:8,
+  sb:0,streak:1,totalLessons:0,
+  worldDone:{},lessonDone:{},badges:[],
+  quizLessonId:null,quizWorldId:null,qIdx:0,qScore:0,qAnswered:false,
+  fcIdx:0,fcMastered:[],fcCat:'All',
+  cash:1000,holdings:{},totalTrades:0,
+  tradeStreak:0,tradeCandles:[],tradeAnswer:null,
+  worldsVisited:[],perfectQuizzes:0
+};
+let ST=Object.assign({},DEF_STATE);
+try{const s=localStorage.getItem('ssa_v4');if(s)ST=Object.assign({},DEF_STATE,JSON.parse(s));}catch(e){}
+function save(){try{localStorage.setItem('ssa_v4',JSON.stringify(ST));}catch(e){}}
+let priceInt=null,curWorld=null,curLesson=null;
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+function makeStar(el){
+  for(let i=0;i<60;i++){
+    const s=document.createElement('div');s.className='star';
+    const sz=Math.random()*2.5+.5;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s`;
+    el.appendChild(s);
+  }
+}
+makeStar(document.getElementById('stars'));
+
+function acceptDisclaimer(){
+  localStorage.setItem('disc_v4','1');
+  document.getElementById('disclaimer').style.display='none';
+  if(ST.name){launchApp();}else{document.getElementById('onboarding').style.display='flex';}
+}
+if(localStorage.getItem('disc_v4')){
+  document.getElementById('disclaimer').style.display='none';
+  if(ST.name){launchApp();}else{document.getElementById('onboarding').style.display='flex';}
+}
+
+function pickAge(el){document.querySelectorAll('.age-card').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');ST.ageGroup=parseInt(el.dataset.age);}
+function pickAv(el){document.querySelectorAll('.av-pick').forEach(x=>x.classList.remove('sel'));el.classList.add('sel');ST.avatar=el.dataset.av;}
+
+function startApp(){
+  const n=document.getElementById('ob-name').value.trim();
+  if(!n){document.getElementById('ob-name').focus();document.getElementById('ob-name').style.borderColor='#F5C842';return;}
+  ST.name=n;ST.streak=1;save();
+  document.getElementById('onboarding').style.display='none';
+  launchApp();
+}
+
+function launchApp(){
+  document.getElementById('main-app').style.display='flex';
+  document.getElementById('main-app').style.flexDirection='column';
+  document.getElementById('main-app').style.height='100%';
+  renderHub();updateStats();go('hub');
+  const ds=SCRIPTURES.filter(s=>s.world==='all');
+  const d=ds[Math.floor(Math.random()*ds.length)];
+  document.getElementById('daily-verse').textContent='"'+d.verse+'"';
+  document.getElementById('daily-ref').textContent='— '+d.ref;
+}
+
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+function go(s){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  document.getElementById('s-'+s).classList.add('on');
+  const tb=document.getElementById('t-'+s);if(tb)tb.classList.add('on');
+  if(s==='ranks')renderLB();
+  if(s==='badges')renderBadges();
+  if(s==='trade'){initTrade();setTimeout(()=>drawCandles(),80);}
+  if(s==='port'){renderPort();startPriceTick();}else stopPriceTick();
+  if(s==='cards')renderFc();
+  if(s==='hub')renderHub();
+}
+
+// ═══════════════════════════════════════════
+// HUB / WORLDS
+// ═══════════════════════════════════════════
+function renderHub(){
+  document.getElementById('hub-greeting-txt').textContent=`Welcome, ${ST.name||'Trader'}! ${ST.avatar}`;
+  document.getElementById('hub-subtitle').textContent=`${ST.totalLessons} lessons completed · Level ${getLevel(ST.sb).name}`;
+  const g=document.getElementById('worlds-grid');
+  g.innerHTML=WORLDS.map(w=>{
+    const age=ST.ageGroup;
+    const locked=w.minAge>age&&age<w.minAge;
+    const done=ST.worldDone[w.id]||0;
+    const total=w.lessons.length;
+    const pct=Math.round((done/total)*100);
+    return`<div class="world-card ${w.theme}" onclick="enterWorld('${w.id}',${locked})" style="cursor:${locked?'not-allowed':'pointer'}">
+      ${locked?'<div class="lock">🔒</div>':''}
+      <div>
+        <span class="world-em">${w.em}</span>
+        <div class="world-name" style="color:${w.color}">${w.name}</div>
+        <div class="world-sub" style="color:${w.color}">${w.desc.substring(0,32)}...</div>
+      </div>
+      <div>
+        <div class="world-prog"><div class="world-prog-fill" style="width:${pct}%"></div></div>
+        <div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:3px;font-weight:600">${done}/${total} lessons</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function enterWorld(id,locked){
+  if(locked){alert('Unlock this world as you level up! Keep learning to access advanced content.');return;}
+  curWorld=WORLDS.find(w=>w.id===id);
+  if(!ST.worldsVisited.includes(id)){ST.worldsVisited.push(id);save();}
+  showScripture(curWorld,()=>renderWorldScreen());
+}
+
+function showScripture(world,cb){
+  const s=SCRIPTURES[world.verse]||SCRIPTURES[0];
+  const overlay=document.getElementById('scripture-overlay');
+  document.getElementById('scrip-em').textContent=world.em;
+  document.getElementById('scrip-world-name').textContent='Entering '+world.name;
+  document.getElementById('scrip-verse').textContent='"'+s.verse+'"';
+  document.getElementById('scrip-ref').textContent='— '+s.ref;
+  const btn=document.getElementById('scrip-btn');
+  btn.style.background=world.color;btn.style.color='#0a0e1a';
+  overlay.style.display='flex';
+  overlay._cb=cb;
+}
+function closeScripture(){
+  document.getElementById('scripture-overlay').style.display='none';
+  if(document.getElementById('scripture-overlay')._cb)document.getElementById('scripture-overlay')._cb();
+}
+
+function renderWorldScreen(){
+  const w=curWorld;
+  document.getElementById('world-header').innerHTML=`
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <span style="font-size:36px">${w.em}</span>
+      <div><div style="font-size:18px;font-weight:900;color:${w.color};letter-spacing:-.3px">${w.name}</div>
+      <div style="font-size:11px;color:var(--text2);font-weight:500">${w.desc}</div></div>
+    </div>`;
+  const ld=LESSON_DATA[w.id]||{};
+  document.getElementById('world-lessons').innerHTML=w.lessons.map((lname,i)=>{
+    const lid=w.id+'_'+i;
+    const done=ST.lessonDone[lid];
+    const locked=i>0&&!ST.lessonDone[w.id+'_'+(i-1)];
+    const data=ld[lname]||{xp:30};
+    return`<div class="lcard${locked?' locked':''}${done?' done':''}" onclick="${locked?'':'openLesson(\''+w.id+'\',\''+lname+'\','+i+')'}">
+      <div style="display:flex;align-items:center;gap:11px">
+        <div style="width:42px;height:42px;border-radius:var(--rl);display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(255,255,255,.06);flex-shrink:0">${locked?'🔒':done?'✅':w.em}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:700;color:var(--text)">${lname}</div>
+          <div style="font-size:10px;color:var(--text2);margin-top:2px;font-weight:500">${done?'Complete':'Earn '+data.xp+' Savvy Bucks'}</div>
+        </div>
+        <div style="flex-shrink:0">
+          ${done?`<span class="tag" style="background:rgba(0,200,150,.15);color:var(--teal);border:1px solid rgba(0,200,150,.3)">Done ✓</span>`:
+          locked?`<span class="tag" style="background:rgba(255,255,255,.05);color:var(--text2)">Locked</span>`:
+          `<span class="tag" style="background:rgba(245,200,66,.12);color:var(--gold);border:1px solid rgba(245,200,66,.3)">+${data.xp} SB</span>`}
+        </div>
+      </div></div>`;
+  }).join('');
+  go('world');
+}
+
+function openLesson(worldId,lessonName,idx){
+  curLesson={worldId,lessonName,idx};
+  const w=WORLDS.find(x=>x.id===worldId);
+  const ld=LESSON_DATA[worldId]||{};
+  const data=ld[lessonName]||{xp:30,concepts:["Concept 1","Concept 2","Concept 3"],fact:"Fun fact here!",verse:{text:"Verse",ref:"Reference"}};
+  const done=ST.lessonDone[worldId+'_'+idx];
+  document.getElementById('lesson-content').innerHTML=`
+    <div style="background:${w.theme.includes('money')?'rgba(0,200,150,.08)':w.theme.includes('vpa')?'rgba(240,110,176,.08)':'rgba(75,163,245,.06)'};border:1px solid rgba(255,255,255,.08);border-radius:var(--rl);padding:20px;margin-bottom:14px;text-align:center">
+      <div style="font-size:36px;margin-bottom:8px">${w.em}</div>
+      <div style="font-size:20px;font-weight:900;color:${w.color};margin-bottom:4px;letter-spacing:-.3px">${lessonName}</div>
+      <div style="font-size:12px;color:var(--text2);font-weight:500">${w.name}</div>
+    </div>
+    <div class="card">
+      <div class="meta" style="color:${w.color}">What You'll Learn</div>
+      ${data.concepts.map((c,n)=>`<div style="display:flex;gap:10px;margin-bottom:10px;align-items:flex-start">
+        <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px;color:${w.color}">${n+1}</div>
+        <div style="font-size:13px;color:var(--text);line-height:1.6;font-weight:500">${c}</div></div>`).join('')}
+    </div>
+    <div class="card" style="background:rgba(245,200,66,.05);border-color:rgba(245,200,66,.2)">
+      <div class="meta" style="color:var(--gold)">Did You Know?</div>
+      <div style="font-size:12px;color:var(--text);line-height:1.6;font-weight:500">${data.fact||''}</div>
+    </div>
+    <div style="padding:12px 14px;border-radius:var(--r);background:rgba(94,204,106,.06);border:1px solid rgba(94,204,106,.18);margin-bottom:2px">
+      <div style="font-size:10px;color:var(--green);font-weight:700;margin-bottom:4px">FROM THE WORD ✝️</div>
+      <div style="font-size:12px;color:var(--text);font-style:italic;line-height:1.65;font-weight:600">"${data.verse?.text||'Commit to the LORD whatever you do, and he will establish your plans.'}"</div>
+      <div style="font-size:10px;color:var(--gold);font-weight:700;margin-top:4px">— ${data.verse?.ref||'Proverbs 16:3'}</div>
+    </div>`;
+  document.getElementById('quiz-btn').textContent=done?'Retake Quiz':`Start Quiz — Earn ${data.xp} SB`;
+  go('lesson');
+}
+
+// ═══════════════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════════════
+function startQuiz(){
+  const {worldId,lessonName}=curLesson;
+  const wqs=QUESTIONS[worldId]||{};
+  const qs=wqs[lessonName]||[];
+  if(!qs.length){alert('Quiz coming soon for this lesson!');return;}
+  ST.quizLessonId=lessonName;ST.quizWorldId=worldId;
+  ST.qIdx=0;ST.qScore=0;ST.qAnswered=false;
+  renderQ(qs);go('quiz');
+}
+function renderQ(qs){
+  const q=qs?qs[ST.qIdx]:null;
+  if(!q)return;
+  const w=WORLDS.find(x=>x.id===ST.quizWorldId);
+  const tot=qs.length;
+  const ld=LESSON_DATA[ST.quizWorldId]||{};
+  const data=ld[ST.quizLessonId]||{xp:30};
+  document.getElementById('q-prog').textContent=`Q ${ST.qIdx+1}/${tot}`;
+  document.getElementById('q-pfill').style.width=`${((ST.qIdx+1)/tot)*100}%`;
+  document.getElementById('q-world-lbl').textContent=(w?w.name:'')+ ' · '+ST.quizLessonId;
+  document.getElementById('q-reward').textContent=`+${data.xp} SB`;
+  document.getElementById('q-text').textContent=q.q;
+  document.getElementById('q-opts').innerHTML=q.o.map((o,i)=>`<button class="abtn" onclick="pickQ(${i},${q.a})">${o}</button>`).join('');
+  document.getElementById('q-fb').style.display='none';
+  document.getElementById('q-next').style.display='none';
+  ST.qAnswered=false;
+}
+function pickQ(sel,ans){
+  if(ST.qAnswered)return;ST.qAnswered=true;
+  const btns=document.querySelectorAll('.abtn');
+  btns[sel].classList.add(sel===ans?'ok':'no');if(sel!==ans)btns[ans].classList.add('ok');
+  btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('q-fb');fb.style.display='block';
+  if(sel===ans){ST.qScore++;fb.style.background='rgba(0,200,150,.12)';fb.style.color='#00ffaa';fb.style.borderLeft='3px solid #00C896';fb.textContent='✓ Correct! Great work!';}
+  else{fb.style.background='rgba(255,112,85,.1)';fb.style.color='#ff9988';fb.style.borderLeft='3px solid #FF7055';fb.textContent='✗ Not quite — correct answer: '+QUESTIONS[ST.quizWorldId][ST.quizLessonId][ST.qIdx].o[ans];}
+  document.getElementById('q-next').style.display='block';
+}
+function nextQ(){
+  const qs=QUESTIONS[ST.quizWorldId]?.[ST.quizLessonId]||[];
+  ST.qIdx++;
+  if(ST.qIdx>=qs.length)finishQuiz(qs);else renderQ(qs);
+}
+function finishQuiz(qs){
+  const {worldId,lessonName,idx}=curLesson;
+  const w=WORLDS.find(x=>x.id===worldId);
+  const ld=LESSON_DATA[worldId]||{};
+  const data=ld[lessonName]||{xp:30};
+  const lid=worldId+'_'+idx;
+  const tot=(qs||[]).length;
+  const perfect=ST.qScore===tot;
+  const already=ST.lessonDone[lid];
+  let earned=0;
+  if(!already){earned=data.xp+(perfect?20:0);ST.sb+=earned;ST.lessonDone[lid]=true;ST.totalLessons++;}
+  else{earned=perfect?10:0;ST.sb+=earned;}
+  // update world progress
+  const wDone=w.lessons.filter((_,i)=>ST.lessonDone[worldId+'_'+i]).length;
+  ST.worldDone[worldId]=wDone;
+  if(perfect)ST.perfectQuizzes=(ST.perfectQuizzes||0)+1;
+  // badges
+  let newBadge=null;
+  const addB=n=>{if(!ST.badges.includes(n)){ST.badges.push(n);newBadge=newBadge||n;}};
+  if(ST.totalLessons>=1)addB('First Steps');
+  if(wDone>=w.lessons.length)addB(BADGES.find(b=>b.w===worldId)?.name||'');
+  if(perfect)addB('Quiz Wizard');
+  if(ST.sb>=500)addB('Money Master');
+  if(ST.sb>=1000)addB('Gold Tier');
+  if(ST.worldsVisited.length>=5)addB('Scripture Reader');
+  if(Object.values(ST.worldDone).filter(v=>v>=6).length>=8)addB('Savvy Investor');
+  const allDone=WORLDS.every(ww=>ww.lessons.every((_,i)=>ST.lessonDone[ww.id+'_'+i]));
+  if(allDone)addB('Savvy Champion');
+  save();
+  // show done screen
+  const vd=data.verse||{text:"The plans of the diligent lead to profit.",ref:"Proverbs 21:5"};
+  document.getElementById('done-em').textContent=perfect?'🏆':'⭐';
+  document.getElementById('done-title').textContent=perfect?'Perfect Score!':'Quiz Complete!';
+  document.getElementById('done-sub').textContent=perfect?'You absolutely nailed it!':'Good effort — keep practicing!';
+  document.getElementById('done-bucks').textContent=`+${earned} SB`;
+  document.getElementById('done-total').textContent=`Total: ${ST.sb} Savvy Bucks`;
+  document.getElementById('done-score').textContent=`${ST.qScore} out of ${tot} correct`;
+  document.getElementById('done-verse').textContent='"'+vd.text+'" — '+vd.ref;
+  const bw=document.getElementById('done-badge-wrap');
+  if(newBadge){bw.style.display='block';const bd=BADGES.find(b=>b.name===newBadge);document.getElementById('done-badge-em').textContent=bd?.em||'🏅';document.getElementById('done-badge-name').textContent=newBadge;}
+  else bw.style.display='none';
+  updateStats();renderHub();go('done');
+}
+
+// ═══════════════════════════════════════════
+// TRADING GAME
+// ═══════════════════════════════════════════
+function genCandles(n){
+  const cs=[];let p=130+Math.random()*50;
+  for(let i=0;i<n;i++){
+    const chg=(Math.random()-.47)*5.5;const o=p,c=p+chg;
+    const h=Math.max(o,c)+Math.random()*3.5,l=Math.min(o,c)-Math.random()*3.5;
+    cs.push({o,h,l,c});p=c;
+  }return cs;
+}
+function drawCandles(showAll){
+  const cv=document.getElementById('trade-canvas');if(!cv)return;
+  const ctx=cv.getContext('2d'),w=cv.width,h=cv.height;
+  ctx.clearRect(0,0,w,h);
+  const cs=ST.tradeCandles,n=showAll?cs.length:cs.length-1;
+  if(!cs.length)return;
+  const allP=cs.slice(0,n).flatMap(c=>[c.h,c.l]);
+  if(!allP.length)return;
+  const minP=Math.min(...allP),maxP=Math.max(...allP),range=maxP-minP||5;
+  const pad=14,right=showAll?0:50;
+  const toY=p=>pad+(1-(p-minP)/range)*(h-2*pad);
+  const slotW=(w-right)/cs.length,bw=Math.max(5,slotW*.56);
+  cs.forEach((c,i)=>{
+    if(!showAll&&i===cs.length-1){
+      const cx=pad+i*slotW+slotW/2;
+      ctx.fillStyle='rgba(155,143,240,.1)';ctx.fillRect(cx-bw/2-5,pad-2,bw+10,h-2*pad+4);
+      ctx.fillStyle='#9B8FF0';ctx.font='bold 14px sans-serif';ctx.textAlign='center';ctx.fillText('?',cx,h/2+5);
+      ctx.fillStyle='rgba(155,143,240,.5)';ctx.font='9px sans-serif';ctx.fillText('NEXT',cx,h-8);
+      return;
+    }
+    const isG=c.c>=c.o,col=isG?'#00C896':'#FF7055';
+    const cx=pad+i*slotW+slotW/2;
+    ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(cx,toY(c.h));ctx.lineTo(cx,toY(c.l));ctx.stroke();
+    const bt=toY(Math.max(c.o,c.c)),bh=Math.max(2,Math.abs(toY(c.o)-toY(c.c)));
+    ctx.fillStyle=col;ctx.fillRect(cx-bw/2,bt,bw,bh);
+  });
+}
+function initTrade(){
+  const syms=['AAPL — Apple','TSLA — Tesla','ES — S&P 500 Futures','NQ — Nasdaq Futures','MES — Micro S&P','MNQ — Micro Nasdaq'];
+  const tfs=['1H Chart','4H Chart','15M Chart','Daily Chart'];
+  document.getElementById('trade-sym').textContent=syms[Math.floor(Math.random()*syms.length)];
+  document.getElementById('trade-tf').textContent=tfs[Math.floor(Math.random()*tfs.length)];
+  ST.tradeCandles=genCandles(9);
+  ST.tradeAnswer=ST.tradeCandles[8].c>=ST.tradeCandles[8].o?'bull':'bear';
+  document.getElementById('trade-q-box').style.display='block';
+  document.getElementById('trade-res-box').style.display='none';
+  document.getElementById('bull-btn').disabled=false;
+  document.getElementById('bear-btn').disabled=false;
+}
+function tradeGuess(guess){
+  document.getElementById('bull-btn').disabled=true;document.getElementById('bear-btn').disabled=true;
+  drawCandles(true);
+  const correct=guess===ST.tradeAnswer;
+  let earned=0;
+  if(correct){ST.tradeStreak++;earned=15+(ST.tradeStreak>4?15:ST.tradeStreak>2?10:0);ST.sb+=earned;}
+  else ST.tradeStreak=0;
+  ST.totalTrades++;
+  if(ST.tradeStreak>=5)addBadge('Trade Streak 5');
+  save();updateStats();
+  document.getElementById('trade-q-box').style.display='none';
+  document.getElementById('trade-res-box').style.display='block';
+  const last=ST.tradeCandles[8];const isG=last.c>=last.o;
+  document.getElementById('trade-res-title').textContent=correct?'✓ Correct! You read that chart!':'✗ Not this time — keep studying!';
+  document.getElementById('trade-res-title').style.color=correct?'#00C896':'#FF7055';
+  document.getElementById('trade-res-exp').textContent=`The candle was ${isG?'GREEN (bullish)':'RED (bearish)'}. Open: $${last.o.toFixed(2)} → Close: $${last.c.toFixed(2)}. ${isG?'Buyers dominated this period.':'Sellers dominated this period.'}`;
+  document.getElementById('trade-res-sb').textContent=correct?`+${earned} SB${ST.tradeStreak>4?' 🔥🔥🔥 Mega Streak!':ST.tradeStreak>2?' 🔥 Streak Bonus!':''}!`:'0 SB — next one!';
+  document.getElementById('trade-vpa-tip').textContent=VPA_TIPS[Math.floor(Math.random()*VPA_TIPS.length)];
+  document.getElementById('trade-streak').textContent=ST.tradeStreak;
+}
+function newTrade(){initTrade();drawCandles(false);}
+function addBadge(name){if(!ST.badges.includes(name)){ST.badges.push(name);save();}}
+
+// ═══════════════════════════════════════════
+// FLASHCARDS
+// ═══════════════════════════════════════════
+const FC_CATS=['All',...[...new Set(ALL_FLASHCARDS.map(f=>f.cat))]];
+let fcMas=new Set(ST.fcMastered||[]);
+function renderFc(){
+  // cat buttons
+  document.getElementById('fc-cats').innerHTML=FC_CATS.map(cat=>`<button onclick="setFcCat('${cat}')" style="flex-shrink:0;padding:5px 12px;border-radius:20px;border:1px solid ${ST.fcCat===cat?'var(--teal)':'var(--border2)'};background:${ST.fcCat===cat?'rgba(0,200,150,.15)':'transparent'};font-size:10px;font-weight:700;color:${ST.fcCat===cat?'var(--teal)':'var(--text2)'};cursor:pointer;font-family:inherit">${cat}</button>`).join('');
+  const filtered=ST.fcCat==='All'?ALL_FLASHCARDS:ALL_FLASHCARDS.filter(f=>f.cat===ST.fcCat);
+  const idx=Math.min(ST.fcIdx,filtered.length-1);
+  const fc=filtered[idx]||filtered[0];
+  document.getElementById('fc-card').classList.remove('flipped');
+  document.getElementById('fc-term').textContent=fc.term;
+  document.getElementById('fc-cat-badge').textContent=fc.cat;
+  document.getElementById('fc-cat-badge').style.cssText=`background:${fc.col}22;color:${fc.col};border:1px solid ${fc.col}44;border-radius:20px;padding:3px 9px;font-size:10px;font-weight:700;display:inline-flex;margin-top:10px`;
+  document.getElementById('fc-front').style.background=fc.col+'11';
+  document.getElementById('fc-front').style.borderColor=fc.col+'33';
+  document.getElementById('fc-term').style.color=fc.col;
+  document.getElementById('fc-def').textContent=fc.def;
+  document.getElementById('fc-count').textContent=`${idx+1} / ${filtered.length}`;
+  document.getElementById('fc-mastered-ct').textContent=`${fcMas.size} / ${ALL_FLASHCARDS.length}`;
+  document.getElementById('fc-pbar').style.width=`${(fcMas.size/ALL_FLASHCARDS.length)*100}%`;
+  if(fcMas.size>=30)addBadge('Card Master');
+  if(fcMas.size>=ALL_FLASHCARDS.length)addBadge('Flashcard Legend');
+}
+function setFcCat(cat){ST.fcCat=cat;ST.fcIdx=0;save();renderFc();}
+function flipCard(){document.getElementById('fc-card').classList.toggle('flipped');}
+function fcNext(){const filtered=ST.fcCat==='All'?ALL_FLASHCARDS:ALL_FLASHCARDS.filter(f=>f.cat===ST.fcCat);ST.fcIdx=(ST.fcIdx+1)%filtered.length;save();renderFc();}
+function fcPrev(){const filtered=ST.fcCat==='All'?ALL_FLASHCARDS:ALL_FLASHCARDS.filter(f=>f.cat===ST.fcCat);ST.fcIdx=(ST.fcIdx-1+filtered.length)%filtered.length;save();renderFc();}
+function fcRate(mastered){
+  const filtered=ST.fcCat==='All'?ALL_FLASHCARDS:ALL_FLASHCARDS.filter(f=>f.cat===ST.fcCat);
+  const fc=filtered[ST.fcIdx];
+  if(mastered){fcMas.add(fc.term);ST.sb+=2;ST.fcMastered=[...fcMas];save();}else{fcMas.delete(fc.term);}
+  fcNext();
+}
+
+// ═══════════════════════════════════════════
+// PORTFOLIO
+// ═══════════════════════════════════════════
+function fp(p){return'$'+p.toFixed(2);}
+function renderPort(){
+  let pv=0,pc=0;
+  Object.keys(ST.holdings).forEach(sym=>{const h=ST.holdings[sym],s=STOCKS.find(x=>x.sym===sym);if(s&&h?.shares>0){pv+=h.shares*s.price;pc+=h.shares*h.avg;}});
+  document.getElementById('p-cash').textContent='$'+ST.cash.toFixed(0);
+  document.getElementById('p-val').textContent='$'+pv.toFixed(0);
+  const ret=pc>0?((pv-pc)/pc*100):null;
+  const re=document.getElementById('p-ret');
+  re.textContent=ret!==null?(ret>=0?'+':'')+ret.toFixed(1)+'%':'—';
+  re.className=ret!==null?(ret>=0?'up':'dn'):'';
+  document.getElementById('stock-list').innerHTML=STOCKS.map(stk=>{
+    const h=ST.holdings[stk.sym]||{shares:0,avg:0};const has=h.shares>0;
+    const val=has?h.shares*stk.price:0,pl=has?(stk.price-h.avg)*h.shares:0;
+    const pct=(stk.price-stk.base)/stk.base*100;
+    return`<div class="stk-card${has?' owned':''}" id="stk-${stk.sym}">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">
+        <div><div style="font-size:13px;font-weight:800;color:var(--text)">${stk.sym}</div><div style="font-size:10px;color:var(--text2);font-weight:600">${stk.name}</div></div>
+        <div style="text-align:right">
+          <div style="font-size:13px;font-weight:800" id="px-${stk.sym}">${fp(stk.price)}</div>
+          <div style="font-size:10px;font-weight:700" class="${pct>=0?'up':'dn'}" id="pc-${stk.sym}">${pct>=0?'+':''}${pct.toFixed(1)}%</div>
+        </div>
+      </div>
+      ${has?`<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text2);font-weight:600;margin-bottom:8px"><span>${h.shares} shares · $${val.toFixed(0)}</span><span class="${pl>=0?'up':'dn'}">${pl>=0?'+':''}$${Math.abs(pl).toFixed(2)}</span></div>`:''}
+      <div style="display:flex;gap:6px;align-items:center">
+        <input class="inp inp-sm" type="number" min="1" value="1" id="qty-${stk.sym}">
+        <button class="btn teal sm" style="flex:1;margin-top:0" onclick="buyStk('${stk.sym}')">Buy</button>
+        ${has?`<button class="btn coral sm" style="flex:1;margin-top:0" onclick="sellStk('${stk.sym}')">Sell</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+function buyStk(sym){
+  const stk=STOCKS.find(s=>s.sym===sym),qty=parseInt(document.getElementById('qty-'+sym).value)||1,cost=qty*stk.price;
+  if(cost>ST.cash){alert(`Not enough cash! You have ${fp(ST.cash)}`);return;}
+  ST.cash-=cost;if(!ST.holdings[sym])ST.holdings[sym]={shares:0,avg:0};
+  const h=ST.holdings[sym];h.avg=(h.avg*h.shares+cost)/(h.shares+qty);h.shares+=qty;
+  ST.totalTrades++;save();renderPort();
+}
+function sellStk(sym){
+  const stk=STOCKS.find(s=>s.sym===sym),qty=parseInt(document.getElementById('qty-'+sym).value)||1,h=ST.holdings[sym];
+  if(!h||h.shares<qty){alert(`You only have ${h?.shares||0} share(s)!`);return;}
+  ST.cash+=qty*stk.price;h.shares-=qty;if(h.shares===0)delete ST.holdings[sym];
+  ST.totalTrades++;save();renderPort();
+}
+function startPriceTick(){
+  stopPriceTick();
+  priceInt=setInterval(()=>{
+    STOCKS.forEach(s=>{
+      s.price=Math.max(s.base*.6,s.price+(Math.random()-.49)*2.5);
+      const pe=document.getElementById('px-'+s.sym),pce=document.getElementById('pc-'+s.sym);
+      if(pe){pe.textContent=fp(s.price);pe.classList.add('fl-anim');setTimeout(()=>pe.classList.remove('fl-anim'),400);}
+      if(pce){const pct=(s.price-s.base)/s.base*100;pce.textContent=(pct>=0?'+':'')+pct.toFixed(1)+'%';pce.className=pct>=0?'up':'dn';}
+    });
+    let pv=0,pc=0;Object.keys(ST.holdings).forEach(sym=>{const h=ST.holdings[sym],s=STOCKS.find(x=>x.sym===sym);if(s&&h?.shares>0){pv+=h.shares*s.price;pc+=h.shares*h.avg;}});
+    document.getElementById('p-val').textContent='$'+pv.toFixed(0);
+    const ret=pc>0?((pv-pc)/pc*100):null;const re=document.getElementById('p-ret');
+    if(ret!==null){re.textContent=(ret>=0?'+':'')+ret.toFixed(1)+'%';re.className=ret>=0?'up':'dn';}
+  },3500);
+}
+function stopPriceTick(){if(priceInt){clearInterval(priceInt);priceInt=null;}}
+
+// ═══════════════════════════════════════════
+// LEADERBOARD
+// ═══════════════════════════════════════════
+function renderLB(){
+  const me={name:ST.name||'You',av:ST.avatar,sb:ST.sb,me:true};
+  const all=[...GLOBAL_LB,me].sort((a,b)=>b.sb-a.sb);
+  const medals=['🥇','🥈','🥉'];
+  document.getElementById('lb-list').innerHTML=all.map((e,i)=>`
+    <div class="lb-row" style="${e.me?'background:rgba(0,200,150,.08);border-radius:var(--r);padding:9px;margin:0 -4px':''}">
+      <div style="width:28px;text-align:center;font-size:${i<3?'16':'12'}px;font-weight:800;color:${i<3?['#F5C842','#aaa','#CD7F32'][i]:'var(--text2)'}">${i<3?medals[i]:i+1}</div>
+      <div class="av-sm">${e.av}</div>
+      <div style="flex:1;font-size:13px;font-weight:${e.me?'800':'600'};color:${e.me?'var(--teal)':'var(--text)'}">${e.name}${e.me?' (you)':''}</div>
+      <div style="font-size:12px;font-weight:800;color:var(--gold)">${e.sb} SB</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════
+// BADGES
+// ═══════════════════════════════════════════
+function renderBadges(){
+  const ec=ST.badges.length;
+  document.getElementById('badge-sub').textContent=`${ec} of ${BADGES.length} badges earned`;
+  document.getElementById('badge-grid').innerHTML=BADGES.map(b=>{
+    const e=ST.badges.includes(b.name);
+    return`<div class="bdg${e?' earned':' locked2'}">
+      <div style="width:40px;height:40px;border-radius:50%;background:${e?'rgba(245,200,66,.15)':'rgba(255,255,255,.04)'};border:1px solid ${e?'rgba(245,200,66,.4)':'rgba(255,255,255,.1)'};display:flex;align-items:center;justify-content:center;margin:0 auto 7px;font-size:22px">${e?b.em:'🔒'}</div>
+      <div style="font-size:10px;font-weight:800;color:${e?'var(--gold)':'var(--text2)'};line-height:1.3">${b.name}</div>
+      <div style="font-size:9px;color:${e?'rgba(245,200,66,.6)':'var(--text3)'};margin-top:2px">${e?'Earned!':b.desc.substring(0,16)+'...'}</div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════
+// STATS / LEVEL
+// ═══════════════════════════════════════════
+function getLevel(sb){
+  if(sb>=2000)return{name:'Savvy Champion',next:'MAX'};
+  if(sb>=1000)return{name:'Money Master',next:2000};
+  if(sb>=500)return{name:'Savvy Investor',next:1000};
+  if(sb>=200)return{name:'Savvy Trader',next:500};
+  if(sb>=75)return{name:'Savvy Scholar',next:200};
+  return{name:'Savvy Rookie',next:75};
+}
+function updateStats(){
+  document.getElementById('hdr-sb').textContent=ST.sb;
+  document.getElementById('hdr-streak').textContent=ST.streak;
+  document.getElementById('st-sb').textContent=ST.sb;
+  document.getElementById('st-streak2').textContent=ST.streak;
+  document.getElementById('st-lessons').textContent=ST.totalLessons;
+  document.getElementById('st-badges').textContent=ST.badges.length;
+  save();
+}
+</script>
+</body>
+</html>
