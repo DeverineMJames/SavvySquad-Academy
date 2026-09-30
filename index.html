@@ -1821,7 +1821,174 @@ const ALL_FLASHCARDS=[
   {term:"FOMO",def:"Fear Of Missing Out: rushing to buy because everyone else is. Slow down and check your plan!",cat:"Charts",col:"#3DD6E0"},
   {term:"Paper Trading",def:"Practicing with pretend money on a real-looking platform. Mistakes cost nothing!",cat:"Charts",col:"#3DD6E0"},
   {term:"SMART Goal",def:"A goal that's Specific, Measurable, Achievable, Relevant, and Time-bound.",cat:"Goals",col:"#F06EB0"},
-  {term:"Herd Mentality",def:"Doing something just because everyone else is. A common money brain trick!",cat:"Goals",col:"#F06EB0"}
+  {term:"Herd Mentality",def:"Doing something just because everyone else is. A common money brain trick!",cat:"Goals",col:"#F06EB0"},
+  // MORE: MONEY BASICS
+  {term:"Money",def:"Anything people agree to use to pay for things. Today that means coins, bills, and digital money in accounts.",cat:"Money Basics",col:"#9B8FF0"},
+  {term:"Barter",def:"Trading goods or services directly, without money. Like swapping your sandwich for a friend's snack.",cat:"Money Basics",col:"#9B8FF0"},
+  {term:"Currency",def:"The kind of money a country uses. The U.S. uses the dollar, Mexico uses the peso, and Japan uses the yen.",cat:"Money Basics",col:"#9B8FF0"},
+  {term:"Needs",def:"Things you must have to live and be safe: food, water, shelter, and basic clothing.",cat:"Money Basics",col:"#9B8FF0"},
+  {term:"Wants",def:"Things that are nice to have but you can live without, like toys, games, or designer shoes.",cat:"Money Basics",col:"#9B8FF0"},
+  {term:"Exchange Rate",def:"How much one country's money is worth in another country's money.",cat:"Money Basics",col:"#9B8FF0"},
+  {term:"Digital Money",def:"Money that moves electronically, like debit card payments, bank transfers, and payment apps.",cat:"Money Basics",col:"#9B8FF0"},
+  {term:"Counterfeit",def:"Fake money made to look real. Making it or knowingly using it is against the law.",cat:"Money Basics",col:"#9B8FF0"},
+  {term:"Value",def:"How much something is worth to you. Price is what you pay; value is what you get.",cat:"Money Basics",col:"#9B8FF0"},
+  {term:"Scarcity",def:"When there isn't enough of something for everyone who wants it. Scarce things often cost more.",cat:"Money Basics",col:"#9B8FF0"},
+  {term:"Trade-off",def:"Giving up one thing to get another. Every money choice has one!",cat:"Money Basics",col:"#9B8FF0"},
+  {term:"Allowance",def:"Money a family gives a kid regularly, often to practice budgeting and saving.",cat:"Money Basics",col:"#9B8FF0"},
+  // MORE: SAVING & BUDGETING
+  {term:"Budget",def:"A plan for your money: how much comes in and where every dollar will go.",cat:"Saving & Budgeting",col:"#00C896"},
+  {term:"Saving",def:"Setting money aside now so you can use it later.",cat:"Saving & Budgeting",col:"#00C896"},
+  {term:"Emergency Fund",def:"Savings for surprises, like a broken phone or a car repair. Many adults aim for 3 to 6 months of expenses.",cat:"Saving & Budgeting",col:"#00C896"},
+  {term:"Pay Yourself First",def:"Moving money into savings as soon as you get it, before you spend anything.",cat:"Saving & Budgeting",col:"#00C896"},
+  {term:"Expense",def:"Money you spend on something.",cat:"Saving & Budgeting",col:"#00C896"},
+  {term:"Fixed Expense",def:"A cost that stays the same every month, like rent or a phone plan.",cat:"Saving & Budgeting",col:"#00C896"},
+  {term:"Variable Expense",def:"A cost that changes month to month, like groceries, gas, or fun money.",cat:"Saving & Budgeting",col:"#00C896"},
+  {term:"Sinking Fund",def:"Saving a little at a time for a cost you know is coming, like a birthday gift or a trip.",cat:"Saving & Budgeting",col:"#00C896"},
+  {term:"Savings Goal",def:"A specific amount you're saving for, by a certain date.",cat:"Saving & Budgeting",col:"#00C896"},
+  {term:"50/30/20 Rule",def:"A simple budget idea: about 50% for needs, 30% for wants, and 20% for savings.",cat:"Saving & Budgeting",col:"#00C896"},
+  {term:"Impulse Buy",def:"Buying something on the spot without planning. Try waiting 24 hours first!",cat:"Saving & Budgeting",col:"#00C896"},
+  {term:"Cash Flow",def:"Money coming in minus money going out. Positive cash flow means you have money left over.",cat:"Saving & Budgeting",col:"#00C896"},
+  {term:"Net Worth",def:"What you own (assets) minus what you owe (debts).",cat:"Saving & Budgeting",col:"#00C896"},
+  {term:"Asset",def:"Something you own that has value, like savings, investments, or a home.",cat:"Saving & Budgeting",col:"#00C896"},
+  {term:"Liability",def:"Something you owe, like a loan or a credit card balance.",cat:"Saving & Budgeting",col:"#00C896"},
+  // MORE: EARNING
+  {term:"Gig Work",def:"Short jobs paid one at a time, like dog walking, deliveries, or tutoring.",cat:"Earning",col:"#F5C842"},
+  {term:"Tips",def:"Extra money customers give for good service, common for restaurant servers and delivery drivers.",cat:"Earning",col:"#F5C842"},
+  {term:"Overtime",def:"Extra pay, often 1.5 times the hourly rate, that many hourly workers earn for working over 40 hours in a week.",cat:"Earning",col:"#F5C842"},
+  {term:"Minimum Wage",def:"The lowest hourly pay allowed by law. The federal minimum is $7.25, and many states set it higher.",cat:"Earning",col:"#F5C842"},
+  {term:"Benefits",def:"Extras a job gives besides pay, like health insurance, paid time off, or retirement matching.",cat:"Earning",col:"#F5C842"},
+  {term:"Résumé",def:"A one-page summary of your skills, experience, and education that you give to employers.",cat:"Earning",col:"#F5C842"},
+  {term:"Side Hustle",def:"A way to earn extra money outside your main job or school.",cat:"Earning",col:"#F5C842"},
+  {term:"Royalties",def:"Money creators earn each time their song, book, or invention is used or sold.",cat:"Earning",col:"#F5C842"},
+  {term:"Paycheck",def:"The payment you get from your job for each pay period, like every two weeks.",cat:"Earning",col:"#F5C842"},
+  {term:"W-4 Form",def:"A form you fill out at a new job that tells your employer how much tax to take out of your pay.",cat:"Earning",col:"#F5C842"},
+  // MORE: BANKING
+  {term:"Deposit",def:"Putting money into a bank account.",cat:"Banking",col:"#4BA3F5"},
+  {term:"Withdrawal",def:"Taking money out of a bank account.",cat:"Banking",col:"#4BA3F5"},
+  {term:"Direct Deposit",def:"When your paycheck goes straight into your bank account automatically.",cat:"Banking",col:"#4BA3F5"},
+  {term:"ATM",def:"Automated Teller Machine. It lets you take out cash or check your balance with your card and PIN.",cat:"Banking",col:"#4BA3F5"},
+  {term:"PIN",def:"Personal Identification Number: a secret code for your card. Never share it!",cat:"Banking",col:"#4BA3F5"},
+  {term:"Overdraft",def:"Spending more than what's in your account. It can come with fees.",cat:"Banking",col:"#4BA3F5"},
+  {term:"Balance",def:"How much money is in your account right now.",cat:"Banking",col:"#4BA3F5"},
+  {term:"Bank Statement",def:"A monthly report of all the money that went into and out of your account.",cat:"Banking",col:"#4BA3F5"},
+  {term:"Routing Number",def:"A 9-digit number that identifies your bank, used for direct deposits and transfers.",cat:"Banking",col:"#4BA3F5"},
+  {term:"Online Banking",def:"Managing your bank account on a website or app.",cat:"Banking",col:"#4BA3F5"},
+  {term:"Certificate of Deposit (CD)",def:"Savings you leave in the bank for a set time to earn a set interest rate. Taking it out early can cost a penalty.",cat:"Banking",col:"#4BA3F5"},
+  {term:"Interest Rate",def:"The percent paid for using money. You earn it on savings and pay it on loans.",cat:"Banking",col:"#4BA3F5"},
+  // MORE: SPENDING
+  {term:"Sales Tax",def:"Extra money added at checkout that goes to the government. Rates are different in different states and cities.",cat:"Spending",col:"#F06EB0"},
+  {term:"Coupon",def:"A discount you can use to pay less for something.",cat:"Spending",col:"#F06EB0"},
+  {term:"Discount",def:"A lower price than usual.",cat:"Spending",col:"#F06EB0"},
+  {term:"Receipt",def:"Proof of what you bought and how much you paid. Keep it in case you need a return!",cat:"Spending",col:"#F06EB0"},
+  {term:"Return Policy",def:"A store's rules for bringing something back for a refund or exchange.",cat:"Spending",col:"#F06EB0"},
+  {term:"Warranty",def:"A company's promise to fix or replace a product if it breaks within a certain time.",cat:"Spending",col:"#F06EB0"},
+  {term:"Store Brand",def:"A store's own version of a product, often cheaper than the name brand.",cat:"Spending",col:"#F06EB0"},
+  {term:"Subscription",def:"Paying regularly, like monthly, for something such as streaming or apps. They're easy to forget, so check yours!",cat:"Spending",col:"#F06EB0"},
+  {term:"Comparison Shopping",def:"Checking prices at different stores or websites before you buy.",cat:"Spending",col:"#F06EB0"},
+  {term:"Charm Pricing",def:"Prices like $9.99, set just under a round number so they seem cheaper than $10.",cat:"Spending",col:"#F06EB0"},
+  {term:"Buy Now, Pay Later",def:"Splitting a purchase into payments. It can make things feel cheaper, and missed payments can bring fees.",cat:"Spending",col:"#F06EB0"},
+  // MORE: CREDIT
+  {term:"Loan",def:"Money you borrow and pay back over time, usually with interest.",cat:"Credit",col:"#3DD6E0"},
+  {term:"Principal",def:"The original amount borrowed or invested, not counting interest.",cat:"Credit",col:"#3DD6E0"},
+  {term:"Debt",def:"Money you owe to someone else.",cat:"Credit",col:"#3DD6E0"},
+  {term:"Collateral",def:"Something valuable promised to a lender, like a car for a car loan. If you don't pay, the lender can take it.",cat:"Credit",col:"#3DD6E0"},
+  {term:"Credit Report",def:"A record of how you've handled credit, like loans, cards, and on-time payments.",cat:"Credit",col:"#3DD6E0"},
+  {term:"Credit Bureau",def:"A company that keeps credit reports. The big three in the U.S. are Equifax, Experian, and TransUnion.",cat:"Credit",col:"#3DD6E0"},
+  {term:"Late Fee",def:"A charge for paying a bill after its due date.",cat:"Credit",col:"#3DD6E0"},
+  {term:"Grace Period",def:"The time before a credit card bill is due when you won't pay interest on new purchases if you pay the full balance.",cat:"Credit",col:"#3DD6E0"},
+  {term:"Co-signer",def:"Someone who promises to repay a loan if the borrower can't.",cat:"Credit",col:"#3DD6E0"},
+  {term:"Student Loan",def:"Money borrowed to pay for school and repaid later, with interest.",cat:"Credit",col:"#3DD6E0"},
+  {term:"Mortgage",def:"A loan to buy a home, usually paid back over 15 to 30 years.",cat:"Credit",col:"#3DD6E0"},
+  {term:"Credit Utilization",def:"How much of your credit limit you're using. Using only a small part is a healthier habit.",cat:"Credit",col:"#3DD6E0"},
+  // MORE: INVESTING
+  {term:"Share",def:"One unit of ownership in a company.",cat:"Investing",col:"#5ECC6A"},
+  {term:"ETF",def:"Exchange-Traded Fund: a basket of investments that trades on the stock market like a single stock.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Mutual Fund",def:"Money from many investors pooled together and invested by a professional manager.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Bond",def:"A loan you give to a company or government. They pay you interest and return your money later.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Portfolio",def:"All of your investments together.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Return",def:"How much an investment gained or lost, often shown as a percent.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Risk Tolerance",def:"How comfortable you are with your investments going up and down.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Time Horizon",def:"How long until you need your invested money. A longer time horizon can handle more ups and downs.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Rule of 72",def:"Divide 72 by the yearly growth rate to estimate how many years it takes money to double.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Dollar-Cost Averaging",def:"Investing the same amount on a regular schedule, no matter what the price is.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Fractional Share",def:"A piece of one share, so you can invest with small amounts of money.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Market Cap",def:"A company's total stock value: the share price times the number of shares.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Retirement Account",def:"A special account, like a 401(k) or IRA, that helps money grow for when you stop working, often with tax benefits.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Roth IRA",def:"A retirement account funded with money you've already paid tax on. Qualified withdrawals in retirement are tax-free.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Employer Match",def:"Money your employer adds to your retirement savings when you save, too.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Expense Ratio",def:"The yearly fee a fund charges, shown as a percent. Lower fees leave more money for you.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Capital Gain",def:"The profit from selling an investment for more than you paid.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Blue-Chip Stock",def:"A share of a large, well-known, long-established company.",cat:"Investing",col:"#5ECC6A"},
+  {term:"IPO",def:"Initial Public Offering: when a company sells its stock to the public for the first time.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Stock Split",def:"When a company splits each share into more shares at a lower price. Your total value stays the same.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Brokerage Account",def:"An account for buying and selling investments like stocks and funds.",cat:"Investing",col:"#5ECC6A"},
+  // MORE: TAXES
+  {term:"Tax",def:"Money people and businesses pay the government to fund shared things like schools, roads, and firefighters.",cat:"Taxes",col:"#FF7055"},
+  {term:"Income Tax",def:"Tax on money you earn.",cat:"Taxes",col:"#FF7055"},
+  {term:"Property Tax",def:"Tax on the value of a home or land, often used to pay for local schools.",cat:"Taxes",col:"#FF7055"},
+  {term:"Payroll Tax (FICA)",def:"Social Security and Medicare taxes taken from paychecks: 7.65% for most workers.",cat:"Taxes",col:"#FF7055"},
+  {term:"Tax Return",def:"A form you file each year to report your income and figure out whether you owe more tax or get a refund.",cat:"Taxes",col:"#FF7055"},
+  {term:"Tax Refund",def:"Money you get back when too much tax was taken out during the year.",cat:"Taxes",col:"#FF7055"},
+  {term:"W-2",def:"A form your employer sends each year showing how much you earned and how much tax was taken out.",cat:"Taxes",col:"#FF7055"},
+  {term:"1099",def:"A tax form that reports income from freelancing, gig work, or other sources besides a regular job.",cat:"Taxes",col:"#FF7055"},
+  {term:"Tax Deduction",def:"An amount that lowers the income you're taxed on.",cat:"Taxes",col:"#FF7055"},
+  {term:"Tax Day",def:"The usual deadline to file federal taxes in the U.S.: April 15.",cat:"Taxes",col:"#FF7055"},
+  // MORE: PROTECTION
+  {term:"Insurance",def:"Paying a small amount regularly so you're protected from a big, expensive loss.",cat:"Protection",col:"#8899BB"},
+  {term:"Health Insurance",def:"Insurance that helps pay for doctor visits, medicine, and hospital care.",cat:"Protection",col:"#8899BB"},
+  {term:"Auto Insurance",def:"Insurance that covers costs if you're in a car accident. Almost every state requires it.",cat:"Protection",col:"#8899BB"},
+  {term:"Renters Insurance",def:"Insurance that protects your belongings if they're stolen or damaged in a home you rent.",cat:"Protection",col:"#8899BB"},
+  {term:"Life Insurance",def:"Insurance that pays money to your family if you pass away.",cat:"Protection",col:"#8899BB"},
+  {term:"Copay",def:"A set amount you pay for a doctor visit or prescription when you have health insurance.",cat:"Protection",col:"#8899BB"},
+  {term:"Identity Theft",def:"When someone steals your personal information to use your name for money.",cat:"Protection",col:"#8899BB"},
+  {term:"Phishing",def:"Fake messages or emails that try to trick you into sharing passwords or personal info.",cat:"Protection",col:"#8899BB"},
+  {term:"Strong Password",def:"A long, hard-to-guess password. A silly sentence works great!",cat:"Protection",col:"#8899BB"},
+  {term:"Two-Factor Authentication",def:"A second check, like a code sent to your phone, that proves it's really you signing in.",cat:"Protection",col:"#8899BB"},
+  {term:"Fraud",def:"Tricking someone to steal their money or information.",cat:"Protection",col:"#8899BB"},
+  {term:"Pump and Dump",def:"A scam where people hype a stock so others buy, then sell at the top so the price crashes.",cat:"Protection",col:"#8899BB"},
+  // MORE: BUSINESS
+  {term:"Revenue",def:"All the money a business brings in from sales.",cat:"Business",col:"#FFB830"},
+  {term:"Costs",def:"Money a business spends to operate, like supplies, rent, and workers' pay.",cat:"Business",col:"#FFB830"},
+  {term:"Loss",def:"When a business's costs are bigger than its revenue.",cat:"Business",col:"#FFB830"},
+  {term:"Break-Even Point",def:"When revenue equals costs: no profit, and no loss.",cat:"Business",col:"#FFB830"},
+  {term:"Supply and Demand",def:"Prices tend to rise when lots of people want something scarce and fall when there's plenty of it.",cat:"Business",col:"#FFB830"},
+  {term:"Competition",def:"Businesses trying to win the same customers, which can lower prices and improve products.",cat:"Business",col:"#FFB830"},
+  {term:"Marketing",def:"Telling customers about a product so they want to buy it.",cat:"Business",col:"#FFB830"},
+  {term:"Brand",def:"A company's name, logo, and reputation that make people recognize it.",cat:"Business",col:"#FFB830"},
+  {term:"Startup",def:"A new business, often built around a new idea.",cat:"Business",col:"#FFB830"},
+  {term:"Franchise",def:"A business that uses another company's name and system, like many fast-food restaurants.",cat:"Business",col:"#FFB830"},
+  {term:"Shareholder",def:"Someone who owns shares of a company.",cat:"Business",col:"#FFB830"},
+  {term:"Nonprofit",def:"An organization that uses its money for a mission instead of making profits for owners.",cat:"Business",col:"#FFB830"},
+  // MORE: ECONOMY
+  {term:"Economy",def:"Everything a country makes, buys, and sells.",cat:"Economy",col:"#4BA3F5"},
+  {term:"Recession",def:"When the economy shrinks for a while, often with fewer jobs and less spending.",cat:"Economy",col:"#4BA3F5"},
+  {term:"Deflation",def:"When prices go down across the economy.",cat:"Economy",col:"#4BA3F5"},
+  {term:"Purchasing Power",def:"How much your money can buy. Inflation lowers purchasing power.",cat:"Economy",col:"#4BA3F5"},
+  {term:"Unemployment Rate",def:"The percent of people who want a job but can't find one.",cat:"Economy",col:"#4BA3F5"},
+  {term:"Consumer",def:"A person who buys goods and services.",cat:"Economy",col:"#4BA3F5"},
+  {term:"Producer",def:"A person or business that makes goods or provides services.",cat:"Economy",col:"#4BA3F5"},
+  {term:"Goods and Services",def:"Goods are things you can touch. Services are work people do for you.",cat:"Economy",col:"#4BA3F5"},
+  {term:"Imports and Exports",def:"Imports are goods bought from other countries. Exports are goods sold to other countries.",cat:"Economy",col:"#4BA3F5"},
+  {term:"Tariff",def:"A tax on goods brought in from another country.",cat:"Economy",col:"#4BA3F5"},
+  // MORE: GIVING
+  {term:"Philanthropy",def:"Giving money, time, or talent to help others.",cat:"Giving",col:"#F06EB0"},
+  {term:"Charity",def:"An organization that helps people, animals, or communities in need.",cat:"Giving",col:"#F06EB0"},
+  {term:"Tithe",def:"Giving a tenth (10%) of your income, a practice in many faith traditions.",cat:"Giving",col:"#F06EB0"},
+  {term:"Volunteering",def:"Giving your time to help others without being paid.",cat:"Giving",col:"#F06EB0"},
+  {term:"Generosity",def:"Happily sharing what you have with others.",cat:"Giving",col:"#F06EB0"},
+  // MORE: FUTURE YOU
+  {term:"Rent",def:"Money paid to live in a home you don't own.",cat:"Future You",col:"#FFB830"},
+  {term:"Security Deposit",def:"Money paid to a landlord before you move in, returned if there's no damage.",cat:"Future You",col:"#FFB830"},
+  {term:"Lease",def:"A contract to rent a home or car for a set amount of time.",cat:"Future You",col:"#FFB830"},
+  {term:"Utilities",def:"Services like electricity, water, heat, and internet.",cat:"Future You",col:"#FFB830"},
+  {term:"Depreciation",def:"When something loses value over time, like a new car.",cat:"Future You",col:"#FFB830"},
+  {term:"FAFSA",def:"The Free Application for Federal Student Aid: the form for college grants, work-study, and student loans.",cat:"Future You",col:"#FFB830"},
+  {term:"Grant",def:"Money for school that you usually don't have to pay back.",cat:"Future You",col:"#FFB830"},
+  {term:"Apprenticeship",def:"Paid, on-the-job training to learn a skilled trade.",cat:"Future You",col:"#FFB830"},
+  {term:"Retirement",def:"When people stop working full-time and live on savings, investments, and Social Security.",cat:"Future You",col:"#FFB830"},
+  {term:"Social Security",def:"A government program that pays monthly benefits to retired workers and some others, funded by payroll taxes.",cat:"Future You",col:"#FFB830"},
+  {term:"Inheritance",def:"Money or property passed down to family members.",cat:"Future You",col:"#FFB830"},
+  {term:"Generational Wealth",def:"Money and assets passed from one generation to the next to help a family build a strong future.",cat:"Future You",col:"#FFB830"}
 ];
 
 const BADGES=[
@@ -2321,7 +2488,8 @@ function finishQuiz(qs){
 // ═══════════════════════════════════════════
 // FLASHCARDS
 // ═══════════════════════════════════════════
-const FC_CATS=['All',...[...new Set(ALL_FLASHCARDS.map(f=>f.cat))]];
+const FC_ORDER=['Money Basics','Earning','Saving & Budgeting','Banking','Spending','Goals','Credit','Protection','Giving','Business','Investing','Taxes','Future You','Economy','Basics','Stock Market','Charts'];
+const FC_CATS=['All',...[...new Set(ALL_FLASHCARDS.map(f=>f.cat))].sort((x,y)=>(FC_ORDER.indexOf(x)+99)%99-(FC_ORDER.indexOf(y)+99)%99)];
 let fcMas=new Set(ST.fcMastered||[]);
 function renderFc(){
   // cat buttons
@@ -3534,20 +3702,33 @@ function deviceVoicesHTML(useRec){const all=englishVoices().filter(v=>voiceScore
 // AUDIO_MAP: key → [file, start seconds, end seconds]. If a file isn't there, the device voice reads instead.
 const AUDIO_MAP={"S|0":["story.mp3",0.14,19.46],"S|1":["story.mp3",20.18,39.27],"S|2":["story.mp3",39.99,58.43],"S|3":["story.mp3",59.15,78.0],"S|4":["story.mp3",78.72,96.71],"S|5":["story.mp3",97.43,112.74],"S|6":["story.mp3",113.46,130.67],"S|7":["story.mp3",131.39,151.12],"S|8":["story.mp3",151.84,167.89],"S|9":["story.mp3",168.61,185.87],"S|10":["story.mp3",186.59,202.98],"S|11":["story.mp3",203.7,221.45],"P|1":["lab.mp3",0.14,9.26],"P|2":["lab.mp3",9.98,18.75],"P|3":["lab.mp3",19.47,46.6],"P|4":["lab.mp3",47.32,57.23],"P|5":["lab.mp3",57.95,66.84],"P|6":["lab.mp3",67.56,73.0],"P|7":["lab.mp3",73.72,81.26],"P|8":["lab.mp3",81.98,90.99],"L|earn|0":["L_earn.mp3",0.14,41.56],"L|earn|1":["L_earn.mp3",42.28,85.48],"L|earn|2":["L_earn.mp3",86.2,126.09],"L|earn|3":["L_earn.mp3",126.81,158.93],"L|earn|4":["L_earn.mp3",159.65,200.24],"L|earn|5":["L_earn.mp3",200.96,237.01],"L|money|0":["L_money.mp3",0.14,31.84],"L|money|1":["L_money.mp3",32.56,60.29],"L|money|2":["L_money.mp3",61.01,92.55],"L|money|3":["L_money.mp3",93.27,120.1],"L|money|4":["L_money.mp3",120.82,152.08],"L|money|5":["L_money.mp3",152.8,181.23],"L|goals|0":["L_goals.mp3",0.14,33.43],"L|goals|1":["L_goals.mp3",34.15,66.44],"L|goals|2":["L_goals.mp3",67.16,97.16],"L|goals|3":["L_goals.mp3",97.88,133.07],"L|goals|4":["L_goals.mp3",133.79,164.14],"L|bank|0":["L_bank.mp3",0.14,38.23],"L|bank|1":["L_bank.mp3",38.95,67.58],"L|bank|2":["L_bank.mp3",68.3,103.55],"L|bank|3":["L_bank.mp3",104.27,136.4],"L|bank|4":["L_bank.mp3",137.12,167.19],"L|spend|0":["L_spend.mp3",0.14,26.36],"L|spend|1":["L_spend.mp3",27.08,60.8],"L|spend|2":["L_spend.mp3",61.52,89.27],"L|spend|3":["L_spend.mp3",89.99,120.66],"L|spend|4":["L_spend.mp3",121.38,151.72],"L|spend|5":["L_spend.mp3",152.44,181.67],"L|spend|6":["L_spend.mp3",182.39,214.89],"L|credit|0":["L_credit.mp3",0.14,30.75],"L|credit|1":["L_credit.mp3",31.47,66.35],"L|credit|2":["L_credit.mp3",67.07,105.59],"L|credit|3":["L_credit.mp3",106.31,137.6],"L|credit|4":["L_credit.mp3",138.32,171.86],"L|credit|5":["L_credit.mp3",172.58,209.01],"L|grow|0":["L_grow.mp3",0.14,43.8],"L|grow|1":["L_grow.mp3",44.52,75.37],"L|grow|2":["L_grow.mp3",76.09,119.15],"L|grow|3":["L_grow.mp3",119.87,158.93],"L|grow|4":["L_grow.mp3",159.65,192.88],"L|market|0":["L_market.mp3",0.14,29.59],"L|market|1":["L_market.mp3",30.31,58.37],"L|market|2":["L_market.mp3",59.09,88.09],"L|market|3":["L_market.mp3",88.81,125.1],"L|market|4":["L_market.mp3",125.82,158.72],"L|market|5":["L_market.mp3",159.44,190.68],"L|future|0":["L_future.mp3",0.14,35.99],"L|future|1":["L_future.mp3",36.71,70.12],"L|future|2":["L_future.mp3",70.84,107.18],"L|future|3":["L_future.mp3",107.9,139.48],"L|future|4":["L_future.mp3",140.2,170.68],"L|future|5":["L_future.mp3",171.4,208.7],"L|future|6":["L_future.mp3",209.42,242.92],"L|eco|0":["L_eco.mp3",0.14,40.12],"L|eco|1":["L_eco.mp3",40.84,76.61],"L|eco|2":["L_eco.mp3",77.33,116.86],"L|eco|3":["L_eco.mp3",117.58,150.56],"L|eco|4":["L_eco.mp3",151.28,180.71],"L|eco|5":["L_eco.mp3",181.43,217.39],"L|stocks|0":["L_stocks.mp3",0.14,31.8],"L|stocks|1":["L_stocks.mp3",32.52,77.29],"L|stocks|2":["L_stocks.mp3",78.01,112.34],"L|stocks|3":["L_stocks.mp3",113.06,154.3],"L|stocks|4":["L_stocks.mp3",155.02,199.82],"L|stocks|5":["L_stocks.mp3",200.54,240.7],"L|candles|0":["L_candles.mp3",0.14,39.42],"L|candles|1":["L_candles.mp3",40.14,69.94],"L|candles|2":["L_candles.mp3",70.66,101.78],"L|candles|3":["L_candles.mp3",102.5,130.87],"L|candles|4":["L_candles.mp3",131.59,177.39],"L|candles|5":["L_candles.mp3",178.11,214.59],"L|volume|0":["L_volume.mp3",0.14,29.39],"L|volume|1":["L_volume.mp3",30.11,57.99],"L|volume|2":["L_volume.mp3",58.71,87.88],"L|volume|3":["L_volume.mp3",88.6,115.75],"L|volume|4":["L_volume.mp3",116.47,147.22],"L|volume|5":["L_volume.mp3",147.94,178.88],"L|charts|0":["L_charts.mp3",0.14,34.91],"L|charts|1":["L_charts.mp3",35.63,63.72],"L|charts|2":["L_charts.mp3",64.44,94.99],"L|charts|3":["L_charts.mp3",95.71,129.96],"L|charts|4":["L_charts.mp3",130.68,163.57],"L|charts|5":["L_charts.mp3",164.29,195.0],"L|riskwise|0":["L_riskwise.mp3",0.14,26.73],"L|riskwise|1":["L_riskwise.mp3",27.45,56.79],"L|riskwise|2":["L_riskwise.mp3",57.51,93.38],"L|riskwise|3":["L_riskwise.mp3",94.1,126.54],"L|riskwise|4":["L_riskwise.mp3",127.26,163.11],"L|riskwise|5":["L_riskwise.mp3",163.83,193.52],"Q|earn|0|0":["Q_earn.mp3",0.14,11.15],"Q|earn|0|1":["Q_earn.mp3",11.87,23.14],"Q|earn|0|2":["Q_earn.mp3",23.86,34.29],"Q|earn|1|0":["Q_earn.mp3",35.01,47.69],"Q|earn|1|1":["Q_earn.mp3",48.41,57.62],"Q|earn|1|2":["Q_earn.mp3",58.34,67.22],"Q|earn|2|0":["Q_earn.mp3",67.94,76.02],"Q|earn|2|1":["Q_earn.mp3",76.74,87.62],"Q|earn|2|2":["Q_earn.mp3",88.34,99.92],"Q|earn|3|0":["Q_earn.mp3",100.64,110.76],"Q|earn|3|1":["Q_earn.mp3",111.48,121.23],"Q|earn|3|2":["Q_earn.mp3",121.95,130.57],"Q|earn|4|0":["Q_earn.mp3",131.29,140.23],"Q|earn|4|1":["Q_earn.mp3",140.95,150.59],"Q|earn|4|2":["Q_earn.mp3",151.31,160.74],"Q|earn|5|0":["Q_earn.mp3",161.46,170.17],"Q|earn|5|1":["Q_earn.mp3",170.89,182.56],"Q|earn|5|2":["Q_earn.mp3",183.28,193.23],"Q|money|0|0":["Q_money.mp3",0.14,7.54],"Q|money|0|1":["Q_money.mp3",8.26,15.83],"Q|money|0|2":["Q_money.mp3",16.55,24.54],"Q|money|1|0":["Q_money.mp3",25.26,33.29],"Q|money|1|1":["Q_money.mp3",34.01,44.76],"Q|money|1|2":["Q_money.mp3",45.48,54.74],"Q|money|2|0":["Q_money.mp3",55.46,66.11],"Q|money|2|1":["Q_money.mp3",66.83,76.39],"Q|money|2|2":["Q_money.mp3",77.11,87.48],"Q|money|3|0":["Q_money.mp3",88.2,98.18],"Q|money|3|1":["Q_money.mp3",98.9,108.29],"Q|money|3|2":["Q_money.mp3",109.01,119.27],"Q|money|4|0":["Q_money.mp3",119.99,129.18],"Q|money|4|1":["Q_money.mp3",129.9,139.54],"Q|money|4|2":["Q_money.mp3",140.26,150.31],"Q|money|5|0":["Q_money.mp3",151.03,160.51],"Q|money|5|1":["Q_money.mp3",161.23,171.79],"Q|money|5|2":["Q_money.mp3",172.51,182.43],"Q|goals|0|0":["Q_goals.mp3",0.14,8.54],"Q|goals|0|1":["Q_goals.mp3",9.26,20.19],"Q|goals|0|2":["Q_goals.mp3",20.91,30.36],"Q|goals|1|0":["Q_goals.mp3",31.08,41.37],"Q|goals|1|1":["Q_goals.mp3",42.09,51.51],"Q|goals|1|2":["Q_goals.mp3",52.23,62.62],"Q|goals|2|0":["Q_goals.mp3",63.34,73.3],"Q|goals|2|1":["Q_goals.mp3",74.02,84.31],"Q|goals|2|2":["Q_goals.mp3",85.03,95.68],"Q|goals|3|0":["Q_goals.mp3",96.4,105.98],"Q|goals|3|1":["Q_goals.mp3",106.7,117.5],"Q|goals|3|2":["Q_goals.mp3",118.22,129.1],"Q|goals|4|0":["Q_goals.mp3",129.82,139.54],"Q|goals|4|1":["Q_goals.mp3",140.26,151.06],"Q|goals|4|2":["Q_goals.mp3",151.78,161.0],"Q|bank|0|0":["Q_bank.mp3",0.14,10.44],"Q|bank|0|1":["Q_bank.mp3",11.16,26.29],"Q|bank|0|2":["Q_bank.mp3",27.01,38.27],"Q|bank|1|0":["Q_bank.mp3",38.99,49.06],"Q|bank|1|1":["Q_bank.mp3",49.78,59.72],"Q|bank|1|2":["Q_bank.mp3",60.44,69.44],"Q|bank|2|0":["Q_bank.mp3",70.16,79.66],"Q|bank|2|1":["Q_bank.mp3",80.38,90.04],"Q|bank|2|2":["Q_bank.mp3",90.76,101.3],"Q|bank|3|0":["Q_bank.mp3",102.02,110.23],"Q|bank|3|1":["Q_bank.mp3",110.95,121.08],"Q|bank|3|2":["Q_bank.mp3",121.8,135.05],"Q|bank|4|0":["Q_bank.mp3",135.77,144.96],"Q|bank|4|1":["Q_bank.mp3",145.68,156.29],"Q|bank|4|2":["Q_bank.mp3",157.01,168.1],"Q|spend|0|0":["Q_spend.mp3",0.14,9.33],"Q|spend|0|1":["Q_spend.mp3",10.05,22.41],"Q|spend|0|2":["Q_spend.mp3",23.13,33.09],"Q|spend|1|0":["Q_spend.mp3",33.81,42.64],"Q|spend|1|1":["Q_spend.mp3",43.36,55.05],"Q|spend|1|2":["Q_spend.mp3",55.77,66.13],"Q|spend|2|0":["Q_spend.mp3",66.85,76.6],"Q|spend|2|1":["Q_spend.mp3",77.32,88.79],"Q|spend|2|2":["Q_spend.mp3",89.51,101.91],"Q|spend|3|0":["Q_spend.mp3",102.63,113.46],"Q|spend|3|1":["Q_spend.mp3",114.18,123.61],"Q|spend|3|2":["Q_spend.mp3",124.33,135.83],"Q|spend|4|0":["Q_spend.mp3",136.55,146.21],"Q|spend|4|1":["Q_spend.mp3",146.93,157.83],"Q|spend|4|2":["Q_spend.mp3",158.55,167.79],"Q|spend|5|0":["Q_spend.mp3",168.51,178.15],"Q|spend|5|1":["Q_spend.mp3",178.87,188.32],"Q|spend|5|2":["Q_spend.mp3",189.04,197.68],"Q|spend|6|0":["Q_spend.mp3",198.4,210.18],"Q|spend|6|1":["Q_spend.mp3",210.9,219.75],"Q|spend|6|2":["Q_spend.mp3",220.47,231.18],"Q|credit|0|0":["Q_credit.mp3",0.14,8.82],"Q|credit|0|1":["Q_credit.mp3",9.54,19.19],"Q|credit|0|2":["Q_credit.mp3",19.91,29.3],"Q|credit|1|0":["Q_credit.mp3",30.02,39.62],"Q|credit|1|1":["Q_credit.mp3",40.34,54.13],"Q|credit|1|2":["Q_credit.mp3",54.85,65.61],"Q|credit|2|0":["Q_credit.mp3",66.33,77.53],"Q|credit|2|1":["Q_credit.mp3",78.25,88.17],"Q|credit|2|2":["Q_credit.mp3",88.89,100.46],"Q|credit|3|0":["Q_credit.mp3",101.18,110.23],"Q|credit|3|1":["Q_credit.mp3",110.95,123.2],"Q|credit|3|2":["Q_credit.mp3",123.92,134.26],"Q|credit|4|0":["Q_credit.mp3",134.98,145.37],"Q|credit|4|1":["Q_credit.mp3",146.09,152.62],"Q|credit|4|2":["Q_credit.mp3",153.34,162.86],"Q|credit|5|0":["Q_credit.mp3",163.58,177.7],"Q|credit|5|1":["Q_credit.mp3",178.42,189.77],"Q|credit|5|2":["Q_credit.mp3",190.49,201.69],"Q|grow|0|0":["Q_grow.mp3",0.14,10.42],"Q|grow|0|1":["Q_grow.mp3",11.14,22.3],"Q|grow|0|2":["Q_grow.mp3",23.02,32.34],"Q|grow|1|0":["Q_grow.mp3",33.06,42.77],"Q|grow|1|1":["Q_grow.mp3",43.49,52.98],"Q|grow|1|2":["Q_grow.mp3",53.7,62.47],"Q|grow|2|0":["Q_grow.mp3",63.19,74.22],"Q|grow|2|1":["Q_grow.mp3",74.94,86.88],"Q|grow|2|2":["Q_grow.mp3",87.6,99.48],"Q|grow|3|0":["Q_grow.mp3",100.2,110.25],"Q|grow|3|1":["Q_grow.mp3",110.97,122.13],"Q|grow|3|2":["Q_grow.mp3",122.85,132.22],"Q|grow|4|0":["Q_grow.mp3",132.94,143.16],"Q|grow|4|1":["Q_grow.mp3",143.88,153.5],"Q|grow|4|2":["Q_grow.mp3",154.22,163.92],"Q|market|0|0":["Q_market.mp3",0.14,10.44],"Q|market|0|1":["Q_market.mp3",11.16,19.74],"Q|market|0|2":["Q_market.mp3",20.46,31.76],"Q|market|1|0":["Q_market.mp3",32.48,41.93],"Q|market|1|1":["Q_market.mp3",42.65,52.94],"Q|market|1|2":["Q_market.mp3",53.66,65.99],"Q|market|2|0":["Q_market.mp3",66.71,75.88],"Q|market|2|1":["Q_market.mp3",76.6,86.78],"Q|market|2|2":["Q_market.mp3",87.5,97.48],"Q|market|3|0":["Q_market.mp3",98.2,108.08],"Q|market|3|1":["Q_market.mp3",108.8,118.76],"Q|market|3|2":["Q_market.mp3",119.48,132.71],"Q|market|4|0":["Q_market.mp3",133.43,143.8],"Q|market|4|1":["Q_market.mp3",144.52,155.05],"Q|market|4|2":["Q_market.mp3",155.77,169.73],"Q|market|5|0":["Q_market.mp3",170.45,182.16],"Q|market|5|1":["Q_market.mp3",182.88,192.12],"Q|market|5|2":["Q_market.mp3",192.84,204.2],"Q|future|0|0":["Q_future.mp3",0.14,9.63],"Q|future|0|1":["Q_future.mp3",10.35,19.63],"Q|future|0|2":["Q_future.mp3",20.35,33.48],"Q|future|1|0":["Q_future.mp3",34.2,44.1],"Q|future|1|1":["Q_future.mp3",44.82,53.53],"Q|future|1|2":["Q_future.mp3",54.25,62.93],"Q|future|2|0":["Q_future.mp3",63.65,72.95],"Q|future|2|1":["Q_future.mp3",73.67,83.5],"Q|future|2|2":["Q_future.mp3",84.22,94.27],"Q|future|3|0":["Q_future.mp3",94.99,104.67],"Q|future|3|1":["Q_future.mp3",105.39,115.12],"Q|future|3|2":["Q_future.mp3",115.84,125.21],"Q|future|4|0":["Q_future.mp3",125.93,137.08],"Q|future|4|1":["Q_future.mp3",137.8,147.53],"Q|future|4|2":["Q_future.mp3",148.25,157.25],"Q|future|5|0":["Q_future.mp3",157.97,168.49],"Q|future|5|1":["Q_future.mp3",169.21,179.75],"Q|future|5|2":["Q_future.mp3",180.47,191.86],"Q|future|6|0":["Q_future.mp3",192.58,203.5],"Q|future|6|1":["Q_future.mp3",204.22,213.48],"Q|future|6|2":["Q_future.mp3",214.2,224.37],"Q|eco|0|0":["Q_eco.mp3",0.14,11.08],"Q|eco|0|1":["Q_eco.mp3",11.8,23.49],"Q|eco|0|2":["Q_eco.mp3",24.21,34.62],"Q|eco|1|0":["Q_eco.mp3",35.34,47.05],"Q|eco|1|1":["Q_eco.mp3",47.77,56.83],"Q|eco|1|2":["Q_eco.mp3",57.55,69.0],"Q|eco|2|0":["Q_eco.mp3",69.72,79.66],"Q|eco|2|1":["Q_eco.mp3",80.38,90.05],"Q|eco|2|2":["Q_eco.mp3",90.77,102.33],"Q|eco|3|0":["Q_eco.mp3",103.05,113.25],"Q|eco|3|1":["Q_eco.mp3",113.97,122.97],"Q|eco|3|2":["Q_eco.mp3",123.69,134.17],"Q|eco|4|0":["Q_eco.mp3",134.89,144.17],"Q|eco|4|1":["Q_eco.mp3",144.89,153.85],"Q|eco|4|2":["Q_eco.mp3",154.57,163.91],"Q|eco|5|0":["Q_eco.mp3",164.63,175.27],"Q|eco|5|1":["Q_eco.mp3",175.99,186.08],"Q|eco|5|2":["Q_eco.mp3",186.8,198.39],"Q|stocks|0|0":["Q_stocks.mp3",0.14,8.97],"Q|stocks|0|1":["Q_stocks.mp3",9.69,18.95],"Q|stocks|0|2":["Q_stocks.mp3",19.67,31.19],"Q|stocks|1|0":["Q_stocks.mp3",31.91,40.53],"Q|stocks|1|1":["Q_stocks.mp3",41.25,49.37],"Q|stocks|1|2":["Q_stocks.mp3",50.09,64.11],"Q|stocks|2|0":["Q_stocks.mp3",64.83,74.38],"Q|stocks|2|1":["Q_stocks.mp3",75.1,85.11],"Q|stocks|2|2":["Q_stocks.mp3",85.83,94.02],"Q|stocks|3|0":["Q_stocks.mp3",94.74,107.27],"Q|stocks|3|1":["Q_stocks.mp3",107.99,118.66],"Q|stocks|3|2":["Q_stocks.mp3",119.38,128.51],"Q|stocks|4|0":["Q_stocks.mp3",129.23,137.74],"Q|stocks|4|1":["Q_stocks.mp3",138.46,148.51],"Q|stocks|4|2":["Q_stocks.mp3",149.23,158.98],"Q|stocks|5|0":["Q_stocks.mp3",159.7,169.66],"Q|stocks|5|1":["Q_stocks.mp3",170.38,179.53],"Q|stocks|5|2":["Q_stocks.mp3",180.25,190.0],"Q|candles|0|0":["Q_candles.mp3",0.14,8.97],"Q|candles|0|1":["Q_candles.mp3",9.69,18.42],"Q|candles|0|2":["Q_candles.mp3",19.14,32.26],"Q|candles|1|0":["Q_candles.mp3",32.98,43.62],"Q|candles|1|1":["Q_candles.mp3",44.34,52.72],"Q|candles|1|2":["Q_candles.mp3",53.44,61.85],"Q|candles|2|0":["Q_candles.mp3",62.57,71.85],"Q|candles|2|1":["Q_candles.mp3",72.57,82.79],"Q|candles|2|2":["Q_candles.mp3",83.51,94.43],"Q|candles|3|0":["Q_candles.mp3",95.15,106.62],"Q|candles|3|1":["Q_candles.mp3",107.34,116.56],"Q|candles|3|2":["Q_candles.mp3",117.28,128.78],"Q|candles|4|0":["Q_candles.mp3",129.5,138.87],"Q|candles|4|1":["Q_candles.mp3",139.59,148.48],"Q|candles|4|2":["Q_candles.mp3",149.2,157.97],"Q|candles|5|0":["Q_candles.mp3",158.69,167.59],"Q|candles|5|1":["Q_candles.mp3",168.31,177.9],"Q|candles|5|2":["Q_candles.mp3",178.62,188.52],"Q|volume|0|0":["Q_volume.mp3",0.14,9.01],"Q|volume|0|1":["Q_volume.mp3",9.73,22.87],"Q|volume|0|2":["Q_volume.mp3",23.59,32.33],"Q|volume|1|0":["Q_volume.mp3",33.05,42.69],"Q|volume|1|1":["Q_volume.mp3",43.41,53.21],"Q|volume|1|2":["Q_volume.mp3",53.93,63.06],"Q|volume|2|0":["Q_volume.mp3",63.78,74.21],"Q|volume|2|1":["Q_volume.mp3",74.93,83.1],"Q|volume|2|2":["Q_volume.mp3",83.82,95.51],"Q|volume|3|0":["Q_volume.mp3",96.23,104.62],"Q|volume|3|1":["Q_volume.mp3",105.34,113.72],"Q|volume|3|2":["Q_volume.mp3",114.44,123.59],"Q|volume|4|0":["Q_volume.mp3",124.31,132.55],"Q|volume|4|1":["Q_volume.mp3",133.27,141.73],"Q|volume|4|2":["Q_volume.mp3",142.45,151.48],"Q|volume|5|0":["Q_volume.mp3",152.2,161.55],"Q|volume|5|1":["Q_volume.mp3",162.27,171.8],"Q|volume|5|2":["Q_volume.mp3",172.52,181.29],"Q|charts|0|0":["Q_charts.mp3",0.14,9.76],"Q|charts|0|1":["Q_charts.mp3",10.48,19.29],"Q|charts|0|2":["Q_charts.mp3",20.01,32.06],"Q|charts|1|0":["Q_charts.mp3",32.78,42.55],"Q|charts|1|1":["Q_charts.mp3",43.27,52.45],"Q|charts|1|2":["Q_charts.mp3",53.17,62.58],"Q|charts|2|0":["Q_charts.mp3",63.3,72.45],"Q|charts|2|1":["Q_charts.mp3",73.17,84.29],"Q|charts|2|2":["Q_charts.mp3",85.01,95.06],"Q|charts|3|0":["Q_charts.mp3",95.78,104.21],"Q|charts|3|1":["Q_charts.mp3",104.93,114.01],"Q|charts|3|2":["Q_charts.mp3",114.73,127.56],"Q|charts|4|0":["Q_charts.mp3",128.28,137.45],"Q|charts|4|1":["Q_charts.mp3",138.17,147.75],"Q|charts|4|2":["Q_charts.mp3",148.47,158.18],"Q|charts|5|0":["Q_charts.mp3",158.9,169.69],"Q|charts|5|1":["Q_charts.mp3",170.41,178.92],"Q|charts|5|2":["Q_charts.mp3",179.64,193.07],"Q|riskwise|0|0":["Q_riskwise.mp3",0.14,9.21],"Q|riskwise|0|1":["Q_riskwise.mp3",9.93,19.14],"Q|riskwise|0|2":["Q_riskwise.mp3",19.86,29.59],"Q|riskwise|1|0":["Q_riskwise.mp3",30.31,39.84],"Q|riskwise|1|1":["Q_riskwise.mp3",40.56,51.96],"Q|riskwise|1|2":["Q_riskwise.mp3",52.68,63.28],"Q|riskwise|2|0":["Q_riskwise.mp3",64.0,73.52],"Q|riskwise|2|1":["Q_riskwise.mp3",74.24,84.23],"Q|riskwise|2|2":["Q_riskwise.mp3",84.95,93.54],"Q|riskwise|3|0":["Q_riskwise.mp3",94.26,103.46],"Q|riskwise|3|1":["Q_riskwise.mp3",104.18,112.75],"Q|riskwise|3|2":["Q_riskwise.mp3",113.47,123.41],"Q|riskwise|4|0":["Q_riskwise.mp3",124.13,132.69],"Q|riskwise|4|1":["Q_riskwise.mp3",133.41,143.68],"Q|riskwise|4|2":["Q_riskwise.mp3",144.4,154.4],"Q|riskwise|5|0":["Q_riskwise.mp3",155.12,164.4],"Q|riskwise|5|1":["Q_riskwise.mp3",165.12,174.95],"Q|riskwise|5|2":["Q_riskwise.mp3",175.67,186.34]};
 const AUDIO_VER=1790801571;
-const VOICE_CACHE={};let VO=null;
-function duck(on){try{if(MUSIC.master&&AC)MUSIC.master.gain.setTargetAtTime(on?.06:(THEMES[ST.theme||'hype']||THEMES.hype).master,AC.currentTime,.15);}catch(e){}}
+let VO=null;
+// One shared player. iPhones and iPads only allow sound that starts from a tap, so the first tap anywhere
+// "unlocks" this player, and every recorded clip after that plays through it (even auto-read questions).
+const VOICE_EL=new Audio();VOICE_EL.preload='auto';VOICE_EL.setAttribute('playsinline','');
+const SILENT_MP3='data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjYwLjE2LjEwMAAAAAAAAAAAAAAA//OEwAAAAAAAAAAAAEluZm8AAAAPAAAACQAABCAARUVFRUVFRUVFRUVdXV1dXV1dXV1dXXR0dHR0dHR0dHR0i4uLi4uLi4uLi4uioqKioqKioqKiorq6urq6urq6urq60dHR0dHR0dHR0dHo6Ojo6Ojo6Ojo6P//////////////AAAAAExhdmM2MC4zMQAAAAAAAAAAAAAAACQD8AAAAAAAAAQgDeb0IwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//NExAAAAANIAAAAAExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExFMAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExKYAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExKwAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExKwAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExKwAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMu//NExKwAAANIAAAAADEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NExKwAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//NExKwAAANIAAAAAFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV';
+let voiceUrl='',voiceUnlocked=false,voiceWarned=false;
+document.addEventListener('pointerdown',()=>{if(voiceUnlocked)return;voiceUnlocked=true;
+  try{VOICE_EL.src=SILENT_MP3;voiceUrl='';const p=VOICE_EL.play();if(p)p.then(()=>{if(!voiceUrl)VOICE_EL.pause();}).catch(()=>{voiceUnlocked=false;});}catch(e){voiceUnlocked=false;}},{capture:true,passive:true});
+function duck(on){try{if(MUSIC.master&&AC&&MUSIC.on)MUSIC.master.gain.setTargetAtTime(on?.06:(THEMES[ST.theme||'hype']||THEMES.hype).master,AC.currentTime,.15);}catch(e){}}
+function voiceFail(fallback){if(!voiceWarned){voiceWarned=true;toast('🔇 Couldn\'t find the recorded voices, so your device voice is reading instead.');}speak(fallback);}
 function playVoice(key,fallback){
   const m=AUDIO_MAP[key];stopSpeak();
   if(!m||ST.deviceVoice){speak(fallback);return;}
-  let a=VOICE_CACHE[m[0]];
-  if(!a){a=VOICE_CACHE[m[0]]=new Audio();a.preload='auto';a.src='audio/'+m[0]+'?v='+(typeof AUDIO_VER!=='undefined'?AUDIO_VER:1);}
-  VO=a;a._end=m[1+1];a._fallback=fallback;
-  a.onerror=()=>{VOICE_CACHE[m[0]]=null;speak(fallback);};
+  const a=VOICE_EL,url='audio/'+m[0]+'?v='+(typeof AUDIO_VER!=='undefined'?AUDIO_VER:1);VO=a;
+  a._start=m[1];a._end=m[2];a._key=key;a._fb=fallback;
+  if(voiceUrl!==url){voiceUrl=url;a.src=url;}
+  a.muted=true;  // stay silent until we've jumped to the right spot in the file
+  const unmute=()=>{if(a._key===key&&a.currentTime>=m[1]-.3&&a.currentTime<m[2]){a.muted=false;duck(true);}};
+  const seek=()=>{try{a.currentTime=m[1];}catch(e){}setTimeout(unmute,350);};
+  a.onseeked=unmute;
+  a.onerror=()=>{if(a._key===key)voiceFail(fallback);};
   a.ontimeupdate=()=>{if(a.currentTime>=a._end){a.pause();duck(false);}};
-  const go=()=>{try{a.currentTime=m[1];}catch(e){}a.play().then(()=>duck(true)).catch(()=>speak(fallback));};
-  if(a.readyState>=1)go();else a.addEventListener('loadedmetadata',go,{once:true});
+  const p=a.play();                                   // called right inside the tap, so iPhones allow it
+  if(a.readyState>=1)seek();else a.addEventListener('loadedmetadata',seek,{once:true});
+  if(p)p.catch(()=>{if(a._key===key&&a.error)voiceFail(fallback);else if(a._key===key)speak(fallback);});
 }
-function stopSpeak(){try{window.speechSynthesis&&speechSynthesis.cancel();}catch(e){}try{if(VO){VO.pause();duck(false);}}catch(e){}}
+function stopSpeak(){try{window.speechSynthesis&&speechSynthesis.cancel();}catch(e){}try{if(VO){VO.pause();VO._key=null;duck(false);}}catch(e){}}
 function buzz(p){if(ST.noHaptics)return;try{navigator.vibrate&&navigator.vibrate(p);}catch(e){}}
 function readLesson(){const {worldId,lessonName,idx}=curLesson,d=(LESSON_DATA[worldId]||{})[lessonName]||{};
   playVoice(`L|${worldId}|${idx}`,`${lessonName}. ${(d.concepts||[]).join('. ')}. Did you know? ${d.fact||''}`);}
@@ -3606,7 +3787,7 @@ function openSettings(){
   const th=ST.musicOff?'off':(ST.theme||'hype'),opt=(k,e,n,d)=>`<button class="wl-row${th===k?' sel':''}" onclick="pickTheme('${k}')" aria-pressed="${th===k}"><span class="em">${e}</span><div style="flex:1"><div style="font-weight:900">${n}</div><div style="font-size:11px;color:var(--text2)">${d}</div></div>${th===k?'<b style="color:var(--gold)">✓</b>':''}</button>`;
   gmShow(`<div class="meta" style="color:var(--gold)">Sound & senses</div><div style="text-align:left">
     <div style="font-size:12px;font-weight:800;margin:6px 0 2px">Music mood</div>
-    ${opt('hype','🎮','Hype','Upbeat game music for energy')}${opt('chill','🌙','Chill','Lo-fi beats for relaxed learning')}${opt('focus','🧠','Focus','Soft, dreamy music for thinking hard')}${opt('off','🔇','Music off','Quiet time')}
+    ${opt('hype','🎮','Hype','Upbeat game music for energy')}${opt('chill','🌙','Chill','Lo-fi beats for relaxed learning')}${opt('focus','🧠','Focus','Soft, dreamy music for thinking hard')}${opt('off','🔇','Music off','Quiet time. Reading voices and sound effects still work')}
     <div style="font-size:12px;font-weight:800;margin:12px 0 4px">More senses</div>
     ${tgl('Sound effects','sfx',!ST.muted)}${tgl('Vibration on taps (phones that support it)','hap',!ST.noHaptics)}${tgl('Read quiz questions aloud automatically','auto',!!ST.autoRead)}
     <div style="font-size:12px;font-weight:800;margin:12px 0 2px">Reading voice (tap to hear it)</div>
