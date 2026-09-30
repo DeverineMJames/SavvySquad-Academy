@@ -19,6 +19,7 @@
   --green:#5ECC6A;--green-d:#0d2e10;
   --pink:#F06EB0;--pink-d:#3d0025;
   --amber:#FFB830;--amber-d:#3d2a00;
+  --cyan:#3DD6E0;--cyan-d:#00303a;
 }
 html,body{height:100%;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--text);overflow:hidden}
 .shell{max-width:430px;margin:0 auto;height:100%;display:flex;flex-direction:column;position:relative;background:var(--bg);overflow:hidden}
@@ -196,6 +197,42 @@ html,body{height:100%;background:var(--bg);font-family:-apple-system,BlinkMacSys
 .w-risk{background:linear-gradient(135deg,#1a0d0d,#1a1a0d);border-color:rgba(255,112,85,.25)}
 .w-prop{background:linear-gradient(135deg,#0d0d1a,#1a0d1a);border-color:rgba(94,204,106,.25)}
 .w-eco{background:linear-gradient(135deg,#0d2e1a,#2e2e0d);border-color:rgba(75,163,245,.25)}
+.w-earn{background:linear-gradient(135deg,#2e240a,#0d1a2e);border-color:rgba(245,200,66,.3)}
+.w-bank{background:linear-gradient(135deg,#0a1a33,#0d2626);border-color:rgba(75,163,245,.28)}
+.w-spend{background:linear-gradient(135deg,#2e0d22,#1a0d2e);border-color:rgba(240,110,176,.28)}
+.w-grow{background:linear-gradient(135deg,#0d2e12,#0d1f2d);border-color:rgba(94,204,106,.28)}
+.w-future{background:linear-gradient(135deg,#2e1f0a,#1a0d2e);border-color:rgba(255,184,48,.28)}
+.hub-sec{grid-column:1/-1;margin:6px 2px 0}
+.hub-sec h3{font-size:15px;font-weight:900;color:var(--text);letter-spacing:-.2px}
+.hub-sec p{font-size:11px;color:var(--text2);font-weight:500;margin-top:2px;line-height:1.5}
+.w-credit{background:linear-gradient(135deg,#0a2530,#1a1030);border-color:rgba(61,214,224,.28)}
+
+/* ─── LESSON ACTIVITIES (Credit Cove) ─── */
+.act-title{font-size:13px;font-weight:800;color:var(--text);line-height:1.45;margin-bottom:2px}
+.act-hint{font-size:11px;color:var(--text2);line-height:1.5;font-weight:500}
+.act-row{margin-top:11px;padding-top:11px;border-top:1px solid var(--border)}
+.act-p{font-size:12.5px;font-weight:600;color:var(--text);line-height:1.5;margin-bottom:8px}
+.act-opts{display:flex;gap:6px;flex-wrap:wrap}
+.act-btn{flex:1;min-width:72px;padding:10px 8px;border-radius:var(--r);border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:background .15s}
+.act-btn:hover:not(:disabled){background:var(--bg3)}
+.act-btn:focus-visible,.act-range:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.act-btn.ok{background:rgba(0,200,150,.15);border-color:rgba(0,200,150,.5);color:#00ffaa}
+.act-btn.no{background:rgba(255,112,85,.12);border-color:rgba(255,112,85,.4);color:#ff9988}
+.act-btn.pick{background:rgba(61,214,224,.14);border-color:rgba(61,214,224,.55);color:var(--cyan)}
+.act-btn.block{display:block;width:100%;text-align:left;margin-bottom:7px;padding:12px 13px}
+.act-fb{display:none;font-size:11.5px;line-height:1.55;font-weight:500;margin-top:8px;padding:8px 10px;border-radius:var(--r)}
+.act-fb.good{display:block;background:rgba(0,200,150,.1);color:#9ff5d8;border-left:3px solid var(--teal)}
+.act-fb.bad{display:block;background:rgba(255,112,85,.09);color:#ffc2b5;border-left:3px solid var(--coral)}
+.act-fb.info{display:block;background:rgba(61,214,224,.08);color:#b8f3f7;border-left:3px solid var(--cyan)}
+.act-range{width:100%;accent-color:var(--cyan);margin:12px 0 4px;height:28px}
+.act-meter{height:14px;border-radius:7px;background:rgba(255,255,255,.07);overflow:hidden;margin-top:8px}
+.act-meter-fill{height:100%;border-radius:7px;transition:width .15s,background .15s}
+.act-nums{display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-top:6px;color:var(--text2)}
+.act-big{font-size:22px;font-weight:900;letter-spacing:-.5px;color:var(--text);margin-top:10px;text-align:center}
+.act-small{font-size:10.5px;color:var(--text3);line-height:1.5;margin-top:8px;font-weight:500}
+.act-reward{display:none;margin-top:12px;text-align:center;font-size:12px;font-weight:800;color:var(--gold);padding:9px;border-radius:var(--r);background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.25)}
+.act-reward.on{display:block}
+@media (prefers-reduced-motion:reduce){.act-meter-fill,.act-btn{transition:none}}
 
 /* ─── LEVEL BADGE ─── */
 .lvl-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800}
@@ -271,14 +308,14 @@ html,body{height:100%;background:var(--bg);font-family:-apple-system,BlinkMacSys
     <button class="tab on" id="t-hub" onclick="go('hub')">
       <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M8 2v6l3 3"/></svg>Worlds
     </button>
-    <button class="tab" id="t-trade" onclick="go('trade')">
-      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><path d="M1 12l4-4 3 3 4-5 3-3"/></svg>Trade
-    </button>
     <button class="tab" id="t-cards" onclick="go('cards')">
       <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><rect x="1" y="3" width="14" height="10" rx="1.5"/><path d="M1 7h14"/></svg>Flashcards
     </button>
     <button class="tab" id="t-port" onclick="go('port')">
       <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><rect x="1" y="5" width="14" height="10" rx="1.5"/><path d="M5 5V4a3 3 0 016 0v1"/></svg>Portfolio
+    </button>
+    <button class="tab" id="t-trade" onclick="go('trade')">
+      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><path d="M1 12l4-4 3 3 4-5 3-3"/></svg>Trade
     </button>
     <button class="tab" id="t-ranks" onclick="go('ranks')">
       <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 16 16"><path d="M8 1l1.5 4h4l-3.3 2.4 1.3 4L8 9l-3.5 2.4 1.3-4L2.5 5h4z"/></svg>Ranks
@@ -492,37 +529,364 @@ const SCRIPTURES=[
   {verse:"Before you build a tower, sit down and count the cost.",ref:"Luke 14:28",world:"risk"},
   {verse:"My God will meet all your needs according to the riches of his glory in Christ Jesus.",ref:"Philippians 4:19",world:"all"},
   {verse:"Seek first his kingdom and his righteousness, and all these things will be given to you.",ref:"Matthew 6:33",world:"all"},
-  {verse:"The beginning of wisdom is this: Get wisdom — though it cost all you have.",ref:"Proverbs 4:7",world:"cards"}
+  {verse:"The beginning of wisdom is this: Get wisdom — though it cost all you have.",ref:"Proverbs 4:7",world:"cards"},
+  {verse:"The wicked borrow and do not repay, but the righteous give generously.",ref:"Psalm 37:21",world:"credit"},
+  {verse:"All hard work brings a profit, but mere talk leads only to poverty.",ref:"Proverbs 14:23",world:"earn"},
+  {verse:"The wise store up choice food and olive oil, but fools gulp theirs down.",ref:"Proverbs 21:20",world:"bank"},
+  {verse:"The simple believe anything, but the prudent give thought to their steps.",ref:"Proverbs 14:15",world:"spend"},
+  {verse:"Go to the ant, you sluggard; consider its ways and be wise!",ref:"Proverbs 6:6",world:"grow"},
+  {verse:"For I know the plans I have for you, declares the LORD, plans to prosper you and not to harm you, plans to give you hope and a future.",ref:"Jeremiah 29:11",world:"future"}
 ];
 
 const WORLDS=[
-  {id:"money",name:"Money Mountain",icon:"🏔️",em:"🏔️",theme:"w-money",color:"var(--teal)",verse:6,minAge:5,
-   desc:"Budgeting, saving, cash flow, compound interest",
-   lessons:["Needs vs. Wants","Budget Basics","Compound Interest","Cash Flow","Assets vs. Liabilities","Net Worth"]},
-  {id:"market",name:"Market City",icon:"🏙️",em:"🏙️",theme:"w-market",color:"var(--purple)",verse:3,minAge:5,
+  // ── MONEY FOUNDATIONS (in learning order) ──
+  {id:"earn",name:"Earning Island",icon:"🏝️",em:"🏝️",theme:"w-earn",color:"var(--gold)",verse:16,minAge:5,tier:"core",
+   desc:"Where money comes from, jobs, pay, and being the boss",
+   lessons:["Where Money Comes From","Jobs & How Pay Works","Kid Money Makers","Be the Boss","Skills Pay the Bills","Multiple Streams of Income"]},
+  {id:"money",name:"Money Mountain",icon:"🏔️",em:"🏔️",theme:"w-money",color:"var(--teal)",verse:6,minAge:5,tier:"core",
+   desc:"Budgeting, saving goals, cash flow, net worth",
+   lessons:["Needs vs. Wants","Budget Basics","Saving for a Goal","Cash Flow","Assets vs. Liabilities","Net Worth"]},
+  {id:"bank",name:"Bank Bay",icon:"🏛️",em:"🏛️",theme:"w-bank",color:"var(--blue)",verse:17,minAge:8,tier:"core",
+   desc:"How banks work, accounts, debit, and digital money",
+   lessons:["How Banks Work","Checking vs. Savings","Debit Cards & Money Apps","Earning Interest","Choosing a Bank"]},
+  {id:"spend",name:"Smart Spender Street",icon:"🛍️",em:"🛍️",theme:"w-spend",color:"var(--pink)",verse:18,minAge:8,tier:"core",
+   desc:"Opportunity cost, ads, deals, scams, and giving",
+   lessons:["Opportunity Cost","Ads & Influencers","Comparison Shopping","In-Game Purchases","Spotting Scams","Giving & Generosity"]},
+  {id:"credit",name:"Credit Cove",icon:"💳",em:"💳",theme:"w-credit",color:"var(--cyan)",verse:15,minAge:8,tier:"core",
+   desc:"Borrowing, credit cards, credit scores, interest",
+   lessons:["What Is Credit?","Credit Cards & Limits","Your Credit Score","The Sneaky Part: Interest","Healthy vs. Risky Habits","Maya's First Credit Card"]},
+  {id:"grow",name:"Growth Garden",icon:"🌱",em:"🌱",theme:"w-grow",color:"var(--green)",verse:19,minAge:8,tier:"core",
+   desc:"Compound interest, stocks, index funds, investing",
+   lessons:["Compound Interest","What Is a Stock?","Diversification & Index Funds","Risk & Reward","Investing vs. Trading"]},
+  {id:"market",name:"Market City",icon:"🏙️",em:"🏙️",theme:"w-market",color:"var(--purple)",verse:3,minAge:5,tier:"core",
    desc:"Supply & demand, prices, economics",
    lessons:["Supply & Demand","How Prices Work","Scarcity","Inflation & Deflation","Interest Rates","The Business Cycle"]},
-  {id:"chart",name:"Chart Kingdom",icon:"📊",em:"📊",theme:"w-chart",color:"var(--blue)",verse:4,minAge:8,
+  {id:"future",name:"Future You",icon:"🚀",em:"🚀",theme:"w-future",color:"var(--amber)",verse:20,minAge:8,tier:"core",
+   desc:"Paychecks, taxes, college, insurance, your first place",
+   lessons:["Your First Paycheck","What Taxes Pay For","College, Trade School & More","Insurance: Protecting What You Have","Your First Place","Building Wealth for Life"]},
+  {id:"eco",name:"Economy World",icon:"🌍",em:"🌍",theme:"w-eco",color:"var(--blue)",verse:3,minAge:12,tier:"core",
+   desc:"Macro economics, Fed, GDP, seasonality",
+   lessons:["GDP & Growth","Federal Reserve","Inflation","Unemployment","Seasonality in Markets","Economic Cycles"]},
+  // ── TRADING ACADEMY (advanced, the very last step) ──
+  {id:"chart",name:"Chart Kingdom",icon:"📊",em:"📊",theme:"w-chart",color:"var(--blue)",verse:4,minAge:13,tier:"adv",
    desc:"Candlesticks, patterns, technical analysis",
    lessons:["Candlestick Basics","Chart Patterns","Trend Lines","Support & Resistance","Moving Averages","Market Structure"]},
-  {id:"trade",name:"Trading Floor",icon:"⚡",em:"⚡",theme:"w-trade",color:"var(--amber)",verse:9,minAge:10,
-   desc:"ICT killzones, price action, entries",
-   lessons:["Buy Low Sell High","ICT Killzones","Liquidity Grabs","FVGs & Imbalances","The Strat","Timeframe Analysis"]},
-  {id:"vpa",name:"VPA Vault",icon:"🔮",em:"🔮",theme:"w-vpa",color:"var(--pink)",verse:1,minAge:13,
-   desc:"Volume Price Analysis — Anna Couling method",
-   lessons:["Volume is the Fuel","Wyckoff 4 Phases","Accumulation","Distribution","Stopping Volume","Effort vs. Result"]},
-  {id:"risk",name:"Risk Castle",icon:"🛡️",em:"🛡️",theme:"w-risk",color:"var(--coral)",verse:7,minAge:10,
+  {id:"risk",name:"Risk Castle",icon:"🛡️",em:"🛡️",theme:"w-risk",color:"var(--coral)",verse:7,minAge:13,tier:"adv",
    desc:"Risk management, position sizing, discipline",
    lessons:["Risk vs. Reward","The 1% Rule","Stop Losses","Position Sizing","Trading Psychology","Drawdown Management"]},
-  {id:"prop",name:"Prop Firm HQ",icon:"🏦",em:"🏦",theme:"w-prop",color:"var(--green)",verse:5,minAge:16,
+  {id:"trade",name:"Trading Floor",icon:"⚡",em:"⚡",theme:"w-trade",color:"var(--amber)",verse:9,minAge:13,tier:"adv",
+   desc:"ICT killzones, price action, entries",
+   lessons:["Buy Low Sell High","ICT Killzones","Liquidity Grabs","FVGs & Imbalances","The Strat","Timeframe Analysis"]},
+  {id:"vpa",name:"VPA Vault",icon:"🔮",em:"🔮",theme:"w-vpa",color:"var(--pink)",verse:1,minAge:13,tier:"adv",
+   desc:"Volume Price Analysis — Anna Couling method",
+   lessons:["Volume is the Fuel","Wyckoff 4 Phases","Accumulation","Distribution","Stopping Volume","Effort vs. Result"]},
+  {id:"prop",name:"Prop Firm HQ",icon:"🏦",em:"🏦",theme:"w-prop",color:"var(--green)",verse:5,minAge:16,tier:"adv",
    desc:"Funded trading, prop firms, margin",
-   lessons:["What is a Prop Firm?","Evaluation Stages","Funded Account Rules","Margin Explained","Profit Splits","FTMO vs Apex vs Tradeify"]},
-  {id:"eco",name:"Economy World",icon:"🌍",em:"🌍",theme:"w-eco",color:"var(--blue)",verse:3,minAge:12,
-   desc:"Macro economics, Fed, GDP, seasonality",
-   lessons:["GDP & Growth","Federal Reserve","Inflation","Unemployment","Seasonality in Markets","Economic Cycles"]}
+   lessons:["What is a Prop Firm?","Evaluation Stages","Funded Account Rules","Margin Explained","Profit Splits","FTMO vs Apex vs Tradeify"]}
 ];
 
 const LESSON_DATA={
+  earn:{
+    "Where Money Comes From":{xp:30,
+      concepts:["Money doesn't appear by magic. People earn it by giving VALUE: their time, a product, a skill, or an idea","There are 4 main ways to earn: ① work a job (trade your time for pay), ② sell a product or service (run a business), ③ let money make money (saving and investing), ④ own something people pay to use (like renting out a home, or royalties from a song or book)","Many financially strong adults earn in more than one of these ways. You can start learning all four right now"],
+      fact:"When a songwriter's song is streamed or played on the radio, the songwriter can earn money called royalties. The song keeps earning long after the work of writing it is done.",
+      talk:"Which of the 4 ways does someone in your family earn money? Ask them about it!",
+      activity:{type:"rows",title:"Which way is it?",hint:"Match each person to the way they earn.",opts:["Job","Business","Money grows","Owning"],rows:[
+        {p:"A nurse gets paid for every hour she works at the hospital",a:0,why:"She trades her time for pay. That's a job."},
+        {p:"A teen bakes cookies and sells them at the farmers market",a:1,why:"Selling a product you make is running a business."},
+        {p:"Money in a savings account earns interest every month",a:2,why:"That's money making money!"},
+        {p:"A family rents out their basement apartment",a:3,why:"They own something people pay to use."}]},
+      verse:{text:"All hard work brings a profit, but mere talk leads only to poverty.",ref:"Proverbs 14:23"}},
+    "Jobs & How Pay Works":{xp:35,
+      concepts:["HOURLY pay: you earn a set amount for every hour you work. 10 hours × $15 an hour = $150","SALARY: you earn a set amount per year, paid out in paychecks. Some jobs also pay TIPS (like restaurant servers) or COMMISSION (a percent of what you sell)","Jobs that need special skills, training, or lots of responsibility usually pay more. That's why learning skills is one of the best investments you can make"],
+      fact:"The federal minimum wage has been $7.25 an hour since 2009, but many states and cities set their own, higher minimum. In New Jersey, for example, it's over $15 an hour.",
+      talk:"What job would you love to try someday? Do you think it pays hourly, salary, tips, or commission?",
+      activity:{type:"rows",title:"How do they get paid?",hint:"Pick the pay type for each job.",opts:["Hourly","Salary","Tips","Commission"],rows:[
+        {p:"A grocery store worker earns $16 for every hour worked",a:0,why:"Paid by the hour = hourly."},
+        {p:"A teacher earns $60,000 a year, paid every two weeks",a:1,why:"A set yearly amount = salary."},
+        {p:"A server gets extra money from customers after each meal",a:2,why:"Money customers add = tips."},
+        {p:"A car salesperson earns a percent of every car sold",a:3,why:"A percent of sales = commission."}]},
+      verse:{text:"Whatever you do, work at it with all your heart, as working for the Lord, not for human masters.",ref:"Colossians 3:23"}},
+    "Kid Money Makers":{xp:35,
+      concepts:["You don't have to wait until you're an adult to earn. Kids can offer a SERVICE (pet sitting, yard work, helping neighbors) or a PRODUCT (crafts, baked goods, reselling things you've outgrown)","Always get a parent's OK and stay safe: work with people your family knows, and never share personal information online","Start with what you're good at, or what people around you need. A problem someone has is a business idea waiting to happen"],
+      fact:"Mikaila Ulmer started Me & the Bees Lemonade when she was about 4 years old, using her great-granny's flaxseed lemonade recipe. Her lemonade ended up on the shelves at Whole Foods.",
+      talk:"What's one thing you're good at that someone might pay for?",
+      activity:{type:"choice",title:"Your neighbor is going away for a week and has a dog. What's the best money move?",hint:"Choose one.",choices:[
+        {t:"Offer to walk and feed the dog, with a parent's OK",good:true,why:"You spotted a need and offered a service. That's how businesses start!"},
+        {t:"Post your home address online to find more dog customers",good:false,why:"Never share personal information online. Safety comes first."},
+        {t:"Wait until you're 18 to earn any money",good:false,why:"You can start earning safely now, with a grown-up's help."}]},
+      verse:{text:"Lazy hands make for poverty, but diligent hands bring wealth.",ref:"Proverbs 10:4"}},
+    "Be the Boss":{xp:40,
+      concepts:["An ENTREPRENEUR starts a business to solve a problem or meet a need, and takes a risk to do it","REVENUE is all the money that comes in from sales. COSTS are what you spend to run the business. PROFIT = Revenue − Costs","Pricing matters: charge enough to cover your costs AND make a profit, but not so much that customers go somewhere else"],
+      fact:"Small businesses make up more than 99% of all businesses in the United States, according to the U.S. Small Business Administration.",
+      talk:"If you started a business tomorrow, what would you sell, and who would buy it?",
+      activity:{type:"choice",title:"You sell 20 cups of lemonade at $2 each. Supplies cost $15. What's your profit?",hint:"Revenue − Costs = Profit",choices:[
+        {t:"$40",good:false,why:"$40 is your revenue (20 × $2). You still need to subtract your costs."},
+        {t:"$25",good:true,why:"$40 revenue − $15 costs = $25 profit!"},
+        {t:"$15",good:false,why:"$15 is what you spent on supplies, not what you kept."}]},
+      verse:{text:"She considers a field and buys it; out of her earnings she plants a vineyard.",ref:"Proverbs 31:16"}},
+    "Skills Pay the Bills":{xp:40,
+      concepts:["Your skills are your biggest money-making tool. Reading, math, writing, speaking, and tech skills are valuable in almost every job","There are many paths to a good career: college, trade school (like electricians and plumbers), the military, apprenticeships, or starting your own business","On average, more education and training leads to higher pay, and people who keep learning keep growing their income"],
+      fact:"U.S. Bureau of Labor Statistics data shows that, on average, workers with a bachelor's degree earn much more per week than workers with only a high school diploma. Skilled trades can pay well too.",
+      talk:"Ask an adult you trust: what skill has helped you earn money the most?",
+      verse:{text:"Do you see someone skilled in their work? They will serve before kings.",ref:"Proverbs 22:29"}},
+    "Multiple Streams of Income":{xp:45,
+      concepts:["A STREAM OF INCOME is any way money flows to you. Many adults have more than one: a job, a side business, investments, or rental income","More than one stream means that if one slows down, you still have money coming in","ACTIVE income comes from trading your time. PASSIVE income keeps coming with less daily work (like investments or royalties), but it usually takes work or money to build first"],
+      fact:"Even passive income starts with effort: an author writes the book before earning royalties, and an investor saves money before it can grow.",
+      talk:"Which kinds of income does your family have? Are any of them passive?",
+      activity:{type:"rows",title:"Active or passive?",hint:"Sort each income stream.",opts:["Active","Passive"],rows:[
+        {p:"Babysitting on Saturday afternoon",a:0,why:"You're trading your time, so it's active."},
+        {p:"Dividends from stock you already own",a:1,why:"Your investment pays you. That's passive."},
+        {p:"Working a shift at a store",a:0,why:"Paid for hours worked = active."},
+        {p:"Royalties from an app you built last year",a:1,why:"You did the work once and it keeps earning. Passive!"}]},
+      verse:{text:"Invest in seven ventures, yes, in eight; you do not know what disaster may come upon the land.",ref:"Ecclesiastes 11:2"}}
+  },
+  bank:{
+    "How Banks Work":{xp:30,
+      concepts:["A BANK keeps your money safe and lets you get to it when you need it","Banks lend some of the money people deposit to others (like home and car loans) and charge interest. They share some of that with savers by paying interest","In the U.S., the FDIC insures deposits at member banks up to $250,000 per depositor, per bank, for each ownership category. Credit unions have similar protection through the NCUA"],
+      fact:"Since the FDIC started in 1934, no depositor has ever lost a penny of FDIC-insured money.",
+      talk:"Why is a bank safer than keeping money under a mattress?",
+      activity:{type:"choice",title:"Grandma gives you $100 for your birthday. Where is it safest?",hint:"Choose one.",choices:[
+        {t:"Under your mattress",good:false,why:"It could get lost or stolen, and it won't earn any interest."},
+        {t:"In a savings account at an insured bank or credit union",good:true,why:"It's protected, and it can earn interest while it waits."},
+        {t:"In your pocket every day, just in case",good:false,why:"Easy to lose, and easy to spend without thinking!"}]},
+      verse:{text:"The wise store up choice food and olive oil, but fools gulp theirs down.",ref:"Proverbs 21:20"}},
+    "Checking vs. Savings":{xp:35,
+      concepts:["A CHECKING account is for everyday money: paying bills, using a debit card, and getting paid","A SAVINGS account is for money you're setting aside. It usually pays more interest, and you use it less often","Many people have both: checking for spending, and savings for goals and emergencies"],
+      fact:"Many banks and credit unions offer accounts for kids and teens, usually opened together with a parent or guardian.",
+      talk:"If you had a savings account, what would you save for first?",
+      activity:{type:"rows",title:"Checking or savings?",hint:"Where does this money belong?",opts:["Checking","Savings"],rows:[
+        {p:"Paying for groceries with a debit card",a:0,why:"Everyday spending comes from checking."},
+        {p:"Money for a bike you'll buy next summer",a:1,why:"Money for a goal belongs in savings."},
+        {p:"A paycheck that pays this month's bills",a:0,why:"Bill money lives in checking."},
+        {p:"An emergency fund you don't touch",a:1,why:"Emergency money stays safe in savings."}]},
+      verse:{text:"Dishonest money dwindles away, but whoever gathers money little by little makes it grow.",ref:"Proverbs 13:11"}},
+    "Debit Cards & Money Apps":{xp:35,
+      concepts:["A DEBIT card takes money straight from your checking account. If the money isn't there, the purchase may be declined, or you may be charged a fee","Apps like Cash App, Venmo, Zelle, and Apple Pay move REAL money, even though it just feels like tapping a screen","Protect your PIN and passwords, never send money to strangers, and double-check before you hit send. Payments can be hard to undo"],
+      fact:"An overdraft happens when you spend more than what's in your account. Some banks charge an overdraft fee, which can make a small mistake expensive.",
+      talk:"Have you seen a grown-up pay with their phone? Where does that money actually come from?",
+      activity:{type:"choice",title:"Someone you met in a game asks you to send $20 on a money app so they can send you back $100. What do you do?",hint:"Choose one.",choices:[
+        {t:"Send it. $100 is a great deal!",good:false,why:"That's a scam. If it sounds too good to be true, it usually is."},
+        {t:"Say no and tell a trusted adult",good:true,why:"Exactly right. Never send money to people you don't know in real life."},
+        {t:"Send just $10 to test it first",good:false,why:"Any money you send to a scammer is probably gone for good."}]},
+      verse:{text:"The prudent see danger and take refuge, but the simple keep going and pay the penalty.",ref:"Proverbs 27:12"}},
+    "Earning Interest":{xp:40,
+      concepts:["When your money sits in savings, the bank pays you INTEREST: a little extra money for letting them use it","The interest you earn is often shown as APY (Annual Percentage Yield). A higher APY means your money grows faster","Credit card interest is money YOU pay. Savings interest is money you EARN. Try to stay on the earning side!"],
+      fact:"Put $100 in savings at 4% APY and after one year you'd have about $104, without doing any extra work.",
+      talk:"Would you rather pay interest or earn interest? Why?",
+      activity:{type:"rows",title:"Earning or paying?",hint:"Is interest working for you or against you?",opts:["Earning","Paying"],rows:[
+        {p:"Money growing in a high-yield savings account",a:0,why:"Your money is earning for you."},
+        {p:"A credit card balance you didn't pay off",a:1,why:"You're paying interest to the card company."},
+        {p:"A CD (certificate of deposit) at your bank",a:0,why:"A CD pays you interest for leaving money in for a set time."}]},
+      verse:{text:"Well done, good and faithful servant! You have been faithful with a few things; I will put you in charge of many things.",ref:"Matthew 25:21"}},
+    "Choosing a Bank":{xp:40,
+      concepts:["BANKS are businesses owned by shareholders. CREDIT UNIONS are not-for-profit and owned by their members","When choosing, compare: monthly fees, minimum balance rules, ATM access, the savings rate (APY), and whether the app is easy to use","Watch out for fees. A $5 monthly fee adds up to $60 a year!"],
+      fact:"When you join a credit union, you become a member-owner. Members can usually vote to elect the credit union's board.",
+      talk:"What would matter most to you in a bank: no fees, a good app, or a high savings rate?",
+      activity:{type:"choice",title:"Which account is the best deal for a kid saving $20 a month?",hint:"Choose one.",choices:[
+        {t:"$8 monthly fee, 0.5% APY",good:false,why:"The $8 fee would eat almost half of what you save every month!"},
+        {t:"No monthly fee, 3% APY, insured",good:true,why:"No fees plus a good rate means more of your money keeps growing."},
+        {t:"No fee, but it's not insured and you can't find the company online",good:false,why:"Make sure your money is protected (FDIC or NCUA) at a real institution."}]},
+      verse:{text:"Commit to the LORD whatever you do, and he will establish your plans.",ref:"Proverbs 16:3"}}
+  },
+  spend:{
+    "Opportunity Cost":{xp:30,
+      concepts:["Every money choice means giving something else up. What you give up is called the OPPORTUNITY COST","If you spend $20 on a game skin, the opportunity cost is whatever else that $20 could have done, like saving toward a bike","Before you buy, ask: what am I giving up? Is this worth it?"],
+      fact:"Economists define opportunity cost as the value of the next-best choice you didn't pick.",
+      talk:"Think about the last thing you bought. What else could that money have done?",
+      activity:{type:"choice",title:"You have $30. You want $30 sneakers AND to save for a $90 tablet. What's the opportunity cost of buying the sneakers today?",hint:"Choose one.",choices:[
+        {t:"Nothing. The sneakers only cost $30",good:false,why:"There's always an opportunity cost. That $30 can't go toward the tablet now."},
+        {t:"A month or more of progress toward the tablet",good:true,why:"Yes! Your next-best choice was saving, so that's what you give up."},
+        {t:"The sneakers themselves",good:false,why:"The sneakers are what you get. Opportunity cost is what you give up."}]},
+      verse:{text:"Before you build a tower, sit down and count the cost.",ref:"Luke 14:28"}},
+    "Ads & Influencers":{xp:35,
+      concepts:["Ads are designed to make you WANT things. They use music, famous people, and bright colors to create feelings","Influencers are often paid to show products. Look for #ad, #sponsored, or “paid partnership” on posts","Common tricks: “Only 2 left!”, “Sale ends tonight!”, “Everyone has one!” These are made to rush you into buying"],
+      fact:"The U.S. Federal Trade Commission (FTC) says influencers must clearly tell you when they're paid, or get free stuff, to promote a product.",
+      talk:"Can you remember an ad that made you really want something? What made it work?",
+      activity:{type:"rows",title:"Ad trick or just info?",hint:"Spot the tricks.",opts:["Ad trick","Just info"],rows:[
+        {p:"“Only 2 left! Buy in the next 10 minutes!”",a:0,why:"Rushing you is a classic trick."},
+        {p:"A label that lists the price and the size",a:1,why:"That's useful information for comparing."},
+        {p:"“Everyone at school has these!”",a:0,why:"Making you feel left out is a trick."},
+        {p:"A sticker showing the price per ounce",a:1,why:"Unit prices help you compare deals honestly."}]},
+      verse:{text:"The simple believe anything, but the prudent give thought to their steps.",ref:"Proverbs 14:15"}},
+    "Comparison Shopping":{xp:35,
+      concepts:["Compare before you buy: check different stores and websites, and look at store brands vs. name brands","The UNIT PRICE (price per ounce, per item, and so on) shows which size is really the better deal","Try the 24-hour rule for wants: wait a day before buying. If you still want it, it's probably a good choice"],
+      fact:"Store-brand products are often similar to name brands and can cost noticeably less.",
+      talk:"Next time you're at the store, compare two sizes of the same thing. Which is the better deal per ounce?",
+      activity:{type:"choice",title:"Cereal A is $4 for 10 oz. Cereal B is $5 for 20 oz. Which is the better deal?",hint:"Hint: find the price per ounce.",choices:[
+        {t:"Cereal A, because it costs less",good:false,why:"A costs $0.40 an ounce. Cheaper total isn't always the better deal."},
+        {t:"Cereal B, because it costs less per ounce",good:true,why:"B is $0.25 an ounce vs. $0.40 for A. You get twice as much for $1 more!"},
+        {t:"They're the same",good:false,why:"Divide price by ounces: A is $0.40/oz and B is $0.25/oz."}]},
+      verse:{text:"The plans of the diligent lead to profit as surely as haste leads to poverty.",ref:"Proverbs 21:5"}},
+    "In-Game Purchases":{xp:40,
+      concepts:["Games often use coins, gems, or V-Bucks instead of dollars. That can make it harder to notice how much real money you're spending","Loot boxes and mystery packs give random rewards, so you don't know what you'll get before you pay","Set a game budget, always ask a parent before buying, and convert gems back into real dollars before you spend"],
+      fact:"Game currencies are usually sold in bundles, so you often end up with leftover gems, which nudges you to buy more.",
+      talk:"What game do you play most? How much would its items cost in real dollars?",
+      activity:{type:"choice",title:"A skin costs 1,000 gems. 1,000 gems cost $9.99. Your game budget is $5. What do you do?",hint:"Choose one.",choices:[
+        {t:"Use a parent's card without asking",good:false,why:"Never spend someone else's money without permission."},
+        {t:"Skip it, or save up over two weeks and ask a parent",good:true,why:"You stayed in budget and made a plan. That's a smart spender!"},
+        {t:"Buy a random loot box instead",good:false,why:"You might not get what you want, and it's still spending past your budget."}]},
+      verse:{text:"Keep your lives free from the love of money and be content with what you have.",ref:"Hebrews 13:5"}},
+    "Spotting Scams":{xp:40,
+      concepts:["A SCAM is a trick to steal your money or information. If something sounds too good to be true, it usually is","Red flags: pressure to act fast, asking for gift cards, passwords, or codes, and prizes you never entered to win","If something feels off, stop, don't click, and tell a trusted adult right away"],
+      fact:"The FTC warns that anyone who demands to be paid with a gift card is a scammer. Real businesses and government agencies won't ask for that.",
+      talk:"Make a family rule together: what will you do if a stranger online asks for money or information?",
+      activity:{type:"rows",title:"Scam or safe?",hint:"Trust your instincts.",opts:["Scam","Safe"],rows:[
+        {p:"“You won a free phone! Just pay shipping with a gift card.”",a:0,why:"Prizes you didn't enter + gift cards = scam."},
+        {p:"“Free game currency if you share your password.”",a:0,why:"Never share your password with anyone."},
+        {p:"Your parent helps you buy a game in the official app store",a:1,why:"Official store, with a trusted adult. That's safe."},
+        {p:"An online “friend” you've never met asks for your address",a:0,why:"Never share personal info with strangers online."}]},
+      verse:{text:"Be as shrewd as snakes and as innocent as doves.",ref:"Matthew 10:16"}},
+    "Giving & Generosity":{xp:40,
+      concepts:["Giving is part of a healthy money plan. It helps others and reminds us that money is a tool, not the goal","Many families use three jars: SPEND, SAVE, and GIVE. Every time money comes in, a part goes to each","Giving isn't only money. You can give your time, your talents, and your kindness too"],
+      fact:"Research on happiness has found that people often feel happier after spending money on others than after spending it on themselves.",
+      talk:"If you had a Give jar, who or what would you want to help?",
+      verse:{text:"Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.",ref:"2 Corinthians 9:7"}}
+  },
+  grow:{
+    "Compound Interest":{xp:40,
+      concepts:["COMPOUND INTEREST means earning interest on your interest. Your money can grow faster and faster over time","Time is your superpower: starting early matters more than starting big. $1 a day from age 10 at a 7% average return could grow to over $200,000 by age 65","The Rule of 72: divide 72 by the yearly return to estimate how many years it takes money to double. At 8%, about 9 years!"],
+      fact:"A popular quote often credited to Einstein calls compound interest the eighth wonder of the world: those who understand it earn it, and those who don't pay it. (Nobody has proven he actually said it!)",
+      talk:"If you started saving $5 a week today, how old would you be in 40 years?",
+      activity:{type:"compound",title:"Watch your money grow",hint:"Move the sliders. What happens when you start earlier?"},
+      verse:{text:"Whoever gathers money little by little makes it grow.",ref:"Proverbs 13:11"}},
+    "What Is a Stock?":{xp:40,
+      concepts:["A STOCK (or share) is a small piece of ownership in a company. Buy a share of a company and you own a tiny slice of it","If the company grows and earns more, the stock's value can go up. Some companies also pay owners a share of profits called DIVIDENDS","Stock prices go up AND down, sometimes a lot. That's why investors think in years, not days"],
+      fact:"Shareholders are part-owners, and many can vote on some company decisions, like electing the board of directors.",
+      talk:"Name 3 companies whose products you use every day. Would you want to own a piece of them?",
+      verse:{text:"She considers a field and buys it; out of her earnings she plants a vineyard.",ref:"Proverbs 31:16"}},
+    "Diversification & Index Funds":{xp:45,
+      concepts:["DIVERSIFICATION means spreading your money across many investments so one bad pick can't ruin everything. Don't put all your eggs in one basket!","An INDEX FUND owns many companies at once. An S&P 500 index fund holds about 500 of the largest U.S. companies","Index funds are simple, usually low-cost, and a popular way for everyday people to invest for the long run"],
+      fact:"John Bogle, the founder of Vanguard, launched the first index fund for everyday investors in 1976. Many people laughed at the idea at first. Today, index funds hold trillions of dollars.",
+      talk:"Why might owning 500 companies be safer than owning just 1?",
+      activity:{type:"choice",title:"Which basket is most diversified?",hint:"Choose one.",choices:[
+        {t:"All your money in one video game company",good:false,why:"If that one company struggles, all your money does too."},
+        {t:"An index fund holding hundreds of companies",good:true,why:"Spreading out means one bad company can't sink you."},
+        {t:"Three different video game companies",good:false,why:"Better than one, but they're all in the same industry. Diversify across industries too."}]},
+      verse:{text:"Invest in seven ventures, yes, in eight; you do not know what disaster may come upon the land.",ref:"Ecclesiastes 11:2"}},
+    "Risk & Reward":{xp:45,
+      concepts:["Usually, a chance at HIGHER rewards comes with HIGHER risk. Nothing that promises big, fast, guaranteed returns is real","Savings accounts: very low risk, lower growth. Stocks: more ups and downs, but historically more growth over long periods","Money you need soon (in the next few years) should stay safe. Money you won't need for a long time can be invested"],
+      fact:"The U.S. stock market has grown over long periods, but it also has scary drops. In 2008, the S&P 500 fell about 37%, and then it recovered in the years that followed.",
+      talk:"Would you rather have a small, sure reward or a chance at a big reward with risk? Why?",
+      activity:{type:"rows",title:"Lower risk or higher risk?",hint:"Sort each choice.",opts:["Lower risk","Higher risk"],rows:[
+        {p:"An insured savings account",a:0,why:"Insured and steady, with lower growth."},
+        {p:"One brand-new company's stock",a:1,why:"A single new company can swing a lot."},
+        {p:"Someone promising to “double your money in a week”",a:1,why:"That's not just risky. It's a red flag for a scam!"}]},
+      verse:{text:"Desire without knowledge is not good. How much more will hasty feet miss the way!",ref:"Proverbs 19:2"}},
+    "Investing vs. Trading":{xp:50,
+      concepts:["INVESTING means buying and holding for years, letting companies grow and compound work for you","TRADING means buying and selling often to try to profit from short-term price moves. It's much riskier, and many beginners lose money","Build your foundation first: earning, saving, budgeting, and investing. Trading is an advanced skill, and it's the very last step in the Academy"],
+      fact:"Warren Buffett, one of the most successful investors in history, wrote that his favorite holding period is forever.",
+      talk:"Why do you think patience is such a big part of investing?",
+      activity:{type:"rows",title:"Investing or trading?",hint:"Sort each move.",opts:["Investing","Trading"],rows:[
+        {p:"Buying an index fund and holding it for 30 years",a:0,why:"Long-term buy and hold = investing."},
+        {p:"Buying a stock at 10 a.m. and selling at 11 a.m.",a:1,why:"Quick in-and-out moves = trading."},
+        {p:"Adding $25 to your investments every month",a:0,why:"Steady, long-term investing!"},
+        {p:"Watching charts all day for quick price moves",a:1,why:"That's trading, an advanced skill for later."}]},
+      verse:{text:"Whoever gathers money little by little makes it grow.",ref:"Proverbs 13:11"}}
+  },
+  future:{
+    "Your First Paycheck":{xp:40,
+      concepts:["GROSS PAY is the total you earned. NET PAY (take-home pay) is what's left after deductions","Common deductions: federal income tax, Social Security and Medicare, and sometimes state tax, health insurance, and retirement savings","So if a job pays $15 an hour, your paycheck will be less than hours × $15, and that's normal!"],
+      fact:"Social Security and Medicare taxes take 7.65% of most workers' pay: 6.2% for Social Security and 1.45% for Medicare.",
+      talk:"Ask a working adult: were you surprised the first time you saw your paycheck?",
+      activity:{type:"choice",title:"You earn $500 gross. $80 is taken out for taxes. What's your net pay?",hint:"Gross − deductions = net",choices:[
+        {t:"$580",good:false,why:"Deductions come OUT of your pay, so subtract."},
+        {t:"$420",good:true,why:"$500 − $80 = $420 take-home pay."},
+        {t:"$500",good:false,why:"That's your gross pay, before deductions."}]},
+      verse:{text:"Give to everyone what you owe them: If you owe taxes, pay taxes.",ref:"Romans 13:7"}},
+    "What Taxes Pay For":{xp:40,
+      concepts:["TAXES are money people and businesses pay to the government to fund things we share","Taxes help pay for public schools, roads, firefighters, parks, the military, and programs like Social Security","Common types: INCOME tax (on what you earn), SALES tax (added when you buy things), and PROPERTY tax (on homes and land)"],
+      fact:"Most U.S. states charge a sales tax, but a few, including Delaware, Montana, New Hampshire, and Oregon, have no statewide sales tax.",
+      talk:"Look around your town. What do you see that taxes helped pay for?",
+      activity:{type:"rows",title:"What kind of tax?",hint:"Match each one.",opts:["Income","Sales","Property"],rows:[
+        {p:"Taken out of a paycheck",a:0,why:"Tax on what you earn = income tax."},
+        {p:"Added at the register when you buy sneakers",a:1,why:"Tax on purchases = sales tax."},
+        {p:"Paid every year by a family that owns a house",a:2,why:"Tax on homes and land = property tax."}]},
+      verse:{text:"Give back to Caesar what is Caesar's and to God what is God's.",ref:"Mark 12:17"}},
+    "College, Trade School & More":{xp:45,
+      concepts:["There are many paths after high school: a 4-year college, community college, trade school, the military, apprenticeships, or starting a business","Costs vary a lot. SCHOLARSHIPS and GRANTS are money you don't pay back. STUDENT LOANS must be paid back, with interest","Compare the cost of a path with the pay you can expect afterward, and always apply for free money first"],
+      fact:"The FAFSA (Free Application for Federal Student Aid) is the form students use to apply for federal grants, work-study, and student loans. As the name says, it's free to file.",
+      talk:"What path after high school sounds most exciting to you right now? It's okay to change your mind!",
+      activity:{type:"rows",title:"Pay it back or not?",hint:"Which of these do you have to repay?",opts:["Repay it","Free money"],rows:[
+        {p:"A scholarship for good grades",a:1,why:"Scholarships don't have to be repaid."},
+        {p:"A student loan",a:0,why:"Loans must be repaid, with interest."},
+        {p:"A federal Pell Grant",a:1,why:"Grants usually don't have to be repaid."}]},
+      verse:{text:"Plans fail for lack of counsel, but with many advisers they succeed.",ref:"Proverbs 15:22"}},
+    "Insurance: Protecting What You Have":{xp:45,
+      concepts:["INSURANCE means paying a smaller amount regularly (a PREMIUM) so you're protected from a big, expensive loss","Common types: health, car, renters or homeowners, and life insurance","A DEDUCTIBLE is the amount you pay first before insurance starts paying. A higher deductible usually means a lower premium"],
+      fact:"Nearly every U.S. state requires drivers to carry car insurance or prove they can pay for damage they cause.",
+      talk:"What's something in your home that would be expensive to replace if it got damaged?",
+      activity:{type:"choice",title:"Your phone breaks. Repair costs $300. Your insurance deductible is $100. How much do you pay?",hint:"You pay the deductible first.",choices:[
+        {t:"$0",good:false,why:"You pay the deductible first. Insurance covers the rest."},
+        {t:"$100",good:true,why:"You pay the $100 deductible, and insurance covers the other $200."},
+        {t:"$300",good:false,why:"That's the full cost. Insurance helps once you've paid your deductible."}]},
+      verse:{text:"The prudent see danger and take refuge, but the simple keep going and pay the penalty.",ref:"Proverbs 22:3"}},
+    "Your First Place":{xp:45,
+      concepts:["Moving out costs more than rent: there's a SECURITY DEPOSIT, utilities (electric, water, internet), furniture, and groceries","A LEASE is a contract with your landlord. Read it before you sign!","A common guideline: try to keep rent around 30% of your income or less. Roommates can make it more affordable"],
+      fact:"Many landlords ask for the first month's rent plus a security deposit before you move in, so you may need about two months of rent saved up.",
+      talk:"What do you think would be the hardest part of paying for your own place?",
+      activity:{type:"choice",title:"You earn $3,000 a month. Which rent fits the 30% guideline?",hint:"30% of $3,000 = ?",choices:[
+        {t:"$900 a month",good:true,why:"30% of $3,000 is $900. That leaves room for everything else."},
+        {t:"$1,500 a month",good:false,why:"That's 50% of your income, which leaves little for food, bills, and savings."},
+        {t:"$2,400 a month",good:false,why:"That's 80% of your income. Way too much!"}]},
+      verse:{text:"Put your outdoor work in order and get your fields ready; after that, build your house.",ref:"Proverbs 24:27"}},
+    "Building Wealth for Life":{xp:50,
+      concepts:["PAY YOURSELF FIRST: when money comes in, send a set amount to savings and investing before you spend","Retirement accounts like a 401(k) or an IRA help your money grow for the future. Many employers MATCH what you save, which is like free money","Wealth is built by earning, saving, investing, and avoiding high-interest debt, and it can be passed down to help your family's next generation"],
+      fact:"Some employers match retirement savings. For example, they might add 50 cents for every dollar you save, up to a limit. That's an instant 50% boost!",
+      talk:"What would you want your money to do for your family someday?",
+      verse:{text:"A good person leaves an inheritance for their children's children.",ref:"Proverbs 13:22"}}
+  },
+  credit:{
+    "What Is Credit?":{xp:30,badge:"Credit Starter",
+      concepts:["CREDIT is borrowed money that you agree to pay back later. It is a promise, not free money","Think of it like this: \u201cI can use your money today, and I promise to pay you back according to the rules.\u201d","Cash is money you already have. Debit usually comes straight from your bank account. Credit is borrowed money you repay later"],
+      fact:"The word \u201ccredit\u201d comes from the Latin word credere, which means \u201cto trust\u201d or \u201cto believe.\u201d When someone gives you credit, they are trusting you to pay it back.",
+      talk:"Is credit the same thing as free money? Why or why not?",
+      activity:{type:"rows",title:"Cash, debit, or credit?",hint:"Tap the right one for each clue.",opts:["Cash","Debit","Credit"],rows:[
+        {p:"Money you already have in your wallet or piggy bank",a:0,why:"Cash is your own money, and you already have it."},
+        {p:"Paying with a card that takes money straight from your bank account",a:1,why:"A debit card usually uses money that is already in your bank account."},
+        {p:"Using money now that you promise to pay back later",a:2,why:"That is credit: borrowed money you repay later."}]},
+      verse:{text:"The wicked borrow and do not repay, but the righteous give generously.",ref:"Psalm 37:21"}},
+    "Credit Cards & Limits":{xp:35,badge:"Limit Keeper",
+      concepts:["A credit card is a tool for borrowing, not a magic money machine. You buy something, the card company pays the store, and now YOU owe the card company","Every month you get a bill, and you must pay it","A CREDIT LIMIT is the most you can borrow on a card at one time. A limit is NOT a spending goal!"],
+      fact:"If your limit is $500 and you have used $250, you have $250 of available credit left: $500 − $250 = $250.",
+      talk:"Why might a bank give someone a credit limit instead of unlimited money?",
+      activity:{type:"limit",title:"Slide to spend on a $500 card",hint:"Watch what happens to your available credit. Can you find the healthy zone?",limit:500,start:250},
+      verse:{text:"Before you build a tower, sit down and count the cost.",ref:"Luke 14:28"}},
+    "Your Credit Score":{xp:40,badge:"Score Detective",
+      concepts:["A CREDIT SCORE is a number based on your credit history. It helps lenders estimate how risky it may be to lend you money","Think: \u201cHow have I handled borrowed money?\u201d Paying on time, keeping balances manageable, and using credit responsibly all help","Five big things can affect a score: payment history, how much you owe, how long you've had credit, new credit, and types of credit"],
+      fact:"Many credit scores in the U.S. run from 300 to 850. Paying bills on time is one of the biggest things that can affect them, and different scoring models weigh the factors in different ways.",
+      talk:"Would a high score or a low score usually make a lender feel more comfortable? Why?",
+      activity:{type:"rows",title:"Credit Score Detective 🔎",hint:"Which habits are strong, and which are risky?",opts:["Strong","Risky"],rows:[
+        {p:"ALEX pays bills on time, keeps balances manageable, and checks statements.",a:0,why:"Alex's habits build trust with lenders."},
+        {p:"JORDAN often pays late, uses almost all available credit, and ignores statements.",a:1,why:"Late payments and maxed-out cards are risky habits."},
+        {p:"SAM pays on time, reads the terms, and only borrows what fits the budget.",a:0,why:"Sam is borrowing with a plan. That's a strong habit."}]},
+      verse:{text:"A good name is more desirable than great riches; to be esteemed is better than silver or gold.",ref:"Proverbs 22:1"}},
+    "The Sneaky Part: Interest":{xp:40,badge:"Interest Aware",
+      concepts:["INTEREST is the extra money you may pay for borrowing money","APR means Annual Percentage Rate. It helps describe the yearly cost of borrowing","Lower interest can mean lower borrowing costs. Paying only the minimum can make debt last longer. Always read the rules!"],
+      fact:"Simple example: borrow $100 with $5 interest and you repay $105. Real credit agreements can be more complicated, which is why reading the terms matters.",
+      talk:"If you borrow $100 and repay $105, where did the extra $5 come from?",
+      activity:{type:"interest",title:"Interest calculator",hint:"Pick an amount and try both interest rates. Which costs more?",rates:[5,20]},
+      verse:{text:"The rich rule over the poor, and the borrower is slave to the lender.",ref:"Proverbs 22:7"}},
+    "Healthy vs. Risky Habits":{xp:40,badge:"Habit Hero",
+      concepts:["Credit itself isn't \u201cgood\u201d or \u201cbad.\u201d How you use it matters","HEALTHY habits: pay bills on time, know what you owe, stay within your budget, read the terms, and borrow only what you can realistically repay","RISKY habits: missing payments, spending without a plan, using credit for things you can't afford, ignoring fees, and borrowing more to cover old debt"],
+      fact:"Good credit doesn't happen overnight. Credit history is built through patterns over time, one on-time payment after another.",
+      talk:"Which healthy habit would be easiest to practice in your own life today?",
+      activity:{type:"rows",title:"Credit Myth Busters 🚨",hint:"Myth or fact? You decide.",opts:["Myth","Fact"],rows:[
+        {p:"\u201cHaving a credit card means you have extra money.\u201d",a:0,why:"Myth! A credit card is borrowed money. You still owe it back."},
+        {p:"\u201cA higher credit limit means you should spend more.\u201d",a:0,why:"Myth! A limit is a maximum, not a target."},
+        {p:"\u201cPaying bills on time helps build good credit.\u201d",a:1,why:"Fact! On-time payments are one of the strongest credit habits."},
+        {p:"\u201cGood credit happens overnight.\u201d",a:0,why:"Myth! Credit history is built through patterns over time."}]},
+      verse:{text:"The plans of the diligent lead to profit as surely as haste leads to poverty.",ref:"Proverbs 21:5"}},
+    "Maya's First Credit Card":{xp:45,badge:"Credit Smart",
+      concepts:["Maya just got her first credit card with a $500 limit. She wants $180 sneakers AND a $250 video game console","Before buying with credit, ask: Do I need it? Can I pay the whole bill on time? What happens if I can't?","Remember the big five: credit = borrowed money, a limit is not a goal, interest costs extra, scores reflect your habits, and responsible habits build trust over time"],
+      fact:"You don't have to know everything about money. The smartest money managers start by asking good questions.",
+      talk:"Build a credit-smart plan with a grown-up: choose a pretend purchase, decide whether to save, use cash/debit, or borrow, and name one question you would ask before borrowing.",
+      activity:{type:"choice",title:"What should Maya do?",hint:"Limit $500 · Sneakers $180 · Console $250",choices:[
+        {t:"Buy both right now. It's under her $500 limit!",good:false,why:"That's $430, almost her whole limit. Being close to the limit is risky, and a limit is not a spending goal."},
+        {t:"Buy the sneakers, pay the bill in full on time, and save up for the console",good:true,why:"Smart! She uses a small part of her limit, pays it off, and plans ahead for the console."},
+        {t:"Buy both and just pay the minimum each month",good:false,why:"Paying only the minimum can make debt last longer and cost more because of interest."}]},
+      verse:{text:"Whoever can be trusted with very little can also be trusted with much.",ref:"Luke 16:10"}}
+  },
   money:{
     "Needs vs. Wants":{xp:25,badge:"Budget Boss",
       concepts:["NEEDS are essentials for survival: food, shelter, clean water, clothing, healthcare","WANTS are extras that make life more fun but are not required: toys, candy, the newest phone","Every smart money decision starts with one question: Is this a need or a want?"],
@@ -532,10 +896,15 @@ const LESSON_DATA={
       concepts:["A budget is a plan that tells your money where to go BEFORE you spend it","Income – Expenses = Savings. Keep this number positive always","The 50/30/20 rule: 50% needs, 30% wants, 20% savings. Small amounts saved consistently become enormous over time."],
       fact:"People who write a budget save an average of 20% more each month than those who don't.",
       verse:{text:"The plans of the diligent lead to profit as surely as haste leads to poverty.",ref:"Proverbs 21:5"}},
-    "Compound Interest":{xp:45,badge:"Compound Champion",
-      concepts:["Compound interest = earning interest on your interest. Your money multiplies itself over time","$1 per day starting at age 10, at 7% return = over $300,000 by age 65. That is the power of starting EARLY","The Rule of 72: Divide 72 by your interest rate to know how many years your money doubles. At 8%, money doubles every 9 years!"],
-      fact:"Einstein reportedly called compound interest the eighth wonder of the world: 'He who understands it, earns it; he who doesn't, pays it.'",
-      verse:{text:"Whoever gathers money little by little makes it grow.",ref:"Proverbs 13:11"}},
+    "Saving for a Goal":{xp:40,badge:"Goal Getter",
+      concepts:["A SAVINGS GOAL has three parts: WHAT you're saving for, HOW MUCH it costs, and BY WHEN you want it","Goal ÷ weeks = how much to save each week. $60 headphones in 10 weeks = $6 a week","Also build an EMERGENCY FUND for surprises, like a broken phone. Many adults aim for 3 to 6 months of living expenses"],
+      fact:"Pay yourself first: move money into savings as soon as you get it, before you spend. What's left is what you can spend.",
+      talk:"What's something you'd love to save up for? How many weeks would it take?",
+      activity:{type:"choice",title:"You want $60 headphones in 10 weeks. How much should you save each week?",hint:"Goal ÷ weeks",choices:[
+        {t:"$10",good:false,why:"$10 × 10 weeks = $100. More than you need!"},
+        {t:"$6",good:true,why:"$60 ÷ 10 weeks = $6 a week. You've got a plan!"},
+        {t:"$60",good:false,why:"That's the whole goal. Spreading it over 10 weeks makes it easier."}]},
+      verse:{text:"Go to the ant, you sluggard; consider its ways and be wise!",ref:"Proverbs 6:6"}},
     "Cash Flow":{xp:50,badge:"Cash Flow Master",
       concepts:["Cash flow = money coming IN minus money going OUT in any given period","Positive cash flow: you earn more than you spend. This is wealth building mode!","Negative cash flow: you spend more than you earn. This leads to debt. Track yours weekly."],
       fact:"Rich Dad Poor Dad teaches that the wealthy buy ASSETS that create cash flow. The middle class buys liabilities they think are assets.",
@@ -734,10 +1103,56 @@ const LESSON_DATA={
 };
 
 const QUESTIONS={
+  earn:{
+    "Where Money Comes From":[{q:"Which is NOT one of the 4 ways to earn money?",o:["Working a job","Running a business","Wishing for it","Owning something people pay to use"],a:2},{q:"A family renting out an apartment earns by...",o:["Working hourly","Owning something people pay to use","Winning a prize","Borrowing"],a:1},{q:"Money earning interest in savings is an example of...",o:["A job","Money making money","A business","Credit"],a:1}],
+    "Jobs & How Pay Works":[{q:"10 hours × $15 an hour = ?",o:["$25","$150","$1,500","$105"],a:1},{q:"A salary is...",o:["Pay for each hour","A set amount per year","Tips from customers","A loan"],a:1},{q:"Commission means you earn...",o:["A percent of what you sell","Only tips","Nothing","Free money"],a:0}],
+    "Kid Money Makers":[{q:"Pet sitting is selling a...",o:["Product","Service","Stock","Loan"],a:1},{q:"Before starting a kid business you should...",o:["Get a parent's OK","Share your address online","Borrow lots of money","Skip school"],a:0},{q:"A good business idea often starts with...",o:["A problem someone needs solved","Copying a friend exactly","Luck only","A credit card"],a:0}],
+    "Be the Boss":[{q:"Profit = ?",o:["Revenue − Costs","Revenue + Costs","Costs − Revenue","Price × 2"],a:0},{q:"An entrepreneur is someone who...",o:["Starts a business","Never takes risks","Only spends money","Works at a bank"],a:0},{q:"Revenue is...",o:["Money you spent","All the money from sales","Money you borrowed","Taxes"],a:1}],
+    "Skills Pay the Bills":[{q:"Which is a path to a good career?",o:["Trade school","College","An apprenticeship","All of these"],a:3},{q:"Electricians usually train through...",o:["Trade school or apprenticeships","Video games","Luck","Nothing"],a:0},{q:"Your biggest money-making tool is...",o:["Your skills","A credit card","A lottery ticket","Your phone"],a:0}],
+    "Multiple Streams of Income":[{q:"A stream of income is...",o:["Any way money flows to you","A river","A bill","A loan"],a:0},{q:"Why have more than one income stream?",o:["If one slows down, money still comes in","It's required by law","To pay more taxes","No reason"],a:0},{q:"Which is ACTIVE income?",o:["Working a shift at a store","Stock dividends","Book royalties","Savings interest"],a:0}]
+  },
+  bank:{
+    "How Banks Work":[{q:"Banks make money mostly by...",o:["Lending money and charging interest","Printing money","Selling toys","Nothing"],a:0},{q:"FDIC insurance protects bank deposits up to...",o:["$100","$250,000 per depositor, per bank, per ownership category","$1 billion","Nothing"],a:1},{q:"When you deposit money, the bank...",o:["Keeps it safe and may pay you interest","Throws it away","Spends it on toys","Charges you to look at it"],a:0}],
+    "Checking vs. Savings":[{q:"A checking account is mainly for...",o:["Everyday spending and bills","Money you never touch","Buying stocks","Nothing"],a:0},{q:"A savings account usually...",o:["Pays more interest","Has no interest ever","Is only for adults","Is a loan"],a:0},{q:"Your emergency fund belongs in...",o:["Checking","Savings","Your pocket","A game"],a:1}],
+    "Debit Cards & Money Apps":[{q:"A debit card uses...",o:["Borrowed money","Money from your checking account","Free money","Gift cards"],a:1},{q:"Money apps like Venmo or Cash App move...",o:["Pretend money","Real money","Game coins","Nothing"],a:1},{q:"An overdraft happens when...",o:["You save too much","You spend more than is in your account","You earn interest","You pay on time"],a:1}],
+    "Earning Interest":[{q:"Savings interest is money you...",o:["Pay","Earn","Borrow","Lose"],a:1},{q:"APY stands for...",o:["Annual Percentage Yield","All Payments Yearly","Account Pay Yes","Average Price Yield"],a:0},{q:"$100 at 4% APY after 1 year is about...",o:["$96","$104","$140","$400"],a:1}],
+    "Choosing a Bank":[{q:"A credit union is owned by...",o:["Its members","The government","One rich person","Nobody"],a:0},{q:"A $5 monthly fee costs how much per year?",o:["$5","$30","$60","$500"],a:2},{q:"When choosing a bank, you should compare...",o:["Fees, APY, and ATM access","Only the logo","Nothing","The building color"],a:0}]
+  },
+  spend:{
+    "Opportunity Cost":[{q:"Opportunity cost is...",o:["What you give up when you choose","A sale price","A tax","A fee"],a:0},{q:"Spending $20 on a game skin means...",o:["You can't use that $20 for something else","It was free","You earned $20","Nothing changes"],a:0},{q:"Before buying, a smart question is...",o:["What am I giving up?","How fast can I buy it?","Who's watching?","None"],a:0}],
+    "Ads & Influencers":[{q:"Ads are designed to...",o:["Make you want things","Save you money","Teach math","Nothing"],a:0},{q:"#ad on a post means...",o:["The creator was paid or got something to promote it","It's a free gift for you","It's a scam for sure","Nothing"],a:0},{q:"“Only 2 left! Buy now!” is trying to...",o:["Rush you","Help you compare","Teach you","Give you a discount"],a:0}],
+    "Comparison Shopping":[{q:"Unit price tells you...",o:["The price per ounce or per item","The store's name","The tax","The brand"],a:0},{q:"The 24-hour rule means...",o:["Wait a day before buying a want","Shop only at night","Buy within 24 hours","Return things fast"],a:0},{q:"$5 for 20 oz is how much per ounce?",o:["$0.25","$0.40","$4","$1"],a:0}],
+    "In-Game Purchases":[{q:"Game gems and coins can make it harder to...",o:["Notice how much real money you spend","Play the game","Win","Log in"],a:0},{q:"A loot box gives you...",o:["A random reward","Exactly what you want","Free money","Nothing ever"],a:0},{q:"Before any in-game purchase you should...",o:["Ask a parent and check your budget","Use any card you find","Buy the biggest bundle","Share your password"],a:0}],
+    "Spotting Scams":[{q:"Anyone who demands payment by gift card is...",o:["A scammer","Your bank","A teacher","The government"],a:0},{q:"If something online feels off, you should...",o:["Stop and tell a trusted adult","Click the link","Send money","Share your password"],a:0},{q:"“Too good to be true” offers are usually...",o:["Scams","Real deals","Prizes","Gifts"],a:0}],
+    "Giving & Generosity":[{q:"The three jars are...",o:["Spend, Save, Give","Eat, Sleep, Play","Buy, Buy, Buy","Red, Blue, Green"],a:0},{q:"You can give...",o:["Money, time, and talents","Only money","Nothing until you're rich","Only at holidays"],a:0},{q:"Giving is part of a...",o:["Healthy money plan","Budget mistake","Scam","Loan"],a:0}]
+  },
+  grow:{
+    "Compound Interest":[{q:"Compound interest means...",o:["Paying extra fees","Earning interest on your interest","Spending more","Losing money"],a:1},{q:"Rule of 72: at 8%, money doubles in about...",o:["8 years","9 years","72 years","16 years"],a:1},{q:"The best time to start saving is...",o:["Retirement","Age 30","As early as possible","Never"],a:2}],
+    "What Is a Stock?":[{q:"A stock is...",o:["A small piece of ownership in a company","A loan","A savings account","A coupon"],a:0},{q:"A dividend is...",o:["A share of company profits paid to owners","A fee","A tax","A loan"],a:0},{q:"Stock prices...",o:["Go up and down","Only go up","Never change","Are set by kids"],a:0}],
+    "Diversification & Index Funds":[{q:"Diversification means...",o:["Spreading money across many investments","Putting it all in one stock","Spending it all","Hiding cash"],a:0},{q:"An S&P 500 index fund holds about...",o:["5 companies","50 companies","500 companies","5,000 banks"],a:2},{q:"The first index fund for everyday investors came from...",o:["John Bogle / Vanguard","A video game","The Fed","A lemonade stand"],a:0}],
+    "Risk & Reward":[{q:"Higher possible rewards usually come with...",o:["Higher risk","No risk","Guaranteed profit","Lower risk"],a:0},{q:"Money you need next month should be...",o:["Kept safe, like in savings","Put into one risky stock","Spent on loot boxes","Traded"],a:0},{q:"“Double your money in a week!” is a...",o:["Red flag","Great plan","Bank account","Guarantee"],a:0}],
+    "Investing vs. Trading":[{q:"Investing usually means...",o:["Buying and holding for years","Buying and selling every hour","Gambling","Borrowing"],a:0},{q:"Trading is...",o:["Riskier and an advanced skill","Guaranteed money","For beginners first","The same as saving"],a:0},{q:"In the Academy, trading comes...",o:["Last, after the foundations","First","Never","Before earning"],a:0}]
+  },
+  future:{
+    "Your First Paycheck":[{q:"Gross pay is...",o:["Everything you earned before deductions","What you take home","A tax","A bonus"],a:0},{q:"Net pay is...",o:["Take-home pay after deductions","Total before taxes","A fishing net","A loan"],a:0},{q:"Social Security + Medicare take about what % of most pay?",o:["1%","7.65%","25%","50%"],a:1}],
+    "What Taxes Pay For":[{q:"Taxes help pay for...",o:["Schools, roads, and firefighters","Your video games","Nothing","Only the president"],a:0},{q:"Sales tax is added when you...",o:["Buy things","Earn money","Own a house","Sleep"],a:0},{q:"Property tax is paid on...",o:["Homes and land","Paychecks","Snacks","Games"],a:0}],
+    "College, Trade School & More":[{q:"Scholarships and grants are...",o:["Money you usually don't pay back","Loans","Taxes","Fees"],a:0},{q:"Student loans must be...",o:["Paid back with interest","Ignored","Forgiven automatically","Spent on anything"],a:0},{q:"The FAFSA is...",o:["A free form to apply for federal student aid","A credit card","A college","A test"],a:0}],
+    "Insurance: Protecting What You Have":[{q:"A premium is...",o:["What you pay regularly for insurance","A prize","A tax refund","A deductible"],a:0},{q:"A deductible is...",o:["What you pay first before insurance pays","Free money","Your salary","A loan"],a:0},{q:"Insurance protects you from...",o:["Big, expensive losses","All spending","Taxes","Homework"],a:0}],
+    "Your First Place":[{q:"30% of $3,000 is...",o:["$300","$900","$1,000","$3,000"],a:1},{q:"A security deposit is...",o:["Money paid upfront to a landlord","A bank account","A tax","A gift"],a:0},{q:"A lease is...",o:["A contract with your landlord","A type of pet","A tax form","A bank"],a:0}],
+    "Building Wealth for Life":[{q:"Pay yourself first means...",o:["Save before you spend","Buy yourself gifts first","Skip paying bills","Borrow first"],a:0},{q:"An employer match is...",o:["Extra money your employer adds to your retirement savings","A game","A tax","A fee"],a:0},{q:"Wealth is built by...",o:["Earning, saving, investing, and avoiding high-interest debt","Luck only","Spending it all","Trading every day"],a:0}]
+  },
+  credit:{
+    "What Is Credit?":[{q:"Credit means...",o:["Free money","Borrowed money you repay","Gift money","Money you found"],a:1},{q:"Which one uses money you already have?",o:["A credit card","A car loan","Cash","A student loan"],a:2},{q:"Credit is most like a...",o:["Prize you win","Promise to pay back","Coupon","Gift from the bank"],a:1}],
+    "Credit Cards & Limits":[{q:"A credit limit is...",o:["A spending goal","Your paycheck","The most you can borrow at one time","A discount"],a:2},{q:"$500 limit, $250 used. How much is available?",o:["$500","$250","$750","$0"],a:1},{q:"When you buy with a credit card, who pays the store first?",o:["You","The card company","Nobody","The store pays itself"],a:1}],
+    "Your Credit Score":[{q:"A credit score helps lenders...",o:["Pick your allowance","Estimate how risky it is to lend you money","Count your savings","Choose your job"],a:1},{q:"Which habit helps a credit score?",o:["Paying late","Using the whole limit","Paying on time","Ignoring bills"],a:2},{q:"Jordan often pays late and uses almost all of his credit. His habits are...",o:["Strong","Risky","Perfect","Doesn't matter"],a:1}],
+    "The Sneaky Part: Interest":[{q:"Interest is...",o:["A reward","The extra cost of borrowing","Your credit score","A discount"],a:1},{q:"Borrow $100, repay $105. The extra $5 is...",o:["Interest","A gift","A tax refund","Savings"],a:0},{q:"APR stands for...",o:["All Payments Required","Annual Percentage Rate","Average Price Raise","Account Payment Record"],a:1}],
+    "Healthy vs. Risky Habits":[{q:"Good credit habits include...",o:["Paying late","Ignoring bills","Paying on time","Borrowing more to cover old debt"],a:2},{q:"\u201cA higher limit means you should spend more.\u201d This is a...",o:["Fact","Myth"],a:1},{q:"Good credit is built...",o:["Overnight","Through patterns over time","By getting lots of cards","By luck"],a:1}],
+    "Maya's First Credit Card":[{q:"Sneakers $180 + console $250 = ?",o:["$330","$430","$500","$250"],a:1},{q:"Before buying with credit, Maya should ask...",o:["Can I pay this back on time?","What color is my card?","How fast can I spend it?","Nothing"],a:0},{q:"The #1 credit takeaway is...",o:["Credit = free money","Credit = borrowed money","Limits are goals","Scores never change"],a:1}]
+  },
   money:{
     "Needs vs. Wants":[{q:"Food is a...",o:["Need","Want","Luxury","Investment"],a:0},{q:"New sneakers are a...",o:["Need","Want","Asset","Income"],a:1},{q:"Which is a NEED?",o:["Candy","Gaming console","Shelter","New toy"],a:2}],
     "Budget Basics":[{q:"Income – Expenses = ?",o:["Debt","Savings","Loss","Tax"],a:1},{q:"50/30/20 rule: Save how much?",o:["50%","30%","20%","10%"],a:2},{q:"A budget helps you...",o:["Spend faster","Track & plan money","Avoid all spending","Get loans"],a:1}],
-    "Compound Interest":[{q:"Compound interest means...",o:["Paying extra fees","Earning interest on interest","Spending more","Losing money"],a:1},{q:"Rule of 72: Money doubles at 8% in...",o:["8 years","9 years","72 years","16 years"],a:1},{q:"Best time to start saving...",o:["Retirement","Age 30","As early as possible","Never"],a:2}],
+    "Saving for a Goal":[{q:"$60 goal in 10 weeks = how much per week?",o:["$5","$6","$10","$60"],a:1},{q:"An emergency fund is for...",o:["Surprises like a broken phone","New video games","Candy","Nothing"],a:0},{q:"Pay yourself first means...",o:["Save before you spend","Buy yourself a gift","Spend first, save later","Never save"],a:0}],
     "Cash Flow":[{q:"Positive cash flow means...",o:["You spend more than earn","You earn more than spend","You have no money","You have debt"],a:1},{q:"Cash flow is measured...",o:["Annually only","Weekly, monthly, yearly","Only when rich","Never"],a:1},{q:"A rental property creates...",o:["Negative cash flow","Positive cash flow","No cash flow","Expenses only"],a:1}],
     "Assets vs. Liabilities":[{q:"An asset...",o:["Takes money from you","Puts money in your pocket","Only banks have","Is always a house"],a:1},{q:"A liability...",o:["Earns you money","Costs you money regularly","Is always good","Is a savings account"],a:1},{q:"Your personal home is typically...",o:["Always an asset","A liability (costs money)","A stock","Free money"],a:1}],
     "Net Worth":[{q:"Net Worth = ?",o:["Income – Expenses","Assets – Liabilities","Savings + Debt","Cash only"],a:1},{q:"To build net worth, you should...",o:["Buy more liabilities","Reduce debt and buy assets","Spend everything","Ignore investments"],a:1},{q:"The most important financial number to track is...",o:["Your salary","Your spending","Your net worth","Your age"],a:2}]
@@ -801,6 +1216,38 @@ const QUESTIONS={
 };
 
 const ALL_FLASHCARDS=[
+  // FOUNDATIONS
+  {term:"Income",def:"Money that comes to you. You can earn it from a job, a business, investments, or owning things people pay to use.",cat:"Earning",col:"#F5C842"},
+  {term:"Hourly Wage",def:"Pay for every hour you work. 10 hours × $15 an hour = $150 (before taxes).",cat:"Earning",col:"#F5C842"},
+  {term:"Salary",def:"A set amount of pay per year, split into paychecks, no matter the exact hours each week.",cat:"Earning",col:"#F5C842"},
+  {term:"Commission",def:"Pay based on a percent of what you sell. Sell more, earn more.",cat:"Earning",col:"#F5C842"},
+  {term:"Entrepreneur",def:"Someone who starts a business to solve a problem or meet a need, and takes a risk to do it.",cat:"Earning",col:"#F5C842"},
+  {term:"Profit",def:"What a business keeps. Profit = Revenue (money from sales) − Costs.",cat:"Earning",col:"#F5C842"},
+  {term:"Passive Income",def:"Money that keeps coming with less daily work, like dividends or royalties. It usually takes work or money to build first.",cat:"Earning",col:"#F5C842"},
+  {term:"Checking Account",def:"A bank account for everyday money: bills, debit card purchases, and getting paid.",cat:"Banking",col:"#4BA3F5"},
+  {term:"Savings Account",def:"A bank account for money you're setting aside. It usually earns more interest than checking.",cat:"Banking",col:"#4BA3F5"},
+  {term:"FDIC",def:"The U.S. agency that insures deposits at member banks, up to $250,000 per depositor, per bank, per ownership category.",cat:"Banking",col:"#4BA3F5"},
+  {term:"APY",def:"Annual Percentage Yield: how much interest your savings earn in a year. Higher APY = faster growth.",cat:"Banking",col:"#4BA3F5"},
+  {term:"Credit Union",def:"A not-for-profit financial institution owned by its members. Similar to a bank.",cat:"Banking",col:"#4BA3F5"},
+  {term:"Opportunity Cost",def:"What you give up when you make a choice. Every yes is a no to something else.",cat:"Spending",col:"#F06EB0"},
+  {term:"Unit Price",def:"The price per ounce, per item, or per unit. It shows which size is really the better deal.",cat:"Spending",col:"#F06EB0"},
+  {term:"Scam",def:"A trick to steal your money or information. Too good to be true? Tell a trusted adult.",cat:"Spending",col:"#F06EB0"},
+  {term:"Index Fund",def:"A fund that owns many companies at once, like the ~500 in the S&P 500. Simple, diversified, usually low-cost.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Dividend",def:"A share of a company's profits paid out to people who own its stock.",cat:"Investing",col:"#5ECC6A"},
+  {term:"Gross Pay",def:"Everything you earned before taxes and other deductions come out.",cat:"Future You",col:"#FFB830"},
+  {term:"Net Pay",def:"Your take-home pay: what's left after taxes and other deductions.",cat:"Future You",col:"#FFB830"},
+  {term:"Premium",def:"The amount you pay regularly to keep your insurance.",cat:"Future You",col:"#FFB830"},
+  {term:"Deductible",def:"What you pay first on a claim before your insurance starts paying.",cat:"Future You",col:"#FFB830"},
+  {term:"Scholarship",def:"Money for school that you usually don't have to pay back. Always apply for free money first!",cat:"Future You",col:"#FFB830"},
+  // CREDIT
+  {term:"Credit",def:"Borrowed money you agree to pay back later. It comes from the Latin word for 'trust.' It's a promise, not free money.",cat:"Credit",col:"#3DD6E0"},
+  {term:"Credit Limit",def:"The most you can borrow on a card at one time. A limit is a MAXIMUM, not a spending goal!",cat:"Credit",col:"#3DD6E0"},
+  {term:"Credit Score",def:"A number based on your credit history that helps lenders estimate how risky it may be to lend you money.",cat:"Credit",col:"#3DD6E0"},
+  {term:"Interest",def:"The extra money you may pay for borrowing. Borrow $100 with $5 interest and you repay $105.",cat:"Credit",col:"#3DD6E0"},
+  {term:"APR",def:"Annual Percentage Rate. It helps describe the yearly cost of borrowing money. Lower APR can mean lower borrowing costs.",cat:"Credit",col:"#3DD6E0"},
+  {term:"Debit Card",def:"A card that usually takes money straight from your bank account. You're spending money you already have, not borrowing.",cat:"Credit",col:"#3DD6E0"},
+  {term:"Minimum Payment",def:"The smallest amount you must pay on a credit bill. Paying ONLY the minimum can make debt last longer and cost more.",cat:"Credit",col:"#3DD6E0"},
+  {term:"Lender",def:"The person, bank, or company that lends you money and expects to be paid back according to the rules.",cat:"Credit",col:"#3DD6E0"},
   // BASICS
   {term:"Bull Market",def:"A market where prices are RISING 20%+ from recent lows. Investors are optimistic. 🐂 charges upward!",cat:"Basics",col:"#00C896"},
   {term:"Bear Market",def:"A market where prices are FALLING 20%+ from recent highs. Investors are pessimistic. 🐻 swipes downward!",cat:"Basics",col:"#FF7055"},
@@ -848,8 +1295,14 @@ const ALL_FLASHCARDS=[
 
 const BADGES=[
   {name:"First Steps",desc:"Complete 1st lesson",em:"🌟",cond:"lessons",n:1},
+  {name:"Money Maker",desc:"Complete Earning Island",em:"🏝️",cond:"world",w:"earn"},
   {name:"Budget Boss",desc:"Complete Money Mountain",em:"💰",cond:"world",w:"money"},
+  {name:"Bank Boss",desc:"Complete Bank Bay",em:"🏛️",cond:"world",w:"bank"},
+  {name:"Smart Spender",desc:"Complete Smart Spender Street",em:"🛍️",cond:"world",w:"spend"},
+  {name:"Growth Guru",desc:"Complete Growth Garden",em:"🌱",cond:"world",w:"grow"},
+  {name:"Future Ready",desc:"Complete Future You",em:"🚀",cond:"world",w:"future"},
   {name:"Market Maker",desc:"Complete Market City",em:"🏙️",cond:"world",w:"market"},
+  {name:"Credit Smart",desc:"Complete Credit Cove",em:"💳",cond:"world",w:"credit"},
   {name:"Chart Master",desc:"Complete Chart Kingdom",em:"📊",cond:"world",w:"chart"},
   {name:"Trading Pro",desc:"Complete Trading Floor",em:"⚡",cond:"world",w:"trade"},
   {name:"VPA Scholar",desc:"Complete VPA Vault",em:"🔮",cond:"world",w:"vpa"},
@@ -860,10 +1313,10 @@ const BADGES=[
   {name:"Card Master",desc:"Master 30+ flashcards",em:"🃏",cond:"cards",n:30},
   {name:"Money Master",desc:"Earn 500+ Savvy Bucks",em:"👑",cond:"sb",n:500},
   {name:"Trade Streak 5",desc:"5 correct trades in a row",em:"🔥",cond:"tradestreak",n:5},
-  {name:"Savvy Investor",desc:"Complete all 8 worlds",em:"💎",cond:"worlds",n:8},
+  {name:"Savvy Investor",desc:"Complete every world",em:"💎",cond:"worlds",n:9},
   {name:"Scripture Reader",desc:"Visit 5 different worlds",em:"✝️",cond:"worlds",n:5},
   {name:"Gold Tier",desc:"Earn 1000+ Savvy Bucks",em:"🥇",cond:"sb",n:1000},
-  {name:"Flashcard Legend",desc:"Master all 35 flashcards",em:"⭐",cond:"cards",n:35},
+  {name:"Flashcard Legend",desc:"Master every flashcard",em:"⭐",cond:"cards",n:35},
   {name:"Savvy Champion",desc:"Complete every lesson",em:"🏆",cond:"alllessons"}
 ];
 
@@ -906,7 +1359,7 @@ const DEF_STATE={
   fcIdx:0,fcMastered:[],fcCat:'All',
   cash:1000,holdings:{},totalTrades:0,
   tradeStreak:0,tradeCandles:[],tradeAnswer:null,
-  worldsVisited:[],perfectQuizzes:0
+  worldsVisited:[],perfectQuizzes:0,actDone:{}
 };
 let ST=Object.assign({},DEF_STATE);
 try{const s=localStorage.getItem('ssa_v4');if(s)ST=Object.assign({},DEF_STATE,JSON.parse(s));}catch(e){}
@@ -962,6 +1415,7 @@ function launchApp(){
 // NAVIGATION
 // ═══════════════════════════════════════════
 function go(s){
+  if(s==='trade'&&(ST.ageGroup||8)<13){alert('The trading game unlocks at ages 13+. Trading is the very last step, so keep building your money foundations first! 🌱');return;}
   document.querySelectorAll('.screen').forEach(x=>x.classList.remove('on'));
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
   document.getElementById('s-'+s).classList.add('on');
@@ -978,10 +1432,10 @@ function go(s){
 // HUB / WORLDS
 // ═══════════════════════════════════════════
 function renderHub(){
-  document.getElementById('hub-greeting-txt').textContent=`Welcome, ${ST.name||'Trader'}! ${ST.avatar}`;
+  document.getElementById('hub-greeting-txt').textContent=`Welcome, ${ST.name||'Savvy Kid'}! ${ST.avatar}`;
   document.getElementById('hub-subtitle').textContent=`${ST.totalLessons} lessons completed · Level ${getLevel(ST.sb).name}`;
   const g=document.getElementById('worlds-grid');
-  g.innerHTML=WORLDS.map(w=>{
+  const card=w=>{
     const age=ST.ageGroup;
     const locked=w.minAge>age&&age<w.minAge;
     const done=ST.worldDone[w.id]||0;
@@ -999,11 +1453,16 @@ function renderHub(){
         <div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:3px;font-weight:600">${done}/${total} lessons</div>
       </div>
     </div>`;
-  }).join('');
+  };
+  const sec=(t,d)=>`<div class="hub-sec"><h3>${t}</h3><p>${d}</p></div>`;
+  g.innerHTML=sec('Money Foundations','Start here and work your way down. Every world builds on the last.')
+    +WORLDS.filter(w=>w.tier!=='adv').map(card).join('')
+    +sec('Trading Academy 📈','The very last step. Unlocks at ages 13+, once your foundations are strong.')
+    +WORLDS.filter(w=>w.tier==='adv').map(card).join('');
 }
 
 function enterWorld(id,locked){
-  if(locked){alert('Unlock this world as you level up! Keep learning to access advanced content.');return;}
+  if(locked){const lw=WORLDS.find(w=>w.id===id);alert(lw&&lw.tier==='adv'?'The Trading Academy unlocks at ages 13+. Build your money foundations first. Trading is the very last step! 🚀':'This world unlocks as you grow. Keep learning in the worlds above!');return;}
   curWorld=WORLDS.find(w=>w.id===id);
   if(!ST.worldsVisited.includes(id)){ST.worldsVisited.push(id);save();}
   showScripture(curWorld,()=>renderWorldScreen());
@@ -1075,6 +1534,11 @@ function openLesson(worldId,lessonName,idx){
         <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px;color:${w.color}">${n+1}</div>
         <div style="font-size:13px;color:var(--text);line-height:1.6;font-weight:500">${c}</div></div>`).join('')}
     </div>
+    ${renderActivity(data,w)}
+    ${data.talk?`<div class="card" style="background:rgba(155,143,240,.06);border-color:rgba(155,143,240,.22)">
+      <div class="meta" style="color:var(--purple)">Talk it over 💬</div>
+      <div style="font-size:12.5px;color:var(--text);line-height:1.6;font-weight:600">${data.talk}</div>
+    </div>`:''}
     <div class="card" style="background:rgba(245,200,66,.05);border-color:rgba(245,200,66,.2)">
       <div class="meta" style="color:var(--gold)">Did You Know?</div>
       <div style="font-size:12px;color:var(--text);line-height:1.6;font-weight:500">${data.fact||''}</div>
@@ -1086,6 +1550,125 @@ function openLesson(worldId,lessonName,idx){
     </div>`;
   document.getElementById('quiz-btn').textContent=done?'Retake Quiz':`Start Quiz — Earn ${data.xp} SB`;
   go('lesson');
+  initActivity();
+}
+
+// ═══════════════════════════════════════════
+// LESSON ACTIVITIES (hands-on "Try it" cards)
+// ═══════════════════════════════════════════
+let curAct=null,actState={};
+const fmt$=n=>'$'+Math.round(n).toLocaleString();
+function renderActivity(data,w){
+  curAct=data.activity||null;actState={};
+  if(!curAct)return'';
+  const a=curAct;let body='';
+  if(a.type==='rows'){
+    body=a.rows.map((r,ri)=>`<div class="act-row"><div class="act-p">${r.p}</div>
+      <div class="act-opts" id="act-o${ri}">${a.opts.map((o,oi)=>`<button class="act-btn" onclick="actPick(${ri},${oi})">${o}</button>`).join('')}</div>
+      <div class="act-fb" id="act-fb${ri}" aria-live="polite"></div></div>`).join('');
+  }else if(a.type==='limit'){
+    body=`<label for="act-range" class="act-small" style="display:block;margin-top:10px">Amount borrowed</label>
+      <input type="range" class="act-range" id="act-range" min="0" max="${a.limit}" step="10" value="${a.start}" oninput="actLimit(this.value)">
+      <div class="act-meter"><div class="act-meter-fill" id="act-meter"></div></div>
+      <div class="act-nums"><span id="act-used"></span><span id="act-left"></span></div>
+      <div class="act-fb info" id="act-fb" aria-live="polite"></div>`;
+  }else if(a.type==='interest'){
+    body=`<label for="act-range" class="act-small" style="display:block;margin-top:10px">Amount to borrow</label>
+      <input type="range" class="act-range" id="act-range" min="50" max="500" step="50" value="100" oninput="actInterest()">
+      <div class="act-opts" style="margin-top:4px">${a.rates.map((r,i)=>`<button class="act-btn" id="act-rate${i}" onclick="actRate(${i})">${r}% interest</button>`).join('')}</div>
+      <div class="act-big" id="act-sum" aria-live="polite"></div>
+      <div class="act-fb info" id="act-fb"></div>
+      <div class="act-small">Simple example for one year. Real credit agreements can be more complicated.</div>`;
+  }else if(a.type==='compound'){
+    body=`<label for="act-m" class="act-small" style="display:block;margin-top:10px">Save each month: <b id="act-mv" style="color:var(--text)"></b></label>
+      <input type="range" class="act-range" id="act-m" min="5" max="100" step="5" value="20" oninput="actCompound(true)">
+      <label for="act-y" class="act-small" style="display:block">For how many years: <b id="act-yv" style="color:var(--text)"></b></label>
+      <input type="range" class="act-range" id="act-y" min="5" max="55" step="5" value="40" oninput="actCompound(true)">
+      <div class="act-big" id="act-sum" aria-live="polite"></div>
+      <div class="act-meter"><div class="act-meter-fill" id="act-meter" style="background:var(--green)"></div></div>
+      <div class="act-nums"><span id="act-used"></span><span id="act-left"></span></div>
+      <div class="act-small">Assumes a 7% average yearly return. Real investments go up and down, and growth isn't guaranteed.</div>`;
+  }else if(a.type==='choice'){
+    body=`<div style="margin-top:10px">${a.choices.map((c,ci)=>`<button class="act-btn block" id="act-c${ci}" onclick="actChoose(${ci})">${c.t}</button>`).join('')}</div>
+      <div class="act-fb" id="act-fb" aria-live="polite"></div>`;
+  }
+  return`<div class="card" style="border-color:rgba(61,214,224,.28);background:rgba(61,214,224,.04)">
+    <div class="meta" style="color:${w.color}">Try it ✋</div>
+    <div class="act-title">${a.title}</div><div class="act-hint">${a.hint||''}</div>
+    ${body}
+    <div class="act-reward" id="act-reward"></div></div>`;
+}
+function initActivity(){
+  if(!curAct)return;
+  if(curAct.type==='limit')actLimit(curAct.start,true);
+  if(curAct.type==='compound')actCompound(false);
+  if(curAct.type==='interest'){actState.rate=0;actState.tried=new Set([0]);actRate(0,true);}
+}
+function actComplete(){
+  const k=curLesson.worldId+'_'+curLesson.idx;
+  if(!ST.actDone)ST.actDone={};
+  const el=document.getElementById('act-reward');if(!el||el.classList.contains('on'))return;
+  if(ST.actDone[k]){el.textContent='✅ Activity complete';el.classList.add('on');return;}
+  ST.actDone[k]=true;ST.sb+=5;save();updateStats();
+  el.textContent='🎉 Nice work! +5 Savvy Bucks';el.classList.add('on');
+}
+function actPick(ri,oi){
+  const r=curAct.rows[ri];if(!actState.done)actState.done={};if(actState.done[ri])return;
+  const btns=document.querySelectorAll('#act-o'+ri+' .act-btn');
+  const fb=document.getElementById('act-fb'+ri);
+  if(oi===r.a){
+    actState.done[ri]=true;btns[oi].classList.add('ok');btns.forEach(b=>b.disabled=true);
+    fb.className='act-fb good';fb.textContent='✓ '+r.why;
+    if(Object.keys(actState.done).length===curAct.rows.length)actComplete();
+  }else{
+    btns[oi].classList.add('no');btns[oi].disabled=true;
+    fb.className='act-fb bad';fb.textContent='Not quite. Try again!';
+  }
+}
+function actLimit(v,init){
+  v=+v;const L=curAct.limit,pct=v/L*100;
+  let col='var(--teal)',msg;
+  if(v===0)msg='Nothing borrowed yet. The full '+fmt$(L)+' is available.';
+  else if(v<=L*0.3)msg='Healthy zone 🌱 Using a small part of your limit is a smart habit.';
+  else if(v<=L*0.7){col='var(--amber)';msg='Careful ⚠️ That is a big chunk. Can you pay it all back on time?';}
+  else if(v<L){col='var(--coral)';msg='Danger zone 🚨 You are close to the limit.';}
+  else{col='var(--coral)';msg='Maxed out! Remember: a limit is NOT a spending goal.';}
+  const m=document.getElementById('act-meter');m.style.width=pct+'%';m.style.background=col;
+  document.getElementById('act-used').innerHTML=`<span style="color:${col}">${fmt$(v)} used</span>`;
+  document.getElementById('act-left').textContent=fmt$(L-v)+' available';
+  document.getElementById('act-fb').textContent=msg;
+  if(!init&&v>0&&v<=L*0.3)actComplete();
+}
+function actRate(i,init){
+  actState.rate=i;actState.tried.add(i);
+  curAct.rates.forEach((_,j)=>document.getElementById('act-rate'+j).classList.toggle('pick',j===i));
+  actInterest();
+  if(!init&&actState.tried.size===curAct.rates.length)actComplete();
+}
+function actInterest(){
+  const amt=+document.getElementById('act-range').value,r=curAct.rates[actState.rate];
+  const int=amt*r/100;
+  document.getElementById('act-sum').textContent=`${fmt$(amt)} + ${fmt$(int)} = ${fmt$(amt+int)}`;
+  const lo=amt*curAct.rates[0]/100,hi=amt*curAct.rates[1]/100;
+  document.getElementById('act-fb').textContent=`Borrow ${fmt$(amt)} at ${r}% and you pay back ${fmt$(amt+int)}. At ${curAct.rates[0]}% the extra cost is ${fmt$(lo)}; at ${curAct.rates[1]}% it is ${fmt$(hi)}.`;
+}
+function actCompound(user){
+  const m=+document.getElementById('act-m').value,y=+document.getElementById('act-y').value,r=0.07/12,n=y*12;
+  const fv=m*(Math.pow(1+r,n)-1)/r,put=m*n;
+  document.getElementById('act-mv').textContent=fmt$(m);
+  document.getElementById('act-yv').textContent=y+' years';
+  document.getElementById('act-sum').textContent='≈ '+fmt$(fv);
+  document.getElementById('act-meter').style.width=Math.max(2,put/fv*100)+'%';
+  document.getElementById('act-used').innerHTML=`<span style="color:var(--green)">You put in ${fmt$(put)}</span>`;
+  document.getElementById('act-left').textContent=`Growth: ${fmt$(fv-put)}`;
+  if(user)actComplete();
+}
+function actChoose(ci){
+  const c=curAct.choices[ci],fb=document.getElementById('act-fb');
+  curAct.choices.forEach((_,j)=>document.getElementById('act-c'+j).classList.remove('ok','no'));
+  document.getElementById('act-c'+ci).classList.add(c.good?'ok':'no');
+  fb.className='act-fb '+(c.good?'good':'bad');fb.textContent=(c.good?'✓ ':'Hmm. ')+c.why+(c.good?'':' Try another choice.');
+  if(c.good)actComplete();
 }
 
 // ═══════════════════════════════════════════
@@ -1157,7 +1740,7 @@ function finishQuiz(qs){
   if(ST.sb>=500)addB('Money Master');
   if(ST.sb>=1000)addB('Gold Tier');
   if(ST.worldsVisited.length>=5)addB('Scripture Reader');
-  if(Object.values(ST.worldDone).filter(v=>v>=6).length>=8)addB('Savvy Investor');
+  if(WORLDS.every(ww=>(ST.worldDone[ww.id]||0)>=ww.lessons.length))addB('Savvy Investor');
   const allDone=WORLDS.every(ww=>ww.lessons.every((_,i)=>ST.lessonDone[ww.id+'_'+i]));
   if(allDone)addB('Savvy Champion');
   save();
