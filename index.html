@@ -235,6 +235,16 @@ html,body{height:100%;background:var(--bg);font-family:-apple-system,BlinkMacSys
 .ohlc{position:absolute;left:8px;top:6px;right:60px;font-size:10.5px;font-weight:700;color:var(--text2);font-variant-numeric:tabular-nums;pointer-events:none;line-height:1.5}
 .lab-news{position:absolute;left:8px;right:60px;bottom:26px;display:none;background:rgba(10,14,26,.94);border:1px solid var(--gold);border-radius:10px;padding:7px 9px;font-size:11.5px;font-weight:800;color:var(--text);z-index:3}
 .lab-news.on{display:block;animation:toastIn .3s ease}
+.seg.scroll{overflow-x:auto;scrollbar-width:none;max-width:100%}
+.seg.scroll button{flex-shrink:0}
+.seg.ranges{margin-top:7px;width:100%}
+.seg.ranges button{flex:1}
+.lab-tfinfo{font-size:11.5px;font-weight:700;color:var(--text2);text-align:center;margin-top:7px}
+.lab-tfinfo b{color:var(--gold)}
+.mstat{font-size:10.5px;font-weight:800;color:var(--text2)}
+.lab-intro summary{cursor:pointer;font-size:13px;list-style:none}
+.lab-intro p{font-size:12.5px;line-height:1.6;margin-top:8px;color:var(--text)}
+.grownup{margin-top:10px;padding:10px 12px;border-radius:10px;background:rgba(75,163,245,.08);border:1px solid rgba(75,163,245,.3);font-size:12px;line-height:1.6;color:var(--text)}
 .lab-hint{font-size:10px;color:var(--text3);font-weight:600;text-align:center;margin:5px 0 10px}
 .tk-row{display:flex;align-items:center;justify-content:space-between;margin-top:9px;font-size:12px;font-weight:700;color:var(--text2)}
 .tk-row b{color:var(--text);font-size:14px}
@@ -299,6 +309,9 @@ html,body{height:100%;background:var(--bg);font-family:-apple-system,BlinkMacSys
 .cal-d.today{border-color:var(--gold);box-shadow:0 0 0 2px rgba(245,200,66,.35);animation:pulse 1.5s ease-in-out infinite}
 .cal-d.got{opacity:.5}
 .cal-n{font-size:10px;font-weight:800;color:var(--text2)}.cal-r{font-size:18px;min-height:22px}.cal-l{font-size:10.5px;font-weight:800}
+.cheer-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+.cheer{background:var(--surface);border:1px solid var(--border2);border-radius:12px;padding:10px 6px;font-family:inherit;font-size:12px;font-weight:800;color:var(--text);cursor:pointer}
+.cheer:hover{border-color:var(--pink)}
 .mini-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .mini-card{position:relative;background:var(--surface);border:1px solid var(--border2);border-radius:var(--rl);padding:12px 8px;cursor:pointer;font-family:inherit;color:var(--text);text-align:center;display:flex;flex-direction:column;align-items:center}
 .mc-t{font-size:12.5px;font-weight:900;margin-top:2px}.mc-s{font-size:10px;color:var(--text2);font-weight:700;margin-top:2px}
@@ -720,6 +733,8 @@ button.chip{font-family:inherit;color:var(--text);cursor:pointer}
 <!-- ─── MARKET LAB: pretend-money charting platform ─── -->
 <div class="screen" id="s-lab">
   <div id="lab-root">
+  <div id="lab-intro"></div>
+  <div class="lab-tools"><div class="seg" id="lab-mkt" role="group" aria-label="Which market"></div><span class="mstat" id="lab-mstat"></span></div>
   <div class="lab-head">
     <button class="lab-sym" id="lab-sym" onclick="labWatchlist()" aria-label="Change stock"><span class="xp-badge" onclick="event.stopPropagation();labExplainPart(1)">1</span><span id="lab-sym-txt">SNAK</span> ▾</button>
     <div class="lab-px"><span class="xp-badge" onclick="labExplainPart(2)">2</span><div><div id="lab-price" class="lab-price">0.00</div><div id="lab-chg" class="lab-chg"></div></div></div>
@@ -727,7 +742,9 @@ button.chip{font-family:inherit;color:var(--text);cursor:pointer}
   </div>
   <div class="lab-tools">
     <span class="xp-badge" onclick="labExplainPart(3)">3</span>
-    <div class="seg" id="lab-tfs" role="group" aria-label="Timeframe"></div>
+    <div class="seg scroll" id="lab-tfs" role="group" aria-label="Timeframe: how much time each candle covers"></div>
+  </div>
+  <div class="lab-tools">
     <div class="seg" id="lab-types" role="group" aria-label="Chart type"></div>
   </div>
   <div class="lab-tools">
@@ -747,26 +764,32 @@ button.chip{font-family:inherit;color:var(--text);cursor:pointer}
     <span class="xp-badge xp-abs" style="left:50%;bottom:0" onclick="labExplainPart(6)">6</span>
     <span class="xp-badge xp-abs" style="left:10px;bottom:30px" onclick="labExplainPart(7)">7</span>
   </div>
-  <div class="lab-hint">Drag to scroll back in time. Tap a candle to read it. Pretend market: made-up companies, open 24/7 for practice.</div>
+  <div class="seg scroll ranges" id="lab-ranges" role="group" aria-label="Date range: how much history to show"></div>
+  <div class="lab-tfinfo" id="lab-tfinfo"></div>
+  <div class="lab-hint" id="lab-hint"></div>
 
   <div class="card lab-ticket">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span class="xp-badge" onclick="labExplainPart(8)">8</span><div class="meta" style="margin:0;color:var(--gold)">Order ticket</div>
       <div style="margin-left:auto;font-size:11px;font-weight:700;color:var(--text2)">Bid <b id="lab-bid" style="color:var(--coral)"></b> · Ask <b id="lab-ask" style="color:var(--teal)"></b></div></div>
     <div class="seg wide" id="lab-side"></div>
     <div class="seg wide" id="lab-otype" style="margin-top:6px"></div>
-    <div class="tk-row"><span>Shares</span><div class="stepper"><button onclick="labShares(-1)" aria-label="Fewer shares">−</button><input id="lab-qty" type="number" min="1" value="1" inputmode="numeric" oninput="labTicket()"><button onclick="labShares(1)" aria-label="More shares">+</button></div></div>
+    <div class="tk-row"><span>Buy or sell by</span><div class="seg" id="lab-qmode"></div></div>
+    <div class="tk-row"><span id="lab-qlbl">Shares</span><div style="display:flex;gap:6px;align-items:center"><button class="tool" id="lab-all" onclick="labAll()" style="display:none">All</button><div class="stepper"><button onclick="labShares(-1)" aria-label="Less">−</button><input id="lab-qty" type="number" min="0" step="any" value="1" inputmode="decimal" oninput="labTicket()"><button onclick="labShares(1)" aria-label="More">+</button></div></div></div>
     <div class="tk-row" id="lab-limrow"><span id="lab-limlbl">Limit price</span><div class="stepper"><button onclick="labLim(-1)" aria-label="Lower price">−</button><input id="lab-lim" type="number" step="0.01" inputmode="decimal" oninput="labTicket()"><button onclick="labLim(1)" aria-label="Higher price">+</button></div></div>
     <div class="tk-row"><span>Estimated total</span><b id="lab-est">$0.00</b></div>
     <div class="act-small" id="lab-otip" style="margin-top:0"></div>
-    <button class="btn" id="lab-place" onclick="labPlace()">Place pretend order</button>
+    <button class="btn" id="lab-place" onclick="labPlace()">Place order</button>
   </div>
 
   <div class="card">
-    <div class="meta" style="color:var(--teal)">My pretend account</div>
+    <div class="meta" style="color:var(--teal)">My accounts</div>
+    <div class="seg wide" id="lab-accts" role="group" aria-label="Which account"></div>
+    <div class="act-small" id="lab-acctnote" style="margin:8px 0 2px"></div>
+    <div id="lab-sbbox"></div>
     <div class="acct" id="lab-acct"></div>
     <div id="lab-pos"></div>
     <div id="lab-orders"></div>
-    <button class="btn ghost sm" style="margin-top:10px" onclick="labReset()">Reset pretend account to $10,000</button>
+    <button class="btn ghost sm" id="lab-reset" style="margin-top:10px" onclick="labReset()">Reset paper account to $10,000</button>
   </div>
 
   <div class="card"><div class="meta" style="color:var(--purple)">Lab missions 🧪</div><div id="lab-missions"></div></div>
@@ -774,7 +797,7 @@ button.chip{font-family:inherit;color:var(--text);cursor:pointer}
     <div style="font-size:12px;color:var(--text2);line-height:1.6;font-weight:500;margin-bottom:8px">TradingView, thinkorswim, Webull, Robinhood… they all look different, but every one has these same 8 parts. Tap a part to learn it.</div>
     <div id="lab-decoder"></div></div>
   <div class="card"><div class="meta" style="color:var(--pink)">My trading journal 📓</div><div id="lab-journal"></div></div>
-  <div class="act-small" style="text-align:center;margin-bottom:10px">⚖️ The Market Lab uses pretend money and made-up companies. It's for learning how platforms work, not for picking real investments.</div>
+  <div class="act-small" style="text-align:center;margin-bottom:10px">⚖️ Paper trading uses practice money, and Savvy Bucks are game money. Real company prices are for learning how markets work, not investment advice.</div>
   </div>
 </div>
 
@@ -1008,7 +1031,7 @@ const LESSON_DATA={
         {p:"A candle with a very long UPPER wick",a:1,why:"Price rose, but sellers pushed it back down."}]},
       verse:{text:"The heart of the discerning acquires knowledge, for the ears of the wise seek it out.",ref:"Proverbs 18:15"}},
     "One Candle, Many Timeframes":{xp:40,
-      concepts:["A candle can stand for ANY amount of time: 1 minute, 5 minutes, 1 hour, 1 day, or 1 week. That's the TIMEFRAME","On a 1-day chart, each candle is one whole day. On a 1-minute chart, each candle is just 60 seconds","Every platform has timeframe buttons, often labeled like 1m, 5m, 1H, 1D, and 1W. Always check the timeframe before you read a chart!"],
+      concepts:["A candle can stand for ANY amount of time: 1 minute, 5 minutes, 1 hour, 1 day, or 1 week. That's the TIMEFRAME","On a 1-day chart, each candle is one whole day. On a 1-minute chart, each candle is just 60 seconds","Platforms label timeframes like 1m, 5m, 15m, 1H, 4H, 1D, 1W, 1M, and 1Y. Careful: small m = minutes, big M = month! Many apps also have RANGE buttons (5D, 1Y, ALL) that choose how much history you see"],
       fact:"One 1-day candle holds the same prices as all of that day's smaller candles combined: the first open, the highest high, the lowest low, and the last close.",
       talk:"If a day has 390 trading minutes, how many 1-minute candles fit in one day?",
       activity:{type:"rows",title:"How long is one candle?",hint:"Read the timeframe label.",opts:["1 minute","1 hour","1 day"],rows:[
@@ -1784,7 +1807,8 @@ const ALL_FLASHCARDS=[
   {term:"Candlestick",def:"A chart shape showing 4 prices for one period: open, high, low, and close. Invented by Japanese rice traders in the 1700s.",cat:"Charts",col:"#3DD6E0"},
   {term:"OHLC",def:"Open, High, Low, Close: the 4 prices every candle (and bar) shows.",cat:"Charts",col:"#3DD6E0"},
   {term:"Wick",def:"The thin line above or below a candle's body. It shows where price traveled but didn't stay.",cat:"Charts",col:"#3DD6E0"},
-  {term:"Timeframe",def:"How much time each candle covers: 1m, 5m, 1H, 1D, 1W. Always check it before reading a chart!",cat:"Charts",col:"#3DD6E0"},
+  {term:"Timeframe",def:"How much time ONE candle covers: 1m, 5m, 15m, 1H, 4H, 1D, 1W, 1M, 1Y. Small m = minutes, big M = month!",cat:"Charts",col:"#3DD6E0"},
+  {term:"Range",def:"How much history the chart shows, like 5D (five days), YTD (year to date), 1Y, or ALL. Different from the timeframe!",cat:"Charts",col:"#3DD6E0"},
   {term:"Volume",def:"How many shares traded during a period. Shown as bars at the bottom of most charts.",cat:"Charts",col:"#3DD6E0"},
   {term:"Trend",def:"The general direction of price: up (higher highs and lows), down (lower highs and lows), or sideways.",cat:"Charts",col:"#3DD6E0"},
   {term:"Support & Resistance",def:"Support is a price floor where buyers stepped in before. Resistance is a ceiling where sellers stepped in.",cat:"Charts",col:"#3DD6E0"},
@@ -1833,7 +1857,7 @@ const BADGES=[
   {name:"Volume Voyager",desc:"Complete Price & Volume Peak",em:"📶",cond:"world",w:"volume"},
   {name:"Chart Pro",desc:"Complete Chart School",em:"🧭",cond:"world",w:"charts"},
   {name:"Risk Ranger",desc:"Complete Risk Ranger Camp",em:"🏕️",cond:"world",w:"riskwise"},
-  {name:"First Paper Trade",desc:"Place your first pretend trade",em:"🟢",cond:"lab"},
+  {name:"First Paper Trade",desc:"Place your first paper trade",em:"🟢",cond:"lab"},
   {name:"Chart Detective",desc:"Finish every Market Lab mission",em:"🔎",cond:"lab"},
   {name:"Home Hero",desc:"Complete 3 home missions",em:"🏠",cond:"home"},
   {name:"Squad Builder",desc:"Share or add a friend",em:"🤝",cond:"squad"},
@@ -1845,7 +1869,8 @@ const BADGES=[
   {name:"Month of Money",desc:"Reach a 30-day streak",em:"📅",cond:"streak"},
   {name:"Streak Legend",desc:"Reach a 100-day streak",em:"💯",cond:"streak"},
   {name:"Set Collector",desc:"Complete a collection set",em:"🧩",cond:"sets"},
-  {name:"Master Mind",desc:"Earn gold crowns on 10 lessons",em:"🥇",cond:"mastery"}
+  {name:"Master Mind",desc:"Earn gold crowns on 10 lessons",em:"🥇",cond:"mastery"},
+  {name:"Hype Squad",desc:"Send 5 cheers",em:"📣",cond:"cheers"}
 ];
 
 // ═══════════════════════════════════════════
@@ -1907,7 +1932,7 @@ function startApp(){
 }
 
 function launchApp(){
-  ensureLook();checkStreakOnLoad();leagueRoll();if(ST.pet){ST.pet.away=!!(ST.pet.seen&&dayDiff(ST.pet.seen,today())>=2);ST.pet.seen=today();}
+  ensureLook();showInbox();checkStreakOnLoad();leagueRoll();if(ST.pet){ST.pet.away=!!(ST.pet.seen&&dayDiff(ST.pet.seen,today())>=2);ST.pet.seen=today();}
   loginCheck();showGifts();ensureQuests();
   const snd=document.getElementById('hdr-snd');if(snd)snd.textContent=ST.muted?'🔇':'🔊';
   document.getElementById('main-app').style.display='flex';
@@ -2472,7 +2497,7 @@ const QUEST_POOL=[
   {id:'save',txt:'Put Savvy Bucks in your Vault',n:1,em:'🐷'},
   {id:'give',txt:'Add to the Give Jar',n:1,em:'💝'},
   {id:'runway',txt:'Walk a Runway Challenge',n:1,em:'👗'},
-  {id:'labq',txt:'Place a pretend trade in the Market Lab',n:1,em:'📈'}];
+  {id:'labq',txt:'Place a paper trade in the Market Lab',n:1,em:'📈'}];
 function ensureQuests(){
   const t=today();if(ST.quest&&ST.quest.day===t)return;
   let h=0;for(const ch of t)h=(h*31+ch.charCodeAt(0))%9973;
@@ -3001,6 +3026,11 @@ function walkRunway(){
 // A new theme every month, a 20-tier Squad Pass (free + Plus tracks),
 // parent-only gem purchases, Chore Payday, and a kid wishlist.
 // ═══════════════════════════════════════════════════════════
+// ── APP SETTINGS FOR THE OWNER ──
+// Parent email signups: paste your Formspree form address (free at formspree.io), e.g. 'https://formspree.io/f/abcdwxyz'.
+// Until this is filled in, the signup card says "coming soon" and nothing is collected.
+// Real stock prices in the Market Lab: paste a Twelve Data API key (twelvedata.com) here. Leave '' to use only the made-up Squad companies.
+const APP_CONFIG={signupEndpoint:'',marketDataKey:''};
 const PAYMENTS={mode:'demo',  // 'demo' = test the whole flow with no real money. Switch to real checkout once Stripe / App Store is connected.
   prices:{plusMonth:4.99,plusYear:39.99,g100:.99,g550:4.99,g1200:9.99}};
 const GEM_PACKS=[['g100',100,'Handful of Gems'],['g550',550,'Bag of Gems (+10% bonus)'],['g1200',1200,'Chest of Gems (+20% bonus)']];
@@ -3167,12 +3197,29 @@ function renderParent(){
       <div class="tk-row"><input id="ch-t" class="ob-inp" placeholder="Add a chore" maxlength="30" style="margin:0;flex:1"><input id="ch-g" type="number" value="15" min="1" class="ob-inp" style="margin:0 0 0 6px;width:70px"><button class="tool" style="margin-left:6px" onclick="addChore()">Add</button></div></div>
     <div class="card"><div class="meta" style="color:var(--pink)">${esc(ST.name||'Your child')}'s wishlist ⭐</div>
       ${wish.length?wish.map(i=>`<div class="pos-row" style="cursor:default"><span class="em">${i.em}</span><div style="flex:1">${i.name}<div style="font-size:10.5px;color:var(--text2)">💎 ${i.gem} (about $${(i.gem/100).toFixed(2)})</div></div><button class="tool on" onclick="giftWish('${i.id}')">Gift it</button></div>`).join(''):'<div class="act-small">Nothing on the wishlist yet. When your child wants a gem item, they add it here instead of begging. 😉</div>'}</div>
+    ${signupHTML()}
+    ${APP_CONFIG.marketDataKey?'':'<div class="card"><div class="meta" style="color:var(--blue)">Real stock prices 🌎</div><div class="act-small" style="margin-top:0">The Market Lab can show real prices for companies like Apple, Disney, and Nike once a market-data connection is added by the app team. Until then, kids practice with the made-up Squad companies.</div></div>'}
     <div class="card"><div class="meta">Spending guardrails</div>
       <div class="tk-row"><span>Monthly gem payout limit</span><div class="seg">${[250,500,1000].map(v=>`<button class="${P.cap===v?'on':''}" onclick="ST.parent.cap=${v};save();renderParent()">${v}</button>`).join('')}</div></div>
       <div class="act-small">Paid out this month: 💎 ${P.spent} of ${P.cap}. Kids can never buy gems or chests themselves. Every purchase goes through this parent gate.</div></div>
     <div class="card"><div class="meta">History</div>${P.hist.length?P.hist.slice(0,10).map(h=>`<div class="mis"><span>${h.g>0?'➕':'➖'}</span><div style="flex:1">${esc(h.t)}<div style="font-size:10.5px;color:var(--text2)">${h.d}${h.demo?' · demo':''}</div></div><b>💎 ${h.g}</b></div>`).join(''):'<div class="act-small">No activity yet.</div>'}</div>`;
   save();
 }
+function signupHTML(){
+  if(ST.signedUp)return`<div class="card"><div class="meta" style="color:var(--teal)">Savvy Squad updates 💌</div><div style="font-size:12.5px;font-weight:600">✅ You're on the list as ${esc(ST.signedUp)}. Thanks for learning with us!</div></div>`;
+  if(!APP_CONFIG.signupEndpoint)return`<div class="card"><div class="meta" style="color:var(--teal)">Savvy Squad updates 💌</div><div class="act-small" style="margin-top:0">Parent email updates are coming soon!</div></div>`;
+  return`<div class="card"><div class="meta" style="color:var(--teal)">Get Savvy Squad updates 💌</div>
+    <div style="font-size:12px;color:var(--text2);line-height:1.55;margin-bottom:8px">New lessons, seasons, and tips for teaching kids about money, sent to grown-ups only.</div>
+    <input id="su-name" class="ob-inp" maxlength="40" placeholder="Your first name" autocomplete="given-name" style="margin-bottom:6px">
+    <input id="su-email" class="ob-inp" type="email" maxlength="120" placeholder="Your email" autocomplete="email" style="margin-bottom:6px">
+    <label style="display:flex;gap:8px;align-items:flex-start;font-size:11.5px;color:var(--text2);line-height:1.5;margin-bottom:8px"><input type="checkbox" id="su-ok" style="margin-top:2px"> I'm a parent, guardian, or teacher (18+), and I'd like email updates from Savvy Squad Academy. I can unsubscribe anytime.</label>
+    <button class="btn gold" onclick="parentSignup()">Sign me up</button></div>`;}
+async function parentSignup(){const n=document.getElementById('su-name').value.trim().slice(0,40),e=document.getElementById('su-email').value.trim().slice(0,120);
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){toast('Please enter a valid email.');return;}
+  if(!document.getElementById('su-ok').checked){toast('Please check the box to agree to updates.');return;}
+  try{const r=await fetch(APP_CONFIG.signupEndpoint,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({firstName:n,email:e,consent:'Parent/guardian/teacher 18+, opted in to email updates',source:'Savvy Squad Academy app',date:today()})});
+    if(!r.ok)throw 0;ST.signedUp=e;save();confetti(140);SFX.win();renderParent();toast('💌 Thanks! You\'re on the list.');}
+  catch(err){toast('Hmm, that didn\'t go through. Please try again later.');}}
 function checkout(k){const price=PAYMENTS.prices[k],isGem=k[0]==='g',n=isGem?GEM_PACKS.find(p=>p[0]===k)[1]:0;
   if(PAYMENTS.mode!=='demo'){toast('Secure checkout is not connected yet.');return;}
   gmShow(`<div style="font-size:36px">🧾</div><div style="font-size:16px;font-weight:900;margin:6px 0">${isGem?`${n} gems`:k==='plusYear'?'Squad Plus (1 year)':'Squad Plus (1 month)'}: $${price}</div>
@@ -3292,7 +3339,7 @@ function openStory(k){k=Math.max(0,k);const e=STORY[k],n=storyAvail();if(!e)retu
   const nxt=STORY[k+1];
   gmShow(`<div class="meta" style="color:var(--pink)">Episode ${k+1}</div><div style="font-size:18px;font-weight:900;margin-bottom:10px">${e.t}</div>
     <div style="text-align:left">${e.l.map(([em,who,txt])=>`<div class="story-l ${who==='Penny'?'p':'m'}"><span class="story-em">${em}</span><div><b>${who}</b><div>${txt}</div></div></div>`).join('')}</div>
-    <button class="btn ghost sm" style="margin-top:8px" onclick="speak(${JSON.stringify(e.l.map(x=>x[1]+' says: '+x[2]).join(' ')).replace(/"/g,'&quot;')})">🔊 Read it to me</button>
+    <button class="btn ghost sm" style="margin-top:8px" onclick="playVoice('S|${k}',${JSON.stringify(e.l.map(x=>x[1]+' says: '+x[2]).join(' ')).replace(/"/g,'&quot;')})">🔊 Read it to me</button>
     ${nxt&&k+1<n?`<button class="btn gold" onclick="openStory(${k+1})">Next episode →</button>`:nxt?`<div class="act-small" style="margin:10px 0">⏭ Next: <b>${nxt.t}</b>. Unlocks after ${nxt.at-(ST.totalLessons||0)} more lesson${nxt.at-(ST.totalLessons||0)>1?'s':''}!</div>`:'<div class="act-small" style="margin:10px 0">🎉 New episodes arrive with future updates!</div>'}
     ${k>0?`<button class="btn ghost" onclick="openStory(${k-1})">← Previous</button>`:''}<button class="btn ghost" onclick="gmHide();renderHub()">Close</button>`);}
 // ── 5. streak milestones + streak repair ──
@@ -3463,14 +3510,49 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){stopMusic(
 // taste/smell/real life (home missions), and feelings (check-ins)
 // ═══════════════════════════════════════════════════════════
 const clean=t=>String(t).replace(/<[^>]+>/g,' ').replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u{2460}-\u{24FF}]/gu,'').replace(/\s+/g,' ').trim();
+// Picks the most natural voice on this device (Natural/Neural, Premium, Enhanced, Google) and skips robotic novelty voices.
+const ROBOT=/Albert|Bad News|Bahh|Bells|Boing|Bubbles|Cellos|Deranged|Fred|Good News|Hysterical|Jester|Junior|Kathy|Organ|Pipe|Ralph|Superstar|Trinoids|Whisper|Wobble|Zarvox|Grandma|Grandpa|Eddy|Flo|Reed|Rocko|Sandy|Shelley|eSpeak/i;
+function voiceScore(v){const n=v.name;let s=0;if(ROBOT.test(n))s-=300;
+  if(/Natural|Neural/i.test(n))s+=100;if(/Premium/i.test(n))s+=90;if(/Enhanced/i.test(n))s+=80;if(/Google US English/i.test(n))s+=70;if(/Google UK English Female/i.test(n))s+=55;
+  if(/\b(Ava|Samantha|Allison|Zoe|Susan|Nicky|Evan|Aria|Jenny|Guy|Emma|Michelle|Ana|Joelle|Nathan|Noelle)\b/i.test(n))s+=40;if(/en[-_]US/i.test(v.lang))s+=10;if(!v.localService)s+=5;return s;}
+function englishVoices(){try{return speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang)).sort((a,b)=>voiceScore(b)-voiceScore(a));}catch(e){return[];}}
+function pickedVoice(){const all=englishVoices();return all.find(v=>v.name===ST.voiceName)||all[0]||null;}
+try{speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=()=>{};}catch(e){}
 function speak(t){if(!('speechSynthesis' in window)){toast('Read-aloud isn\'t available in this browser.');return;}
-  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(clean(t));u.rate=ST.ttsRate||.95;u.pitch=1.05;speechSynthesis.speak(u);}catch(e){}}
-function stopSpeak(){try{window.speechSynthesis&&speechSynthesis.cancel();}catch(e){}}
+  try{speechSynthesis.cancel();const v=pickedVoice(),parts=clean(t).match(/[^.!?]+[.!?]*/g)||[clean(t)];
+    parts.forEach(p=>{const u=new SpeechSynthesisUtterance(p.trim());if(v){u.voice=v;u.lang=v.lang;}u.rate=ST.ttsRate||.95;u.pitch=1;speechSynthesis.speak(u);});}catch(e){}}
+function voiceName(v){return v.name.replace(/Microsoft |Online |\(Natural\)|- English \(United States\)|English \(.*?\)/g,'').replace(/\s+/g,' ').trim()||v.name;}
+function voicesHTML(){const rec=Object.keys(AUDIO_MAP).length>0,useRec=rec&&!ST.deviceVoice;
+  const recRow=rec?`<button class="wl-row${useRec?' sel':''}" onclick="ST.deviceVoice=false;save();openSettings();playVoice('L|earn|0','')"><span class="em">👩🏽‍🏫</span><div style="flex:1"><div style="font-weight:800">Savvy Squad voices (recommended)</div><div style="font-size:10.5px;color:var(--text2)">⭐ Heart teaches the lessons, Bella hosts the quizzes, Nova is Penny, and Puck is Mr. Impulse and your Market Lab guide</div></div>${useRec?'<b style="color:var(--gold)">✓</b>':'▶'}</button>
+    <div style="font-size:11px;color:var(--text3);font-weight:700;margin:6px 0 2px">Or use a voice from this device:</div>`:'';
+  return recRow+deviceVoicesHTML(useRec);}
+function deviceVoicesHTML(useRec){const all=englishVoices().filter(v=>voiceScore(v)>-100).slice(0,6),cur=useRec?null:pickedVoice();
+  if(!all.length)return'<div class="act-small">No reading voices found on this device.</div>';
+  return all.map(v=>`<button class="wl-row${cur&&v.name===cur.name?' sel':''}" onclick="ST.deviceVoice=true;ST.voiceName=${JSON.stringify(v.name).replace(/"/g,'&quot;')};save();openSettings();speak('Hi! I am your Savvy Squad reading buddy. Ready to learn about money together?')"><span class="em">🗣️</span><div style="flex:1"><div style="font-weight:800">${esc(voiceName(v))}</div><div style="font-size:10.5px;color:var(--text2)">${/Natural|Neural|Premium|Enhanced/i.test(v.name)?'⭐ Extra natural · ':''}${v.lang}</div></div>${cur&&v.name===cur.name?'<b style="color:var(--gold)">✓</b>':'▶'}</button>`).join('')+
+    `<div class="act-small">Voices come from your device. For the most natural ones: on an iPhone or iPad, go to Settings → Accessibility → Spoken Content → Voices → English, and download a “Premium” or “Enhanced” voice. On a computer, the Microsoft Edge browser has very natural “Online (Natural)” voices.</div>`;}
+// Recorded "teacher voice" clips live in the audio/ folder next to index.html (one file per world).
+// AUDIO_MAP: key → [file, start seconds, end seconds]. If a file isn't there, the device voice reads instead.
+const AUDIO_MAP={"S|0":["story.mp3",0.14,19.46],"S|1":["story.mp3",20.18,39.27],"S|2":["story.mp3",39.99,58.43],"S|3":["story.mp3",59.15,78.0],"S|4":["story.mp3",78.72,96.71],"S|5":["story.mp3",97.43,112.74],"S|6":["story.mp3",113.46,130.67],"S|7":["story.mp3",131.39,151.12],"S|8":["story.mp3",151.84,167.89],"S|9":["story.mp3",168.61,185.87],"S|10":["story.mp3",186.59,202.98],"S|11":["story.mp3",203.7,221.45],"P|1":["lab.mp3",0.14,9.26],"P|2":["lab.mp3",9.98,18.75],"P|3":["lab.mp3",19.47,46.6],"P|4":["lab.mp3",47.32,57.23],"P|5":["lab.mp3",57.95,66.84],"P|6":["lab.mp3",67.56,73.0],"P|7":["lab.mp3",73.72,81.26],"P|8":["lab.mp3",81.98,90.99],"L|earn|0":["L_earn.mp3",0.14,41.56],"L|earn|1":["L_earn.mp3",42.28,85.48],"L|earn|2":["L_earn.mp3",86.2,126.09],"L|earn|3":["L_earn.mp3",126.81,158.93],"L|earn|4":["L_earn.mp3",159.65,200.24],"L|earn|5":["L_earn.mp3",200.96,237.01],"L|money|0":["L_money.mp3",0.14,31.84],"L|money|1":["L_money.mp3",32.56,60.29],"L|money|2":["L_money.mp3",61.01,92.55],"L|money|3":["L_money.mp3",93.27,120.1],"L|money|4":["L_money.mp3",120.82,152.08],"L|money|5":["L_money.mp3",152.8,181.23],"L|goals|0":["L_goals.mp3",0.14,33.43],"L|goals|1":["L_goals.mp3",34.15,66.44],"L|goals|2":["L_goals.mp3",67.16,97.16],"L|goals|3":["L_goals.mp3",97.88,133.07],"L|goals|4":["L_goals.mp3",133.79,164.14],"L|bank|0":["L_bank.mp3",0.14,38.23],"L|bank|1":["L_bank.mp3",38.95,67.58],"L|bank|2":["L_bank.mp3",68.3,103.55],"L|bank|3":["L_bank.mp3",104.27,136.4],"L|bank|4":["L_bank.mp3",137.12,167.19],"L|spend|0":["L_spend.mp3",0.14,26.36],"L|spend|1":["L_spend.mp3",27.08,60.8],"L|spend|2":["L_spend.mp3",61.52,89.27],"L|spend|3":["L_spend.mp3",89.99,120.66],"L|spend|4":["L_spend.mp3",121.38,151.72],"L|spend|5":["L_spend.mp3",152.44,181.67],"L|spend|6":["L_spend.mp3",182.39,214.89],"L|credit|0":["L_credit.mp3",0.14,30.75],"L|credit|1":["L_credit.mp3",31.47,66.35],"L|credit|2":["L_credit.mp3",67.07,105.59],"L|credit|3":["L_credit.mp3",106.31,137.6],"L|credit|4":["L_credit.mp3",138.32,171.86],"L|credit|5":["L_credit.mp3",172.58,209.01],"L|grow|0":["L_grow.mp3",0.14,43.8],"L|grow|1":["L_grow.mp3",44.52,75.37],"L|grow|2":["L_grow.mp3",76.09,119.15],"L|grow|3":["L_grow.mp3",119.87,158.93],"L|grow|4":["L_grow.mp3",159.65,192.88],"L|market|0":["L_market.mp3",0.14,29.59],"L|market|1":["L_market.mp3",30.31,58.37],"L|market|2":["L_market.mp3",59.09,88.09],"L|market|3":["L_market.mp3",88.81,125.1],"L|market|4":["L_market.mp3",125.82,158.72],"L|market|5":["L_market.mp3",159.44,190.68],"L|future|0":["L_future.mp3",0.14,35.99],"L|future|1":["L_future.mp3",36.71,70.12],"L|future|2":["L_future.mp3",70.84,107.18],"L|future|3":["L_future.mp3",107.9,139.48],"L|future|4":["L_future.mp3",140.2,170.68],"L|future|5":["L_future.mp3",171.4,208.7],"L|future|6":["L_future.mp3",209.42,242.92],"L|eco|0":["L_eco.mp3",0.14,40.12],"L|eco|1":["L_eco.mp3",40.84,76.61],"L|eco|2":["L_eco.mp3",77.33,116.86],"L|eco|3":["L_eco.mp3",117.58,150.56],"L|eco|4":["L_eco.mp3",151.28,180.71],"L|eco|5":["L_eco.mp3",181.43,217.39],"L|stocks|0":["L_stocks.mp3",0.14,31.8],"L|stocks|1":["L_stocks.mp3",32.52,77.29],"L|stocks|2":["L_stocks.mp3",78.01,112.34],"L|stocks|3":["L_stocks.mp3",113.06,154.3],"L|stocks|4":["L_stocks.mp3",155.02,199.82],"L|stocks|5":["L_stocks.mp3",200.54,240.7],"L|candles|0":["L_candles.mp3",0.14,39.42],"L|candles|1":["L_candles.mp3",40.14,69.94],"L|candles|2":["L_candles.mp3",70.66,101.78],"L|candles|3":["L_candles.mp3",102.5,130.87],"L|candles|4":["L_candles.mp3",131.59,177.39],"L|candles|5":["L_candles.mp3",178.11,214.59],"L|volume|0":["L_volume.mp3",0.14,29.39],"L|volume|1":["L_volume.mp3",30.11,57.99],"L|volume|2":["L_volume.mp3",58.71,87.88],"L|volume|3":["L_volume.mp3",88.6,115.75],"L|volume|4":["L_volume.mp3",116.47,147.22],"L|volume|5":["L_volume.mp3",147.94,178.88],"L|charts|0":["L_charts.mp3",0.14,34.91],"L|charts|1":["L_charts.mp3",35.63,63.72],"L|charts|2":["L_charts.mp3",64.44,94.99],"L|charts|3":["L_charts.mp3",95.71,129.96],"L|charts|4":["L_charts.mp3",130.68,163.57],"L|charts|5":["L_charts.mp3",164.29,195.0],"L|riskwise|0":["L_riskwise.mp3",0.14,26.73],"L|riskwise|1":["L_riskwise.mp3",27.45,56.79],"L|riskwise|2":["L_riskwise.mp3",57.51,93.38],"L|riskwise|3":["L_riskwise.mp3",94.1,126.54],"L|riskwise|4":["L_riskwise.mp3",127.26,163.11],"L|riskwise|5":["L_riskwise.mp3",163.83,193.52],"Q|earn|0|0":["Q_earn.mp3",0.14,11.15],"Q|earn|0|1":["Q_earn.mp3",11.87,23.14],"Q|earn|0|2":["Q_earn.mp3",23.86,34.29],"Q|earn|1|0":["Q_earn.mp3",35.01,47.69],"Q|earn|1|1":["Q_earn.mp3",48.41,57.62],"Q|earn|1|2":["Q_earn.mp3",58.34,67.22],"Q|earn|2|0":["Q_earn.mp3",67.94,76.02],"Q|earn|2|1":["Q_earn.mp3",76.74,87.62],"Q|earn|2|2":["Q_earn.mp3",88.34,99.92],"Q|earn|3|0":["Q_earn.mp3",100.64,110.76],"Q|earn|3|1":["Q_earn.mp3",111.48,121.23],"Q|earn|3|2":["Q_earn.mp3",121.95,130.57],"Q|earn|4|0":["Q_earn.mp3",131.29,140.23],"Q|earn|4|1":["Q_earn.mp3",140.95,150.59],"Q|earn|4|2":["Q_earn.mp3",151.31,160.74],"Q|earn|5|0":["Q_earn.mp3",161.46,170.17],"Q|earn|5|1":["Q_earn.mp3",170.89,182.56],"Q|earn|5|2":["Q_earn.mp3",183.28,193.23],"Q|money|0|0":["Q_money.mp3",0.14,7.54],"Q|money|0|1":["Q_money.mp3",8.26,15.83],"Q|money|0|2":["Q_money.mp3",16.55,24.54],"Q|money|1|0":["Q_money.mp3",25.26,33.29],"Q|money|1|1":["Q_money.mp3",34.01,44.76],"Q|money|1|2":["Q_money.mp3",45.48,54.74],"Q|money|2|0":["Q_money.mp3",55.46,66.11],"Q|money|2|1":["Q_money.mp3",66.83,76.39],"Q|money|2|2":["Q_money.mp3",77.11,87.48],"Q|money|3|0":["Q_money.mp3",88.2,98.18],"Q|money|3|1":["Q_money.mp3",98.9,108.29],"Q|money|3|2":["Q_money.mp3",109.01,119.27],"Q|money|4|0":["Q_money.mp3",119.99,129.18],"Q|money|4|1":["Q_money.mp3",129.9,139.54],"Q|money|4|2":["Q_money.mp3",140.26,150.31],"Q|money|5|0":["Q_money.mp3",151.03,160.51],"Q|money|5|1":["Q_money.mp3",161.23,171.79],"Q|money|5|2":["Q_money.mp3",172.51,182.43],"Q|goals|0|0":["Q_goals.mp3",0.14,8.54],"Q|goals|0|1":["Q_goals.mp3",9.26,20.19],"Q|goals|0|2":["Q_goals.mp3",20.91,30.36],"Q|goals|1|0":["Q_goals.mp3",31.08,41.37],"Q|goals|1|1":["Q_goals.mp3",42.09,51.51],"Q|goals|1|2":["Q_goals.mp3",52.23,62.62],"Q|goals|2|0":["Q_goals.mp3",63.34,73.3],"Q|goals|2|1":["Q_goals.mp3",74.02,84.31],"Q|goals|2|2":["Q_goals.mp3",85.03,95.68],"Q|goals|3|0":["Q_goals.mp3",96.4,105.98],"Q|goals|3|1":["Q_goals.mp3",106.7,117.5],"Q|goals|3|2":["Q_goals.mp3",118.22,129.1],"Q|goals|4|0":["Q_goals.mp3",129.82,139.54],"Q|goals|4|1":["Q_goals.mp3",140.26,151.06],"Q|goals|4|2":["Q_goals.mp3",151.78,161.0],"Q|bank|0|0":["Q_bank.mp3",0.14,10.44],"Q|bank|0|1":["Q_bank.mp3",11.16,26.29],"Q|bank|0|2":["Q_bank.mp3",27.01,38.27],"Q|bank|1|0":["Q_bank.mp3",38.99,49.06],"Q|bank|1|1":["Q_bank.mp3",49.78,59.72],"Q|bank|1|2":["Q_bank.mp3",60.44,69.44],"Q|bank|2|0":["Q_bank.mp3",70.16,79.66],"Q|bank|2|1":["Q_bank.mp3",80.38,90.04],"Q|bank|2|2":["Q_bank.mp3",90.76,101.3],"Q|bank|3|0":["Q_bank.mp3",102.02,110.23],"Q|bank|3|1":["Q_bank.mp3",110.95,121.08],"Q|bank|3|2":["Q_bank.mp3",121.8,135.05],"Q|bank|4|0":["Q_bank.mp3",135.77,144.96],"Q|bank|4|1":["Q_bank.mp3",145.68,156.29],"Q|bank|4|2":["Q_bank.mp3",157.01,168.1],"Q|spend|0|0":["Q_spend.mp3",0.14,9.33],"Q|spend|0|1":["Q_spend.mp3",10.05,22.41],"Q|spend|0|2":["Q_spend.mp3",23.13,33.09],"Q|spend|1|0":["Q_spend.mp3",33.81,42.64],"Q|spend|1|1":["Q_spend.mp3",43.36,55.05],"Q|spend|1|2":["Q_spend.mp3",55.77,66.13],"Q|spend|2|0":["Q_spend.mp3",66.85,76.6],"Q|spend|2|1":["Q_spend.mp3",77.32,88.79],"Q|spend|2|2":["Q_spend.mp3",89.51,101.91],"Q|spend|3|0":["Q_spend.mp3",102.63,113.46],"Q|spend|3|1":["Q_spend.mp3",114.18,123.61],"Q|spend|3|2":["Q_spend.mp3",124.33,135.83],"Q|spend|4|0":["Q_spend.mp3",136.55,146.21],"Q|spend|4|1":["Q_spend.mp3",146.93,157.83],"Q|spend|4|2":["Q_spend.mp3",158.55,167.79],"Q|spend|5|0":["Q_spend.mp3",168.51,178.15],"Q|spend|5|1":["Q_spend.mp3",178.87,188.32],"Q|spend|5|2":["Q_spend.mp3",189.04,197.68],"Q|spend|6|0":["Q_spend.mp3",198.4,210.18],"Q|spend|6|1":["Q_spend.mp3",210.9,219.75],"Q|spend|6|2":["Q_spend.mp3",220.47,231.18],"Q|credit|0|0":["Q_credit.mp3",0.14,8.82],"Q|credit|0|1":["Q_credit.mp3",9.54,19.19],"Q|credit|0|2":["Q_credit.mp3",19.91,29.3],"Q|credit|1|0":["Q_credit.mp3",30.02,39.62],"Q|credit|1|1":["Q_credit.mp3",40.34,54.13],"Q|credit|1|2":["Q_credit.mp3",54.85,65.61],"Q|credit|2|0":["Q_credit.mp3",66.33,77.53],"Q|credit|2|1":["Q_credit.mp3",78.25,88.17],"Q|credit|2|2":["Q_credit.mp3",88.89,100.46],"Q|credit|3|0":["Q_credit.mp3",101.18,110.23],"Q|credit|3|1":["Q_credit.mp3",110.95,123.2],"Q|credit|3|2":["Q_credit.mp3",123.92,134.26],"Q|credit|4|0":["Q_credit.mp3",134.98,145.37],"Q|credit|4|1":["Q_credit.mp3",146.09,152.62],"Q|credit|4|2":["Q_credit.mp3",153.34,162.86],"Q|credit|5|0":["Q_credit.mp3",163.58,177.7],"Q|credit|5|1":["Q_credit.mp3",178.42,189.77],"Q|credit|5|2":["Q_credit.mp3",190.49,201.69],"Q|grow|0|0":["Q_grow.mp3",0.14,10.42],"Q|grow|0|1":["Q_grow.mp3",11.14,22.3],"Q|grow|0|2":["Q_grow.mp3",23.02,32.34],"Q|grow|1|0":["Q_grow.mp3",33.06,42.77],"Q|grow|1|1":["Q_grow.mp3",43.49,52.98],"Q|grow|1|2":["Q_grow.mp3",53.7,62.47],"Q|grow|2|0":["Q_grow.mp3",63.19,74.22],"Q|grow|2|1":["Q_grow.mp3",74.94,86.88],"Q|grow|2|2":["Q_grow.mp3",87.6,99.48],"Q|grow|3|0":["Q_grow.mp3",100.2,110.25],"Q|grow|3|1":["Q_grow.mp3",110.97,122.13],"Q|grow|3|2":["Q_grow.mp3",122.85,132.22],"Q|grow|4|0":["Q_grow.mp3",132.94,143.16],"Q|grow|4|1":["Q_grow.mp3",143.88,153.5],"Q|grow|4|2":["Q_grow.mp3",154.22,163.92],"Q|market|0|0":["Q_market.mp3",0.14,10.44],"Q|market|0|1":["Q_market.mp3",11.16,19.74],"Q|market|0|2":["Q_market.mp3",20.46,31.76],"Q|market|1|0":["Q_market.mp3",32.48,41.93],"Q|market|1|1":["Q_market.mp3",42.65,52.94],"Q|market|1|2":["Q_market.mp3",53.66,65.99],"Q|market|2|0":["Q_market.mp3",66.71,75.88],"Q|market|2|1":["Q_market.mp3",76.6,86.78],"Q|market|2|2":["Q_market.mp3",87.5,97.48],"Q|market|3|0":["Q_market.mp3",98.2,108.08],"Q|market|3|1":["Q_market.mp3",108.8,118.76],"Q|market|3|2":["Q_market.mp3",119.48,132.71],"Q|market|4|0":["Q_market.mp3",133.43,143.8],"Q|market|4|1":["Q_market.mp3",144.52,155.05],"Q|market|4|2":["Q_market.mp3",155.77,169.73],"Q|market|5|0":["Q_market.mp3",170.45,182.16],"Q|market|5|1":["Q_market.mp3",182.88,192.12],"Q|market|5|2":["Q_market.mp3",192.84,204.2],"Q|future|0|0":["Q_future.mp3",0.14,9.63],"Q|future|0|1":["Q_future.mp3",10.35,19.63],"Q|future|0|2":["Q_future.mp3",20.35,33.48],"Q|future|1|0":["Q_future.mp3",34.2,44.1],"Q|future|1|1":["Q_future.mp3",44.82,53.53],"Q|future|1|2":["Q_future.mp3",54.25,62.93],"Q|future|2|0":["Q_future.mp3",63.65,72.95],"Q|future|2|1":["Q_future.mp3",73.67,83.5],"Q|future|2|2":["Q_future.mp3",84.22,94.27],"Q|future|3|0":["Q_future.mp3",94.99,104.67],"Q|future|3|1":["Q_future.mp3",105.39,115.12],"Q|future|3|2":["Q_future.mp3",115.84,125.21],"Q|future|4|0":["Q_future.mp3",125.93,137.08],"Q|future|4|1":["Q_future.mp3",137.8,147.53],"Q|future|4|2":["Q_future.mp3",148.25,157.25],"Q|future|5|0":["Q_future.mp3",157.97,168.49],"Q|future|5|1":["Q_future.mp3",169.21,179.75],"Q|future|5|2":["Q_future.mp3",180.47,191.86],"Q|future|6|0":["Q_future.mp3",192.58,203.5],"Q|future|6|1":["Q_future.mp3",204.22,213.48],"Q|future|6|2":["Q_future.mp3",214.2,224.37],"Q|eco|0|0":["Q_eco.mp3",0.14,11.08],"Q|eco|0|1":["Q_eco.mp3",11.8,23.49],"Q|eco|0|2":["Q_eco.mp3",24.21,34.62],"Q|eco|1|0":["Q_eco.mp3",35.34,47.05],"Q|eco|1|1":["Q_eco.mp3",47.77,56.83],"Q|eco|1|2":["Q_eco.mp3",57.55,69.0],"Q|eco|2|0":["Q_eco.mp3",69.72,79.66],"Q|eco|2|1":["Q_eco.mp3",80.38,90.05],"Q|eco|2|2":["Q_eco.mp3",90.77,102.33],"Q|eco|3|0":["Q_eco.mp3",103.05,113.25],"Q|eco|3|1":["Q_eco.mp3",113.97,122.97],"Q|eco|3|2":["Q_eco.mp3",123.69,134.17],"Q|eco|4|0":["Q_eco.mp3",134.89,144.17],"Q|eco|4|1":["Q_eco.mp3",144.89,153.85],"Q|eco|4|2":["Q_eco.mp3",154.57,163.91],"Q|eco|5|0":["Q_eco.mp3",164.63,175.27],"Q|eco|5|1":["Q_eco.mp3",175.99,186.08],"Q|eco|5|2":["Q_eco.mp3",186.8,198.39],"Q|stocks|0|0":["Q_stocks.mp3",0.14,8.97],"Q|stocks|0|1":["Q_stocks.mp3",9.69,18.95],"Q|stocks|0|2":["Q_stocks.mp3",19.67,31.19],"Q|stocks|1|0":["Q_stocks.mp3",31.91,40.53],"Q|stocks|1|1":["Q_stocks.mp3",41.25,49.37],"Q|stocks|1|2":["Q_stocks.mp3",50.09,64.11],"Q|stocks|2|0":["Q_stocks.mp3",64.83,74.38],"Q|stocks|2|1":["Q_stocks.mp3",75.1,85.11],"Q|stocks|2|2":["Q_stocks.mp3",85.83,94.02],"Q|stocks|3|0":["Q_stocks.mp3",94.74,107.27],"Q|stocks|3|1":["Q_stocks.mp3",107.99,118.66],"Q|stocks|3|2":["Q_stocks.mp3",119.38,128.51],"Q|stocks|4|0":["Q_stocks.mp3",129.23,137.74],"Q|stocks|4|1":["Q_stocks.mp3",138.46,148.51],"Q|stocks|4|2":["Q_stocks.mp3",149.23,158.98],"Q|stocks|5|0":["Q_stocks.mp3",159.7,169.66],"Q|stocks|5|1":["Q_stocks.mp3",170.38,179.53],"Q|stocks|5|2":["Q_stocks.mp3",180.25,190.0],"Q|candles|0|0":["Q_candles.mp3",0.14,8.97],"Q|candles|0|1":["Q_candles.mp3",9.69,18.42],"Q|candles|0|2":["Q_candles.mp3",19.14,32.26],"Q|candles|1|0":["Q_candles.mp3",32.98,43.62],"Q|candles|1|1":["Q_candles.mp3",44.34,52.72],"Q|candles|1|2":["Q_candles.mp3",53.44,61.85],"Q|candles|2|0":["Q_candles.mp3",62.57,71.85],"Q|candles|2|1":["Q_candles.mp3",72.57,82.79],"Q|candles|2|2":["Q_candles.mp3",83.51,94.43],"Q|candles|3|0":["Q_candles.mp3",95.15,106.62],"Q|candles|3|1":["Q_candles.mp3",107.34,116.56],"Q|candles|3|2":["Q_candles.mp3",117.28,128.78],"Q|candles|4|0":["Q_candles.mp3",129.5,138.87],"Q|candles|4|1":["Q_candles.mp3",139.59,148.48],"Q|candles|4|2":["Q_candles.mp3",149.2,157.97],"Q|candles|5|0":["Q_candles.mp3",158.69,167.59],"Q|candles|5|1":["Q_candles.mp3",168.31,177.9],"Q|candles|5|2":["Q_candles.mp3",178.62,188.52],"Q|volume|0|0":["Q_volume.mp3",0.14,9.01],"Q|volume|0|1":["Q_volume.mp3",9.73,22.87],"Q|volume|0|2":["Q_volume.mp3",23.59,32.33],"Q|volume|1|0":["Q_volume.mp3",33.05,42.69],"Q|volume|1|1":["Q_volume.mp3",43.41,53.21],"Q|volume|1|2":["Q_volume.mp3",53.93,63.06],"Q|volume|2|0":["Q_volume.mp3",63.78,74.21],"Q|volume|2|1":["Q_volume.mp3",74.93,83.1],"Q|volume|2|2":["Q_volume.mp3",83.82,95.51],"Q|volume|3|0":["Q_volume.mp3",96.23,104.62],"Q|volume|3|1":["Q_volume.mp3",105.34,113.72],"Q|volume|3|2":["Q_volume.mp3",114.44,123.59],"Q|volume|4|0":["Q_volume.mp3",124.31,132.55],"Q|volume|4|1":["Q_volume.mp3",133.27,141.73],"Q|volume|4|2":["Q_volume.mp3",142.45,151.48],"Q|volume|5|0":["Q_volume.mp3",152.2,161.55],"Q|volume|5|1":["Q_volume.mp3",162.27,171.8],"Q|volume|5|2":["Q_volume.mp3",172.52,181.29],"Q|charts|0|0":["Q_charts.mp3",0.14,9.76],"Q|charts|0|1":["Q_charts.mp3",10.48,19.29],"Q|charts|0|2":["Q_charts.mp3",20.01,32.06],"Q|charts|1|0":["Q_charts.mp3",32.78,42.55],"Q|charts|1|1":["Q_charts.mp3",43.27,52.45],"Q|charts|1|2":["Q_charts.mp3",53.17,62.58],"Q|charts|2|0":["Q_charts.mp3",63.3,72.45],"Q|charts|2|1":["Q_charts.mp3",73.17,84.29],"Q|charts|2|2":["Q_charts.mp3",85.01,95.06],"Q|charts|3|0":["Q_charts.mp3",95.78,104.21],"Q|charts|3|1":["Q_charts.mp3",104.93,114.01],"Q|charts|3|2":["Q_charts.mp3",114.73,127.56],"Q|charts|4|0":["Q_charts.mp3",128.28,137.45],"Q|charts|4|1":["Q_charts.mp3",138.17,147.75],"Q|charts|4|2":["Q_charts.mp3",148.47,158.18],"Q|charts|5|0":["Q_charts.mp3",158.9,169.69],"Q|charts|5|1":["Q_charts.mp3",170.41,178.92],"Q|charts|5|2":["Q_charts.mp3",179.64,193.07],"Q|riskwise|0|0":["Q_riskwise.mp3",0.14,9.21],"Q|riskwise|0|1":["Q_riskwise.mp3",9.93,19.14],"Q|riskwise|0|2":["Q_riskwise.mp3",19.86,29.59],"Q|riskwise|1|0":["Q_riskwise.mp3",30.31,39.84],"Q|riskwise|1|1":["Q_riskwise.mp3",40.56,51.96],"Q|riskwise|1|2":["Q_riskwise.mp3",52.68,63.28],"Q|riskwise|2|0":["Q_riskwise.mp3",64.0,73.52],"Q|riskwise|2|1":["Q_riskwise.mp3",74.24,84.23],"Q|riskwise|2|2":["Q_riskwise.mp3",84.95,93.54],"Q|riskwise|3|0":["Q_riskwise.mp3",94.26,103.46],"Q|riskwise|3|1":["Q_riskwise.mp3",104.18,112.75],"Q|riskwise|3|2":["Q_riskwise.mp3",113.47,123.41],"Q|riskwise|4|0":["Q_riskwise.mp3",124.13,132.69],"Q|riskwise|4|1":["Q_riskwise.mp3",133.41,143.68],"Q|riskwise|4|2":["Q_riskwise.mp3",144.4,154.4],"Q|riskwise|5|0":["Q_riskwise.mp3",155.12,164.4],"Q|riskwise|5|1":["Q_riskwise.mp3",165.12,174.95],"Q|riskwise|5|2":["Q_riskwise.mp3",175.67,186.34]};
+const AUDIO_VER=1790801571;
+const VOICE_CACHE={};let VO=null;
+function duck(on){try{if(MUSIC.master&&AC)MUSIC.master.gain.setTargetAtTime(on?.06:(THEMES[ST.theme||'hype']||THEMES.hype).master,AC.currentTime,.15);}catch(e){}}
+function playVoice(key,fallback){
+  const m=AUDIO_MAP[key];stopSpeak();
+  if(!m||ST.deviceVoice){speak(fallback);return;}
+  let a=VOICE_CACHE[m[0]];
+  if(!a){a=VOICE_CACHE[m[0]]=new Audio();a.preload='auto';a.src='audio/'+m[0]+'?v='+(typeof AUDIO_VER!=='undefined'?AUDIO_VER:1);}
+  VO=a;a._end=m[1+1];a._fallback=fallback;
+  a.onerror=()=>{VOICE_CACHE[m[0]]=null;speak(fallback);};
+  a.ontimeupdate=()=>{if(a.currentTime>=a._end){a.pause();duck(false);}};
+  const go=()=>{try{a.currentTime=m[1];}catch(e){}a.play().then(()=>duck(true)).catch(()=>speak(fallback));};
+  if(a.readyState>=1)go();else a.addEventListener('loadedmetadata',go,{once:true});
+}
+function stopSpeak(){try{window.speechSynthesis&&speechSynthesis.cancel();}catch(e){}try{if(VO){VO.pause();duck(false);}}catch(e){}}
 function buzz(p){if(ST.noHaptics)return;try{navigator.vibrate&&navigator.vibrate(p);}catch(e){}}
-function readLesson(){const {worldId,lessonName}=curLesson,d=(LESSON_DATA[worldId]||{})[lessonName]||{};
-  speak(`${lessonName}. ${(d.concepts||[]).join('. ')}. Did you know? ${d.fact||''}`);}
-function readQuestion(){const qs=QUESTIONS[ST.quizWorldId][ST.quizLessonId],q=qs[ST.qIdx];
-  speak(q.q.replace('...',' blank')+'. '+q.o.map((o,i)=>'Choice '+'ABCD'[i]+': '+o).join('. '));}
+function readLesson(){const {worldId,lessonName,idx}=curLesson,d=(LESSON_DATA[worldId]||{})[lessonName]||{};
+  playVoice(`L|${worldId}|${idx}`,`${lessonName}. ${(d.concepts||[]).join('. ')}. Did you know? ${d.fact||''}`);}
+function readQuestion(){const qs=QUESTIONS[ST.quizWorldId][ST.quizLessonId],q=qs[ST.qIdx],w=WORLDS.find(x=>x.id===ST.quizWorldId),li=w?w.lessons.indexOf(ST.quizLessonId):-1;
+  playVoice(`Q|${ST.quizWorldId}|${li}|${ST.qIdx}`,q.q.replace('...',' blank')+'. '+q.o.map((o,i)=>'Choice '+'ABCD'[i]+': '+o).join('. '));}
 
 // ── candle builder (touch + sight) ──
 function candleSVG(o,h,l,c){const Y=v=>10+(20-v)/10*160,col=c>=o?'#00C896':'#FF7055',top=Y(Math.max(o,c)),bh=Math.max(3,Math.abs(Y(o)-Y(c)));
@@ -3527,6 +3609,8 @@ function openSettings(){
     ${opt('hype','🎮','Hype','Upbeat game music for energy')}${opt('chill','🌙','Chill','Lo-fi beats for relaxed learning')}${opt('focus','🧠','Focus','Soft, dreamy music for thinking hard')}${opt('off','🔇','Music off','Quiet time')}
     <div style="font-size:12px;font-weight:800;margin:12px 0 4px">More senses</div>
     ${tgl('Sound effects','sfx',!ST.muted)}${tgl('Vibration on taps (phones that support it)','hap',!ST.noHaptics)}${tgl('Read quiz questions aloud automatically','auto',!!ST.autoRead)}
+    <div style="font-size:12px;font-weight:800;margin:12px 0 2px">Reading voice (tap to hear it)</div>
+    ${voicesHTML()}
     <div class="tk-row"><span>Read-aloud speed</span><div class="seg"><button class="${(ST.ttsRate||.95)<.9?'on':''}" onclick="ST.ttsRate=.8;save();openSettings();speak('This is slow reading speed.')">Slow</button><button class="${(ST.ttsRate||.95)>=.9?'on':''}" onclick="ST.ttsRate=.95;save();openSettings();speak('This is normal reading speed.')">Normal</button></div></div>
   </div><button class="btn" style="margin-top:12px" onclick="gmHide();openParent()">👪 Parent Center</button><button class="btn ghost" onclick="gmHide()">Done</button>`);
 }
@@ -3540,15 +3624,31 @@ function pickTheme(k){stopMusic();if(k==='off'){ST.musicOff=true;}else{ST.musicO
 // thinkorswim, or Webull) built for kids. Made-up companies only.
 // ═══════════════════════════════════════════════════════════
 const LAB_STOCKS=[
-  {s:'SNAK',n:'Snack Attack Co.',em:'🍿',p:24.10,v:.010,bv:180000},
-  {s:'PUPS',n:'Pet Pals Inc.',em:'🐶',p:58.40,v:.008,bv:95000},
-  {s:'PXLG',n:'Pixel Games',em:'🎮',p:132.75,v:.016,bv:240000},
-  {s:'SKTR',n:'Skate & Roll',em:'🛹',p:17.35,v:.014,bv:120000},
-  {s:'SUNY',n:'Sunny Power',em:'☀️',p:41.20,v:.022,bv:310000},
-  {s:'BOBA',n:'Boba Bros',em:'🧋',p:8.65,v:.028,bv:420000},
-  {s:'SQDX',n:'Squad 500 Index Fund',em:'📊',p:100.00,v:.004,bv:600000}
+  {s:'SNAK',n:'Snack Attack Co.',em:'🍿',p:24.10,v:.010,bv:180000,dr:.06},
+  {s:'PUPS',n:'Pet Pals Inc.',em:'🐶',p:58.40,v:.008,bv:95000,dr:.05},
+  {s:'PXLG',n:'Pixel Games',em:'🎮',p:132.75,v:.016,bv:240000,dr:.12},
+  {s:'SKTR',n:'Skate & Roll',em:'🛹',p:17.35,v:.014,bv:120000,dr:.03},
+  {s:'SUNY',n:'Sunny Power',em:'☀️',p:41.20,v:.022,bv:310000,dr:.09},
+  {s:'BOBA',n:'Boba Bros',em:'🧋',p:8.65,v:.028,bv:420000,dr:.02},
+  {s:'SQDX',n:'Squad 500 Index Fund',em:'📊',p:100.00,v:.004,bv:600000,dr:.07}
 ];
-const LAB_TFS=[['1m',6,.25,60],['5m',10,.5,300],['1H',16,1,3600],['1D',24,2.2,86400],['1W',36,4.6,604800]];
+// [label, live ticks per new candle, volatility scale, seconds per candle, candles of history, plain-English name]
+const LAB_TFS=[['1m',6,.11,60,390,'1 minute'],['5m',10,.25,300,390,'5 minutes'],['15m',14,.43,900,260,'15 minutes'],['30m',18,.6,1800,260,'30 minutes'],
+  ['1H',22,.86,3600,300,'1 hour'],['4H',30,1.7,14400,300,'4 hours'],['1D',40,2.2,86400,1300,'1 day'],['1W',60,4.9,604800,520,'1 week'],
+  ['1M',90,10,2629800,240,'1 month'],['1Y',150,26,31557600,20,'1 year']];
+const INTRADAY=['1m','5m','15m','30m','1H','4H'];
+// Real market hours for history: weekdays, 9:30 a.m. to 4:00 p.m.
+function labTimes(t,N){const d=new Date(),out=[],tf=t[0];
+  if(tf==='1Y'){for(let k=N-1;k>=0;k--)out.push(new Date(d.getFullYear()-k,0,1)/1000);return out;}
+  if(tf==='1M'){for(let k=N-1;k>=0;k--)out.push(new Date(d.getFullYear(),d.getMonth()-k,1)/1000);return out;}
+  if(tf==='1W'){const m=new Date(d.getFullYear(),d.getMonth(),d.getDate()-((d.getDay()+6)%7));for(let k=N-1;k>=0;k--)out.push(new Date(m.getFullYear(),m.getMonth(),m.getDate()-7*k)/1000);return out;}
+  let day=new Date(d.getFullYear(),d.getMonth(),d.getDate());
+  if(tf==='1D'){while(out.length<N){if(day.getDay()%6!==0)out.push(day/1000);day=new Date(day.getFullYear(),day.getMonth(),day.getDate()-1);}return out.reverse();}
+  const step=t[3]/60,open=570,close=960,nowM=d.getHours()*60+d.getMinutes();let first=true;
+  while(out.length<N){if(day.getDay()%6!==0){let end=close-step;if(first){end=nowM<open?-1:Math.min(end,open+Math.floor((nowM-open)/step)*step);}
+      for(let m=end;m>=open&&out.length<N;m-=step)out.push(day/1000+m*60);}
+    first=false;day=new Date(day.getFullYear(),day.getMonth(),day.getDate()-1);}
+  return out.reverse();}
 const NEWS={
   SNAK:[['Snack Attack launches a new spicy chip flavor!',1],['Snack Attack recalls a batch of stale pretzels.',-1]],
   PUPS:[['Pet Pals opens 50 new pet stores!',1],['Pet Pals reports fewer customers this quarter.',-1]],
@@ -3561,13 +3661,13 @@ const NEWS={
 const LAB_MISSIONS=[
   ['labels','Tap “Explain this screen”','❓'],['tap_candle','Tap a candle to read its O-H-L-C','🕯️'],['switch_tf','Change the timeframe','⏱️'],
   ['line_chart','Switch to a line or bar chart','📈'],['vol_on','Turn volume off, then back on','📶'],['ma_on','Turn on the MA 20 helper line','〰️'],
-  ['zoom','Zoom in or out','🔍'],['watch','Switch to another stock','👀'],['buy','Place a pretend BUY order','🟢'],
+  ['zoom','Zoom in or out','🔍'],['watch','Switch to another stock','👀'],['buy','Place a BUY order','🟢'],
   ['limit','Place a LIMIT order','🎯'],['stop','Place a STOP order to protect shares','🛡️'],['sell','Sell shares and see realized P/L','💵'],
   ['news','Watch a news alert move a stock','📰'],['journal','Log how a trade made you feel','📓']];
 const LAB_PARTS=[
   ['Ticker & search','The stock\'s short nickname. Tap it to open your watchlist and switch stocks. On real platforms, there\'s a search box to type any ticker.'],
   ['Price & change','The latest price, plus how much it moved since the last daily close. Green with + means up. Red with − means down.'],
-  ['Timeframe & chart style','Timeframe buttons (1m, 5m, 1H, 1D, 1W) set how much time each candle covers. The style buttons switch between candles, bars, and a line.'],
+  ['Timeframe & chart style','TIMEFRAME buttons (1m, 5m, 15m, 30m, 1H, 4H, 1D, 1W, 1M, 1Y) set how much time ONE candle covers. Small m means minutes and big M means month. The RANGE buttons under the chart (1D, 5D, 1M, 6M, YTD, 1Y, 5Y, ALL) set how much history you see. The style buttons switch between candles, bars, and a line.'],
   ['The chart','Each candle shows the open, high, low, and close for one period. Drag to scroll back in time, and tap a candle to read its numbers at the top.'],
   ['Price axis','The numbers on the right side are prices. The colored tag shows the current price. Almost every platform puts prices on the right.'],
   ['Time axis','The dates and times along the bottom tell you WHEN each candle happened.'],
@@ -3579,17 +3679,17 @@ function gauss(r){let u=0,v=0;while(!u)u=r();while(!v)v=r();return Math.sqrt(-2*
 function labState(){
   ST.lab=ST.lab||{};const L=ST.lab;
   if(L.cash==null){L.cash=10000;L.pos={};L.orders=[];L.realized=0;L.journal=[];L.missions={};L.px={};}
-  L.sym=L.sym||'SNAK';L.tf=L.tf||'1D';L.type=L.type||'candle';L.vol=L.vol!==false;L.ma=!!L.ma;L.zoom=L.zoom||60;L.off=L.off||0;
+  L.sym=L.sym||'SNAK';L.market=L.market||'squad';L.acct=L.acct||'paper';L.tf=L.tf||'1D';L.type=L.type||'candle';L.vol=L.vol!==false;L.ma=!!L.ma;L.zoom=L.zoom||60;L.off=L.off||0;
   return L;
 }
 function labGen(sym,tf){
-  const st=LAB_STOCKS.find(x=>x.s===sym),t=LAB_TFS.find(x=>x[0]===tf),r=labRng(sym+tf),N=180,sig=st.v*t[2];
-  let c=1,rows=[];const drift=(r()-.45)*sig*.15;
-  for(let i=0;i<N;i++){const o=c*(1+gauss(r)*sig*.12);const ret=drift+gauss(r)*sig;c=o*(1+ret);
+  const st=LAB_STOCKS.find(x=>x.s===sym),t=LAB_TFS.find(x=>x[0]===tf),r=labRng(sym+tf),N=t[4],sig=Math.min(.4,st.v*t[2]),dr=(st.dr||.05)*t[3]/31557600;
+  let lp=0,rows=[];
+  for(let i=0;i<N;i++){const o=Math.exp(lp)*(1+gauss(r)*sig*.1);const g=gauss(r);lp=lp+dr+g*sig-.03*(lp-dr*i);const c=Math.exp(lp);
     const hi=Math.max(o,c)*(1+Math.abs(gauss(r))*sig*.45),lo=Math.min(o,c)*(1-Math.abs(gauss(r))*sig*.45);
-    rows.push({o,h:hi,l:lo,c,v:st.bv*(t[2]**.8)*(.45+r())*(1+Math.abs(ret)/sig*.7)});}
-  const P=LAB.price[sym],k=P/rows[N-1].c,now=Math.floor(Date.now()/1000/t[3])*t[3];
-  rows.forEach((x,i)=>{x.o*=k;x.h*=k;x.l*=k;x.c*=k;x.t=now-(N-1-i)*t[3];x.v=Math.round(x.v);});
+    rows.push({o,h:hi,l:lo,c,v:st.bv*(t[2]**.8)*(.45+r())*(1+Math.abs(g)*.7)});}
+  const P=LAB.price[sym],k=P/rows[N-1].c,times=labTimes(t,N);
+  rows.forEach((x,i)=>{x.o*=k;x.h*=k;x.l*=k;x.c*=k;x.t=times[i];x.v=Math.round(x.v);});
   return rows;
 }
 function labInit(){
@@ -3597,7 +3697,7 @@ function labInit(){
   LAB_STOCKS.forEach(st=>{if(LAB.price[st.s]==null)LAB.price[st.s]=L.px[st.s]||st.p;});
   LAB_STOCKS.forEach(st=>LAB_TFS.forEach(t=>{const k=st.s+t[0];if(!LAB.series[k])LAB.series[k]=labGen(st.s,t[0]);}));
 }
-function labSeries(){const L=ST.lab;return LAB.series[L.sym+L.tf];}
+function labSeries(){const L=ST.lab;return LAB.series[L.sym+L.tf]||[];}
 function labTick(){
   if(LAB.paused)return;LAB.tick++;
   LAB_STOCKS.forEach(st=>{
@@ -3606,9 +3706,10 @@ function labTick(){
     const p=Math.max(.5,LAB.price[st.s]*(1+ret));LAB.price[st.s]=p;ST.lab.px[st.s]=+p.toFixed(2);
     LAB_TFS.forEach(t=>{const s=LAB.series[st.s+t[0]],c=s[s.length-1];
       c.c=p;c.h=Math.max(c.h,p);c.l=Math.min(c.l,p);c.v+=Math.round(st.bv*.03*(t[2]**.6)*(1+Math.abs(ret)/st.v*2)*(nw&&nw.left>0?4:1)*Math.random());
-      if(LAB.tick%t[1]===0){s.push({o:p,h:p,l:p,c:p,v:0,t:c.t+t[3]});if(s.length>260)s.shift();if(ST.lab.off>0&&st.s===ST.lab.sym&&t[0]===ST.lab.tf)ST.lab.off++;}});
+      if(INTRADAY.includes(t[0])&&LAB.tick%t[1]===0){s.push({o:p,h:p,l:p,c:p,v:0,t:c.t+t[3]});if(s.length>t[4]+60)s.shift();if(ST.lab.off>0&&st.s===ST.lab.sym&&t[0]===ST.lab.tf)ST.lab.off++;}});
   });
-  if(LAB.tick%38===0&&Math.random()<.75)labNews();
+  if(LAB.tick%38===0&&Math.random()<.75&&ST.lab.market!=='real')labNews();
+  if(ST.lab.market==='real'&&LAB.tick%120===0&&marketOpen()&&document.getElementById('s-lab').classList.contains('on'))realEnsure(true);
   labFill();
   if(document.getElementById('s-lab').classList.contains('on')){labDraw();labHeader();labAccount();labTicket(true);}
   if(LAB.tick%10===0)save();
@@ -3630,7 +3731,11 @@ function labDraw(){
   const dpr=window.devicePixelRatio||1,W=wrap.clientWidth,H=wrap.clientHeight;
   if(cv.width!==W*dpr||cv.height!==H*dpr){cv.width=W*dpr;cv.height=H*dpr;}
   const x=cv.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,W,H);
-  const s=labSeries(),n=Math.min(L.zoom,s.length),off=Math.max(0,Math.min(L.off,s.length-n)),vis=s.slice(s.length-off-n,s.length-off);
+  const s=labSeries();
+  if(!s.length){x.fillStyle='#8899bb';x.font='700 13px -apple-system,Segoe UI,sans-serif';x.textAlign='center';
+    const msg=LAB.realErr==='nokey'||!APP_CONFIG.marketDataKey?['🌎 Real prices need a market-data connection.','A grown-up can turn it on (see the Parent Center note).']:LAB.realErr?['Couldn\'t load real prices right now.','Try again in a minute, or switch to Squad companies.']:['Loading real prices…',''];
+    x.fillText(msg[0],W/2,H/2-8);x.font='600 11.5px -apple-system,Segoe UI,sans-serif';x.fillText(msg[1],W/2,H/2+12);x.textAlign='left';document.getElementById('lab-ohlc').innerHTML='';LAB.geo=null;return;}
+  const n=Math.min(L.zoom,s.length),off=Math.max(0,Math.min(L.off,s.length-n)),vis=s.slice(s.length-off-n,s.length-off);
   const axW=58,tH=20,top=40,volH=L.vol?Math.round((H-top-tH)*.22):0,pH=H-top-tH-volH-6,pW=W-axW;
   let mx=-1e9,mn=1e9;vis.forEach(c=>{mx=Math.max(mx,c.h);mn=Math.min(mn,c.l);});
   const ma=L.ma?labMA(s,20):null,maVis=ma?ma.slice(s.length-off-n,s.length-off):[];
@@ -3643,9 +3748,9 @@ function labDraw(){
   const step=niceStep((mx-mn)/5);
   for(let p=Math.ceil(mn/step)*step;p<mx;p+=step){const y=Y(p);x.strokeStyle='rgba(255,255,255,.06)';x.beginPath();x.moveTo(0,y);x.lineTo(pW,y);x.stroke();x.fillStyle='#8899bb';x.fillText(fmtP(p),pW+6,y);}
   // time axis
-  const tf=L.tf,every=Math.max(1,Math.round(n/4));x.textBaseline='alphabetic';
-  for(let i=n-1-Math.floor(every/2);i>=0;i-=every){const d=new Date(vis[i].t*1000);
-    const lab=['1D','1W'].includes(tf)?d.toLocaleDateString(undefined,{month:'short',day:'numeric'}):d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'});
+  const tf=L.tf,every=Math.max(1,Math.round(n/4));x.textBaseline='alphabetic';let prevT=null;
+  const idxs=[];for(let i=n-1-Math.floor(every/2);i>=0;i-=every)idxs.unshift(i);
+  for(const i of idxs){const lab=tLabel(vis[i].t,tf,prevT);prevT=vis[i].t;
     x.fillStyle='#667799';x.textAlign='center';x.fillText(lab,X(i),H-6);x.strokeStyle='rgba(255,255,255,.04)';x.beginPath();x.moveTo(X(i),top);x.lineTo(X(i),H-tH);x.stroke();}
   x.textAlign='left';
   // volume
@@ -3669,37 +3774,72 @@ function labDraw(){
   let rc=vis[n-1];
   if(LAB.cross!=null&&LAB.cross<n){const i=LAB.cross,cx=X(i);rc=vis[i];x.strokeStyle='rgba(255,255,255,.45)';x.setLineDash([3,3]);x.beginPath();x.moveTo(cx,top-10);x.lineTo(cx,H-tH);x.stroke();
     if(LAB.crossY!=null&&LAB.crossY<top+pH){x.beginPath();x.moveTo(0,LAB.crossY);x.lineTo(pW,LAB.crossY);x.stroke();const pv=mx-(LAB.crossY-top)/pH*(mx-mn);x.setLineDash([]);x.fillStyle='#39466f';roundRect(x,pW+2,LAB.crossY-9,axW-4,18,4);x.fill();x.fillStyle='#fff';x.fillText(fmtP(pv),pW+6,LAB.crossY);}x.setLineDash([]);}
-  const cl=rc.c>=rc.o?'up':'dn',st=LAB_STOCKS.find(q=>q.s===L.sym);
-  document.getElementById('lab-ohlc').innerHTML=`<b style="color:var(--text)">${st.em} ${L.sym}</b> · ${L.tf}${LAB.cross!=null?' · '+new Date(rc.t*1000).toLocaleString(undefined,{month:'short',day:'numeric',hour:['1D','1W'].includes(L.tf)?undefined:'2-digit',minute:['1D','1W'].includes(L.tf)?undefined:'2-digit'}):''}<br>
+  const cl=rc.c>=rc.o?'up':'dn',st=stockInfo(L.sym);
+  document.getElementById('lab-ohlc').innerHTML=`<b style="color:var(--text)">${st.em} ${L.sym}</b> · ${L.tf}${LAB.cross!=null?' · '+tFull(rc.t,L.tf):''}<br>
     O <span class="${cl}">${fmtP(rc.o)}</span> H <span class="${cl}">${fmtP(rc.h)}</span> L <span class="${cl}">${fmtP(rc.l)}</span> C <span class="${cl}">${fmtP(rc.c)}</span>${L.vol?` V <span class="${cl}">${fmtV(rc.v)}</span>`:''}${L.ma&&ma?` <span style="color:#F5C842">MA20 ${fmtP(maVis[LAB.cross!=null?LAB.cross:n-1]||0)}</span>`:''}`;
 }
+function tLabel(ts,tf,prev){const d=new Date(ts*1000);
+  if(tf==='1Y')return String(d.getFullYear());
+  if(tf==='1M')return d.toLocaleDateString(undefined,{month:'short',year:'numeric'});
+  if(tf==='1W')return d.toLocaleDateString(undefined,{month:'short',year:'numeric'});
+  if(tf==='1D'||tf==='4H')return d.toLocaleDateString(undefined,{month:'short',day:'numeric'});
+  if(prev&&new Date(prev*1000).toDateString()!==d.toDateString())return d.toLocaleDateString(undefined,{month:'short',day:'numeric'});
+  return d.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'});}
+function tFull(ts,tf){const d=new Date(ts*1000);
+  if(tf==='1Y')return'Year '+d.getFullYear();
+  if(tf==='1M')return d.toLocaleDateString(undefined,{month:'long',year:'numeric'});
+  if(tf==='1W')return'Week of '+d.toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'});
+  if(tf==='1D')return d.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric',year:'numeric'});
+  return d.toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});}
+function spanWords(n,tf){const t=LAB_TFS.find(x=>x[0]===tf);let min=n*t[3]/60;
+  if(INTRADAY.includes(tf)){const days=n/Math.ceil(390/(t[3]/60));return days<1?(min<120?Math.round(min)+' minutes':Math.round(min/60)+' hours'):'about '+Math.round(days)+' trading day'+(Math.round(days)>1?'s':'');}
+  const d=n*t[3]/86400;if(tf==='1D'){const cal=n*7/5;return cal<60?'about '+Math.round(cal/7)+' weeks':cal<730?'about '+Math.round(cal/30.4)+' months':'about '+(cal/365).toFixed(1).replace('.0','')+' years';}
+  return d<730?'about '+Math.round(d/30.4)+' months':'about '+Math.round(d/365)+' years';}
 function roundRect(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath();}
 function niceStep(r){const p=Math.pow(10,Math.floor(Math.log10(r))),f=r/p;return(f<1.5?1:f<3?2:f<7?5:10)*p;}
 function labMA(s,k){const out=[];let sum=0;s.forEach((c,i)=>{sum+=c.c;if(i>=k)sum-=s[i-k].c;out.push(i>=k-1?sum/k:null);});return out;}
 function labHeader(){
-  const L=ST.lab,P=LAB.price[L.sym],d=LAB.series[L.sym+'1D'],prev=d[d.length-2].c,ch=P-prev,pc=ch/prev*100;
-  document.getElementById('lab-sym-txt').textContent=L.sym;
-  document.getElementById('lab-price').textContent=fmtP(P);
+  const L=ST.lab,P=LAB.price[L.sym]||0,d=LAB.series[L.sym+'1D']||[],prev=d.length>1?d[d.length-2].c:P,ch=P-prev,pc=prev?ch/prev*100:0;
+  document.getElementById('lab-sym-txt').textContent=L.sym;const mb=document.getElementById('lab-mstat');if(mb)mb.textContent=marketBadge();
+  document.getElementById('lab-price').textContent=P?fmtP(P):'—';
   const c=document.getElementById('lab-chg');c.className='lab-chg '+(ch>=0?'up':'dn');c.textContent=`${ch>=0?'+':'−'}${Math.abs(ch).toFixed(2)} (${ch>=0?'+':'−'}${Math.abs(pc).toFixed(2)}%)`;
-  const sp=labSpread(P);document.getElementById('lab-bid').textContent=fmtP(P-sp/2);document.getElementById('lab-ask').textContent=fmtP(P+sp/2);
+  const sp=labSpread(P);document.getElementById('lab-bid').textContent=P?fmtP(P-sp/2):'—';document.getElementById('lab-ask').textContent=P?fmtP(P+sp/2):'—';if(!P)c.textContent='';
 }
 const labSpread=p=>Math.max(.01,+(p*.0008).toFixed(2));
 function renderLab(){
-  labInit();const L=ST.lab;
-  document.getElementById('lab-tfs').innerHTML=LAB_TFS.map(t=>`<button class="${L.tf===t[0]?'on':''}" onclick="labSet('tf','${t[0]}')" aria-pressed="${L.tf===t[0]}">${t[0]}</button>`).join('');
+  labInit();acctState();const L=ST.lab;
+  document.getElementById('lab-intro').innerHTML=labIntroHTML();
+  document.getElementById('lab-mkt').innerHTML=`<button class="${L.market==='squad'?'on':''}" onclick="labMarket('squad')">🎮 Squad companies</button><button class="${L.market==='real'?'on':''}" onclick="labMarket('real')">🌎 Real companies</button>`;
+  document.getElementById('lab-mstat').textContent=marketBadge();
+  document.getElementById('lab-hint').textContent=L.market==='real'?'Drag to scroll back in time. Tap a candle to read it. Real prices may be delayed; the real market is open weekdays 9:30 a.m. to 4 p.m. ET.':'Drag to scroll back in time. Tap a candle to read it. Squad companies are made up and trade 24/7 for practice.';
+  document.getElementById('lab-qmode').innerHTML=`<button class="${LAB.qmode!=='amt'?'on':''}" onclick="labQMode('sh')">Shares</button><button class="${LAB.qmode==='amt'?'on':''}" onclick="labQMode('amt')">${inSB()?'SB':'$'} amount</button>`;
+  if(L.market==='real')realEnsure();
+  document.getElementById('lab-tfs').innerHTML=LAB_TFS.map(t=>`<button class="${L.tf===t[0]?'on':''}" onclick="labSet('tf','${t[0]}')" aria-pressed="${L.tf===t[0]}" aria-label="${t[5]} candles">${t[0]}</button>`).join('');
+  document.getElementById('lab-ranges').innerHTML=LAB_RANGES.map(r=>`<button class="${L.range===r[0]?'on':''}" onclick="labRange('${r[0]}')">${r[0]}</button>`).join('');
+  labTfInfo();
   document.getElementById('lab-types').innerHTML=[['candle','🕯️ Candles'],['bar','┤ Bars'],['line','〰 Line']].map(([k,n])=>`<button class="${L.type===k?'on':''}" onclick="labSet('type','${k}')" aria-pressed="${L.type===k}">${n}</button>`).join('');
   document.getElementById('lab-vol').classList.toggle('on',L.vol);document.getElementById('lab-ma').classList.toggle('on',L.ma);
   document.getElementById('lab-pause').textContent=LAB.paused?'▶':'⏸';
   document.getElementById('lab-side').innerHTML=`<button class="buy${LAB.side==='buy'?' on':''}" onclick="LAB.side='buy';if(LAB.otype==='stop')LAB.otype='market';renderLab()">Buy</button><button class="sell${LAB.side==='sell'?' on':''}" onclick="LAB.side='sell';renderLab()">Sell</button>`;
-  document.getElementById('lab-otype').innerHTML=[['market','Market'],['limit','Limit'],['stop','Stop']].map(([k,n])=>`<button class="${LAB.otype===k?'on':''}" ${k==='stop'&&LAB.side==='buy'?'disabled title="In the Lab, stop orders are for selling"':''} onclick="LAB.otype='${k}';labResetLim();renderLab()">${n}</button>`).join('');
+  document.getElementById('lab-otype').innerHTML=[['market','Market'],['limit','Limit'],['stop','Stop']].map(([k,n])=>`<button class="${LAB.otype===k?'on':''}" ${(k==='stop'&&LAB.side==='buy')||(k!=='market'&&LAB.qmode==='amt')?'disabled title="Not available for this order"':''} onclick="LAB.otype='${k}';labResetLim();renderLab()">${n}</button>`).join('');
   labHeader();labTicket();labAccount();labMissionsHTML();labDecoder();labJournal();
   requestAnimationFrame(labDraw);labBind();
   if(!LAB.timer)LAB.timer=setInterval(labTick,1000);
 }
 function labStop(){clearInterval(LAB.timer);LAB.timer=null;}
-function labSet(k,v){const L=ST.lab;if(L[k]===v)return;L[k]=v;LAB.cross=null;if(k==='tf'){L.off=0;labMission('switch_tf');}if(k==='type'&&v!=='candle')labMission('line_chart');SFX.tap();save();renderLab();}
+const LAB_RANGES=[['1D','5m','Today'],['5D','15m','5 days'],['1M','1H','1 month'],['3M','1D','3 months'],['6M','1D','6 months'],['YTD','1D','Year to date'],['1Y','1D','1 year'],['5Y','1W','5 years'],['ALL','1M','All history']];
+function labRange(k){const L=ST.lab,r=LAB_RANGES.find(x=>x[0]===k);L.tf=r[1];L.off=0;L.range=k;LAB.cross=null;
+  const s=labSeries(),t=LAB_TFS.find(x=>x[0]===r[1]);let n;
+  if(k==='1D')n=Math.min(78,s.length);else if(k==='5D')n=130;else if(k==='1M')n=140;else if(k==='3M')n=63;else if(k==='6M')n=126;else if(k==='1Y')n=252;else if(k==='5Y')n=260;else if(k==='ALL')n=s.length;
+  else{const jan=new Date(new Date().getFullYear(),0,1)/1000;n=Math.max(5,s.filter(c=>c.t>=jan).length);}
+  L.zoom=Math.min(n,s.length);labMission('switch_tf');SFX.tap();save();renderLab();
+  toast(`📅 ${r[2]}, drawn with ${t[5].replace(/^(\d+) (\w+?)s?$/,'$1-$2')} candles`);}
+function labTfInfo(){const L=ST.lab,t=LAB_TFS.find(x=>x[0]===L.tf),n=Math.min(L.zoom,labSeries().length),el=document.getElementById('lab-tfinfo');
+  if(el&&!n){el.innerHTML=`🕯️ Each candle = <b>${t[5]}</b>`;return;}
+  if(el)el.innerHTML=`🕯️ Each candle = <b>${t[5]}</b> · Showing ${spanWords(n,L.tf)}${L.tf==='1m'?' · <span style="color:var(--text3)">small m = minutes</span>':L.tf==='1M'?' · <span style="color:var(--text3)">big M = month</span>':''}`;}
+function labSet(k,v){const L=ST.lab;if(L[k]===v)return;L[k]=v;LAB.cross=null;if(k==='tf'){L.off=0;L.range=null;labMission('switch_tf');}if(k==='type'&&v!=='candle')labMission('line_chart');SFX.tap();save();renderLab();}
 function labToggle(k){const L=ST.lab;L[k]=!L[k];if(k==='vol'){if(!L.vol)LAB.volOff=true;else if(LAB.volOff)labMission('vol_on');}if(k==='ma'&&L.ma)labMission('ma_on');save();renderLab();}
-function labZoom(d){const L=ST.lab;L.zoom=Math.round(Math.max(15,Math.min(160,d<0?L.zoom*.7:L.zoom/.7)));LAB.cross=null;labMission('zoom');save();labDraw();}
+function labZoom(d){const L=ST.lab;L.zoom=Math.round(Math.max(10,Math.min(420,labSeries().length,d<0?L.zoom*.7:L.zoom/.7)));L.range=null;LAB.cross=null;labMission('zoom');save();labDraw();labTfInfo();document.querySelectorAll('#lab-ranges button').forEach(b=>b.classList.remove('on'));}
 function labLatest(){ST.lab.off=0;LAB.cross=null;labDraw();}
 function labPause(){LAB.paused=!LAB.paused;document.getElementById('lab-pause').textContent=LAB.paused?'▶':'⏸';toast(LAB.paused?'⏸ Market paused. Take your time!':'▶ Market running');}
 function labSelect(sym){ST.lab.sym=sym;ST.lab.off=0;LAB.cross=null;labMission('watch');gmHide();labResetLim();save();renderLab();document.getElementById('lab-news').classList.remove('on');}
@@ -3714,92 +3854,174 @@ function labBind(){
   window.addEventListener('resize',()=>{if(document.getElementById('s-lab').classList.contains('on'))labDraw();});
 }
 function labWatchlist(){
-  gmShow(`<div class="meta" style="color:var(--gold)">Watchlist</div><div style="font-size:11.5px;color:var(--text2);margin-bottom:6px">Made-up companies for practice. Tap one to chart it.</div>`+LAB_STOCKS.map(st=>{
-    const P=LAB.price[st.s],d=LAB.series[st.s+'1D'],prev=d[d.length-2].c,pc=(P-prev)/prev*100;
+  const real=ST.lab.market==='real',list=real?REAL_STOCKS:LAB_STOCKS;
+  gmShow(`<div class="meta" style="color:var(--gold)">Watchlist</div><div style="font-size:11.5px;color:var(--text2);margin-bottom:6px">${real?'Real companies. Prices load when you open one.':'Made-up companies for practice.'} Tap one to chart it.</div>`+list.map(st=>{
+    const P=LAB.price[st.s],d=LAB.series[st.s+'1D']||[];if(!P||d.length<2)return`<button class="wl-row" onclick="labSelect('${st.s}')"><span class="em">${st.em}</span><div style="flex:1"><div style="font-weight:900;font-size:14px">${st.s}</div><div style="font-size:11px;color:var(--text2)">${st.n}</div></div><div style="color:var(--text3);font-size:12px">tap to load</div></button>`;
+    const prev=d[d.length-2].c,pc=(P-prev)/prev*100;
     return`<button class="wl-row" onclick="labSelect('${st.s}')"><span class="em">${st.em}</span><div style="flex:1"><div style="font-weight:900;font-size:14px">${st.s}</div><div style="font-size:11px;color:var(--text2)">${st.n}</div></div>
       <div style="text-align:right"><div class="num" style="font-weight:800">${fmtP(P)}</div><div class="num ${pc>=0?'up':'dn'}" style="font-size:11px;font-weight:800">${pc>=0?'+':'−'}${Math.abs(pc).toFixed(2)}%</div></div></button>`;}).join('')+`<button class="btn ghost" onclick="gmHide()">Close</button>`);
 }
-// ── order ticket ──
-function labResetLim(){const P=LAB.price[ST.lab.sym];const el=document.getElementById('lab-lim');if(el)el.value=(LAB.otype==='stop'?P*.95:LAB.side==='buy'?P*.98:P*1.02).toFixed(2);}
-function labShares(d){const q=document.getElementById('lab-qty');q.value=Math.max(1,(+q.value||1)+d);labTicket();}
-function labLim(d){const el=document.getElementById('lab-lim'),P=LAB.price[ST.lab.sym];el.value=Math.max(.01,(+el.value||P)+d*Math.max(.01,+(P*.005).toFixed(2))).toFixed(2);labTicket();}
+// ── accounts: Paper Trading ($10,000 practice money) + Savvy Bucks Investing ──
+function acctState(){const L=labState();
+  if(!L.accts){L.accts={paper:{cash:L.cash!=null?L.cash:10000,pos:L.pos||{},orders:L.orders||[],realized:L.realized||0},sb:{cash:0,pos:{},orders:[],realized:0}};}
+  L.acct=L.acct||'paper';L.market=L.market||'squad';return L.accts;}
+const curAcct=()=>acctState()[ST.lab.acct];
+const inSB=k=>(k||ST.lab.acct)==='sb';
+const money=(n,k)=>inSB(k)?`${n<0?'−':''}${Math.abs(n).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})} SB`:fmt$2(n);
+const fmtSh=n=>Number.isInteger(n)?String(n):String(+n.toFixed(4));
+function labResetLim(){const P=LAB.price[ST.lab.sym]||0;const el=document.getElementById('lab-lim');if(el&&P)el.value=(LAB.otype==='stop'?P*.95:LAB.side==='buy'?P*.98:P*1.02).toFixed(2);}
+function labShares(d){const q=document.getElementById('lab-qty'),step=LAB.qmode==='amt'?(inSB()?5:50):1;q.value=Math.max(step===1?1:step,Math.round(((+q.value||0)+d*step)*10000)/10000);labTicket();}
+function labQty(){const v=+document.getElementById('lab-qty').value||0,P=LAB.price[ST.lab.sym]||0,sp=labSpread(P);
+  if(LAB.qmode==='amt'){const px=LAB.side==='buy'?P+sp/2:P-sp/2;return px>0?Math.floor(v/px*10000)/10000:0;}return Math.floor(v*10000)/10000;}
+function labQMode(m){LAB.qmode=m;if(m==='amt'){LAB.otype='market';document.getElementById('lab-qty').value=inSB()?20:500;}else document.getElementById('lab-qty').value=1;SFX.tap();renderLab();}
+function labAll(){const own=(curAcct().pos[ST.lab.sym]||{}).sh||0;if(!own){toast(`You don't own any ${ST.lab.sym}.`);return;}LAB.side='sell';LAB.qmode='sh';document.getElementById('lab-qty').value=own;renderLab();}
+function labLim(d){const el=document.getElementById('lab-lim'),P=LAB.price[ST.lab.sym]||1;el.value=Math.max(.01,(+el.value||P)+d*Math.max(.01,+(P*.005).toFixed(2))).toFixed(2);labTicket();}
 function labTicket(live){
-  const L=ST.lab,P=LAB.price[L.sym],sp=labSpread(P),q=Math.max(1,Math.floor(+document.getElementById('lab-qty').value||1));
+  const L=ST.lab,P=LAB.price[L.sym]||0,sp=labSpread(P),q=labQty(),amt=LAB.qmode==='amt';
   const limEl=document.getElementById('lab-lim');if(!limEl.value)labResetLim();
   document.getElementById('lab-limrow').style.display=LAB.otype==='market'?'none':'flex';
   document.getElementById('lab-limlbl').textContent=LAB.otype==='stop'?'Stop price':'Limit price';
+  document.getElementById('lab-qlbl').textContent=amt?(inSB()?'Amount (SB)':'Amount ($)'):'Shares';
+  document.getElementById('lab-all').style.display=LAB.side==='sell'?'inline-block':'none';
   const px=LAB.otype==='market'?(LAB.side==='buy'?P+sp/2:P-sp/2):+limEl.value;
-  document.getElementById('lab-est').textContent=fmt$2(px*q);
+  document.getElementById('lab-est').innerHTML=amt?`≈ ${fmtSh(q)} shares`:money(px*q);
   const btn=document.getElementById('lab-place');btn.className='btn '+LAB.side;
-  btn.textContent=`${LAB.side==='buy'?'Buy':'Sell'} ${q} ${L.sym} (${LAB.otype})`;
-  const tips={market:'Market orders fill right away at the current ask (buy) or bid (sell).',
+  const v=+document.getElementById('lab-qty').value||0;
+  btn.textContent=amt?`${LAB.side==='buy'?'Buy':'Sell'} ${inSB()?v+' SB':'$'+v} of ${L.sym}`:`${LAB.side==='buy'?'Buy':'Sell'} ${fmtSh(q)} ${L.sym} (${LAB.otype})`;
+  const closed=L.market==='real'&&!marketOpen();
+  const tips={market:(amt?'Buying by amount gets you fractional shares, like many real apps. ':'')+(closed?'The real market is closed right now, so this order will wait and fill when it opens.':'Market orders fill right away at the current ask (buy) or bid (sell).'),
     limit:LAB.side==='buy'?'A limit BUY only fills if the price drops to your limit or lower.':'A limit SELL only fills if the price rises to your limit or higher.',
     stop:'A STOP sell triggers if the price falls to your stop. In fast markets it can fill lower.'};
   if(!live)document.getElementById('lab-otip').textContent=tips[LAB.otype];
 }
 function labPlace(){
-  const L=ST.lab,sym=L.sym,P=LAB.price[sym],q=Math.max(1,Math.floor(+document.getElementById('lab-qty').value||1)),lim=+document.getElementById('lab-lim').value;
-  const own=(L.pos[sym]||{}).sh||0,pendSell=L.orders.filter(o=>o.sym===sym&&o.side==='sell').reduce((a,o)=>a+o.q,0);
-  if(LAB.otype!=='market'&&!(lim>0)){toast('Enter a price for your order.');return;}
-  if(LAB.side==='sell'&&q>own-pendSell){SFX.wrong();toast(own?`You only have ${own-pendSell} ${sym} shares available to sell.`:`You don't own any ${sym} yet. Buy first!`);return;}
-  const cost=q*(LAB.otype==='market'?P:lim);
-  if(LAB.side==='buy'&&cost>L.cash){SFX.wrong();toast(`Not enough pretend cash. You have ${fmt$2(L.cash)}.`);return;}
+  const L=ST.lab,a=curAcct(),sym=L.sym,P=LAB.price[sym];if(!P){toast('Prices are still loading. Try again in a moment.');return;}
+  const q=labQty(),lim=+document.getElementById('lab-lim').value,type=LAB.qmode==='amt'?'market':LAB.otype;
+  if(!(q>0)){toast('Enter how much you want to trade.');return;}
+  const own=(a.pos[sym]||{}).sh||0,pend=a.orders.filter(o=>o.sym===sym&&o.side==='sell').reduce((s,o)=>s+o.q,0);
+  if(type!=='market'&&!(lim>0)){toast('Enter a price for your order.');return;}
+  if(LAB.side==='sell'&&q>own-pend+1e-9){SFX.wrong();toast(own?`You only have ${fmtSh(own-pend)} ${sym} shares available to sell.`:`You don't own any ${sym} yet. Buy first!`);return;}
+  const cost=q*(type==='market'?P:lim);
+  if(LAB.side==='buy'&&cost>a.cash+1e-9){SFX.wrong();toast(inSB()?'Not enough SB in your investing account. Move more SB in first!':`Not enough practice cash. You have ${money(a.cash)}.`);return;}
   const eq=labEquity();
   if(LAB.side==='buy'&&cost>eq*.5&&!LAB.bigOk){gmShow(`<div style="font-size:44px">🛡️</div><div style="font-size:16px;font-weight:900;margin:6px 0">Whoa, that's ${Math.round(cost/eq*100)}% of your whole account!</div>
-    <div style="font-size:12.5px;color:var(--text2);line-height:1.6;font-weight:500;margin-bottom:10px">Risk Rangers keep each position small, so one bad trade can't hurt too much. It's pretend money, so you can still try it. What do you want to do?</div>
-    <button class="btn" onclick="gmHide();document.getElementById('lab-qty').value=Math.max(1,Math.floor(labEquity()*.1/LAB.price[ST.lab.sym]));labTicket()">Make it smaller (about 10%)</button>
+    <div style="font-size:12.5px;color:var(--text2);line-height:1.6;font-weight:500;margin-bottom:10px">Risk Rangers keep each position small, so one bad trade can't hurt too much.${inSB()?' These are Savvy Bucks you earned!':''} What do you want to do?</div>
+    <button class="btn" onclick="gmHide();LAB.qmode='amt';document.getElementById('lab-qty').value=Math.max(1,Math.floor(labEquity()*.1));renderLab()">Make it smaller (about 10%)</button>
     <button class="btn ghost" onclick="LAB.bigOk=true;gmHide();labPlace();LAB.bigOk=false">Place it anyway</button>`);return;}
-  if(LAB.otype==='market'){labExec(sym,LAB.side,q,P);}
-  else{L.orders.push({id:Date.now(),sym,side:LAB.side,type:LAB.otype,q,px:+lim.toFixed(2)});SFX.tap();
-    toast(`📝 ${LAB.otype==='limit'?'Limit':'Stop'} order placed: ${LAB.side} ${q} ${sym} at ${fmtP(lim)}`);
-    labMission(LAB.otype);if(LAB.side==='buy')labMission('buy');}
+  const closed=L.market==='real'&&!marketOpen();
+  if(type==='market'&&!closed){labExec(sym,LAB.side,q,P,false,false,L.acct);}
+  else{a.orders.push({id:Date.now(),sym,side:LAB.side,type,q,px:type==='market'?null:+lim.toFixed(2)});SFX.tap();
+    toast(type==='market'?`🌙 The market is closed. Your order to ${LAB.side} ${fmtSh(q)} ${sym} will fill when it opens (weekdays, 9:30 a.m. ET).`:`📝 ${type==='limit'?'Limit':'Stop'} order placed: ${LAB.side} ${fmtSh(q)} ${sym} at ${fmtP(lim)}`);
+    if(type!=='market')labMission(type);if(LAB.side==='buy')labMission('buy');}
   save();labAccount();
 }
 function labFill(){
-  const L=ST.lab;if(!L||!L.orders||!L.orders.length)return;
-  L.orders=L.orders.filter(o=>{const P=LAB.price[o.sym],sp=labSpread(P),bid=P-sp/2,ask=P+sp/2;
-    if(o.type==='limit'&&o.side==='buy'&&ask<=o.px){if(L.cash>=o.q*o.px){labExec(o.sym,'buy',o.q,Math.min(ask,o.px)+sp/2,true);}else toast('Limit order canceled: not enough cash.');return false;}
-    if(o.type==='limit'&&o.side==='sell'&&bid>=o.px){labExec(o.sym,'sell',o.q,Math.max(bid,o.px)-sp/2,true);return false;}
-    if(o.type==='stop'&&bid<=o.px){labExec(o.sym,'sell',o.q,P,true,true);return false;}
-    return true;});
+  const accts=acctState();
+  Object.entries(accts).forEach(([k,a])=>{if(!a.orders||!a.orders.length)return;
+    a.orders=a.orders.filter(o=>{const P=LAB.price[o.sym];if(!P)return true;if(isRealSym(o.sym)&&!marketOpen())return true;
+      const sp=labSpread(P),bid=P-sp/2,ask=P+sp/2;
+      if(o.type==='market'){labExec(o.sym,o.side,o.q,P,true,false,k);return false;}
+      if(o.type==='limit'&&o.side==='buy'&&ask<=o.px){if(a.cash>=o.q*o.px)labExec(o.sym,'buy',o.q,Math.min(ask,o.px)-sp/2,true,false,k);else toast('Limit order canceled: not enough cash.');return false;}
+      if(o.type==='limit'&&o.side==='sell'&&bid>=o.px){labExec(o.sym,'sell',o.q,Math.max(bid,o.px)+sp/2,true,false,k);return false;}
+      if(o.type==='stop'&&bid<=o.px){labExec(o.sym,'sell',o.q,P,true,true,k);return false;}
+      return true;});});
 }
-function labExec(sym,side,q,P,fromOrder,wasStop){
-  const L=ST.lab,sp=labSpread(P),px=side==='buy'?P+sp/2:P-sp/2,pos=L.pos[sym]||{sh:0,avg:0};
-  if(side==='buy'){if(L.cash<q*px){toast('Not enough pretend cash.');return;}L.cash-=q*px;pos.avg=(pos.avg*pos.sh+px*q)/(pos.sh+q);pos.sh+=q;L.pos[sym]=pos;
-    SFX.buy();buzz(15);questProg('labq');toast(`🟢 Bought ${q} ${sym} at ${fmtP(px)}`);labMission('buy');if(!ST.badges.includes('First Paper Trade'))badgeUp('First Paper Trade');}
-  else{const sh=Math.min(q,pos.sh);if(!sh)return;const pl=(px-pos.avg)*sh;L.cash+=sh*px;pos.sh-=sh;L.realized=(L.realized||0)+pl;if(pos.sh<=0)delete L.pos[sym];else L.pos[sym]=pos;
-    L.orders=L.orders.filter(o=>!(o.sym===sym&&o.side==='sell'&&o.q>((L.pos[sym]||{}).sh||0)));
-    SFX.coin();buzz(20);toast(`${wasStop?'🛡️ Stop triggered! ':'💵 '}Sold ${sh} ${sym} at ${fmtP(px)}: ${pl>=0?'+':'−'}${fmt$2(Math.abs(pl))} ${pl>=0?'profit':'loss'}`);
-    labMission('sell');setTimeout(()=>labFeel(sym,sh,pl),fromOrder?300:600);}
+function labExec(sym,side,q,P,fromOrder,wasStop,k){
+  k=k||ST.lab.acct;const a=acctState()[k],sp=labSpread(P),px=side==='buy'?P+sp/2:P-sp/2,pos=a.pos[sym]||{sh:0,avg:0};
+  if(side==='buy'){if(a.cash<q*px-1e-9){toast(inSB(k)?'Not enough SB in your investing account.':'Not enough practice cash.');return;}
+    a.cash-=q*px;pos.avg=(pos.avg*pos.sh+px*q)/(pos.sh+q);pos.sh=+(pos.sh+q).toFixed(4);a.pos[sym]=pos;
+    SFX.buy();buzz(15);questProg('labq');toast(`🟢 Bought ${fmtSh(q)} ${sym} at ${fmtP(px)}${inSB(k)?' with your Savvy Bucks':''}`);labMission('buy');if(!ST.badges.includes('First Paper Trade'))badgeUp('First Paper Trade');}
+  else{const sh=Math.min(q,pos.sh);if(!sh)return;const pl=(px-pos.avg)*sh;a.cash+=sh*px;pos.sh=+(pos.sh-sh).toFixed(4);a.realized=(a.realized||0)+pl;
+    if(pos.sh<=0.00005)delete a.pos[sym];else a.pos[sym]=pos;
+    a.orders=a.orders.filter(o=>!(o.sym===sym&&o.side==='sell'&&o.q>((a.pos[sym]||{}).sh||0)+1e-9));
+    SFX.coin();buzz(20);toast(`${wasStop?'🛡️ Stop triggered! ':'💵 '}Sold ${fmtSh(sh)} ${sym} at ${fmtP(px)}: ${pl>=0?'+':'−'}${money(Math.abs(pl),k)} ${pl>=0?'profit':'loss'}`);
+    labMission('sell');setTimeout(()=>labFeel(sym,sh,pl,k),fromOrder?300:600);}
   save();if(document.getElementById('s-lab').classList.contains('on')){labAccount();labHeader();}
 }
-function labEquity(){const L=ST.lab;return L.cash+Object.entries(L.pos).reduce((a,[s,p])=>a+p.sh*LAB.price[s],0);}
+function labEquity(k){const a=acctState()[k||ST.lab.acct];return a.cash+Object.entries(a.pos).reduce((s,[sym,p])=>s+p.sh*(LAB.price[sym]||p.avg),0);}
+function sbMove(n){const a=acctState().sb;
+  if(n>0){n=Math.min(n,ST.sb);if(n<=0){toast('Your wallet is empty. Earn Savvy Bucks by learning!');return;}ST.sb-=n;a.cash+=n;toast(`⭐ Moved ${n} SB into your investing account.`);}
+  else{const out=Math.floor(a.cash);if(out<=0){toast('No whole SB to move out. Sell some shares first!');return;}a.cash-=out;ST.sb+=out;toast(`👛 Moved ${out} SB back to your wallet.`);}
+  SFX.coin();save();updateStats();labAccount();labTicket();}
 function labAccount(){
-  const L=ST.lab;if(!L)return;const eq=labEquity(),invested=eq-L.cash,tot=eq-10000;
-  document.getElementById('lab-acct').innerHTML=`<div><small>Cash</small><b class="num">${fmt$2(L.cash)}</b></div><div><small>Invested</small><b class="num">${fmt$2(invested)}</b></div>
-    <div><small>Account value</small><b class="num">${fmt$2(eq)}</b></div><div><small>Realized P/L</small><b class="num ${L.realized>=0?'up':'dn'}">${(L.realized>=0?'+':'')+fmt$2(L.realized||0)}</b></div>`;
-  const ps=Object.entries(L.pos);
-  document.getElementById('lab-pos').innerHTML=ps.length?`<div class="meta" style="margin-top:10px">Positions</div>`+ps.map(([s,p])=>{const st=LAB_STOCKS.find(x=>x.s===s),P=LAB.price[s],u=(P-p.avg)*p.sh,pc=(P/p.avg-1)*100;
-    return`<button class="pos-row" onclick="labSelect('${s}')"><span class="em">${st.em}</span><div style="flex:1"><div>${s} · ${p.sh} sh</div><div style="font-size:10.5px;color:var(--text2)">Avg cost ${fmtP(p.avg)} · Now ${fmtP(P)}</div></div>
-      <div style="text-align:right" class="num ${u>=0?'up':'dn'}"><div>${u>=0?'+':'−'}${fmt$2(Math.abs(u))}</div><div style="font-size:10.5px">${u>=0?'+':'−'}${Math.abs(pc).toFixed(2)}% unrealized</div></div></button>`;}).join('')
-    :`<div class="act-small">No positions yet. Place a pretend buy order to own some shares!</div>`;
-  document.getElementById('lab-orders').innerHTML=L.orders.length?`<div class="meta" style="margin-top:10px">Open orders</div>`+L.orders.map(o=>`<div class="pos-row" style="cursor:default"><span class="em">${o.type==='stop'?'🛡️':'🎯'}</span><div style="flex:1">${o.side==='buy'?'Buy':'Sell'} ${o.q} ${o.sym} · ${o.type} @ ${fmtP(o.px)}</div><button class="tool" onclick="labCancel(${o.id})" aria-label="Cancel order">✕</button></div>`).join(''):'';
+  const L=ST.lab;if(!L)return;const accts=acctState(),k=L.acct,a=accts[k],eq=labEquity(),invested=eq-a.cash;
+  document.getElementById('lab-accts').innerHTML=`<button class="${k==='paper'?'on':''}" onclick="labAcct('paper')">📝 Paper Trading</button><button class="${k==='sb'?'on':''}" onclick="labAcct('sb')">⭐ Savvy Bucks Investing</button>`;
+  document.getElementById('lab-acctnote').innerHTML=k==='paper'?'Practice money only: $10,000 to learn with. Mistakes cost nothing!':`Invest the Savvy Bucks you earned. If your stocks go up, you get more SB. If they go down, you have less, just like real investing. <b>1 SB = $1 here.</b>`;
+  document.getElementById('lab-acct').innerHTML=`<div><small>${k==='sb'?'SB cash':'Cash'}</small><b class="num">${money(a.cash)}</b></div><div><small>Invested</small><b class="num">${money(invested)}</b></div>
+    <div><small>Account value</small><b class="num">${money(eq)}</b></div><div><small>Realized P/L</small><b class="num ${a.realized>=0?'up':'dn'}">${(a.realized>=0?'+':'')+money(a.realized||0)}</b></div>`;
+  document.getElementById('lab-sbbox').innerHTML=k==='sb'?`<div class="jar-row"><span class="lbl">Move in</span><button class="act-btn" onclick="sbMove(10)">+10</button><button class="act-btn" onclick="sbMove(50)">+50</button><button class="act-btn" onclick="sbMove(ST.sb)">All</button></div>
+    <div class="jar-row"><span class="lbl">Move out</span><button class="act-btn" onclick="sbMove(-1)">Move ${Math.floor(a.cash)} SB to wallet</button></div><div class="act-small">Wallet: ${ST.sb} SB. Only invest SB you won't need soon!</div>`:'';
+  const ps=Object.entries(a.pos);
+  document.getElementById('lab-pos').innerHTML=ps.length?`<div class="meta" style="margin-top:10px">Positions</div>`+ps.map(([s,p])=>{const st=stockInfo(s),P=LAB.price[s];
+    if(!P)return`<button class="pos-row" onclick="labSelect('${s}')"><span class="em">${st.em}</span><div style="flex:1"><div>${s} · ${fmtSh(p.sh)} sh</div><div style="font-size:10.5px;color:var(--text2)">Avg cost ${fmtP(p.avg)} · loading price…</div></div></button>`;
+    const u=(P-p.avg)*p.sh,pc=(P/p.avg-1)*100;
+    return`<button class="pos-row" onclick="labSelect('${s}')"><span class="em">${st.em}</span><div style="flex:1"><div>${s} · ${fmtSh(p.sh)} sh</div><div style="font-size:10.5px;color:var(--text2)">Avg cost ${fmtP(p.avg)} · Now ${fmtP(P)}</div></div>
+      <div style="text-align:right" class="num ${u>=0?'up':'dn'}"><div>${u>=0?'+':'−'}${money(Math.abs(u))}</div><div style="font-size:10.5px">${u>=0?'+':'−'}${Math.abs(pc).toFixed(2)}% unrealized</div></div></button>`;}).join('')
+    :`<div class="act-small">No positions yet. Place a buy order to own some shares!</div>`;
+  document.getElementById('lab-orders').innerHTML=a.orders.length?`<div class="meta" style="margin-top:10px">Open orders</div>`+a.orders.map(o=>`<div class="pos-row" style="cursor:default"><span class="em">${o.type==='stop'?'🛡️':o.type==='market'?'🌙':'🎯'}</span><div style="flex:1">${o.side==='buy'?'Buy':'Sell'} ${fmtSh(o.q)} ${o.sym} · ${o.type==='market'?'at market open':o.type+' @ '+fmtP(o.px)}</div><button class="tool" onclick="labCancel(${o.id})" aria-label="Cancel order">✕</button></div>`).join(''):'';
+  document.getElementById('lab-reset').style.display=k==='paper'?'block':'none';
 }
-function labCancel(id){ST.lab.orders=ST.lab.orders.filter(o=>o.id!==id);save();labAccount();toast('Order canceled.');}
-function labReset(){gmShow(`<div style="font-size:16px;font-weight:900;margin-bottom:8px">Start over with $10,000?</div><div style="font-size:12px;color:var(--text2);margin-bottom:8px">Your pretend positions, orders, and P/L reset. Your missions and journal stay.</div>
-  <button class="btn gold" onclick="Object.assign(ST.lab,{cash:10000,pos:{},orders:[],realized:0});save();gmHide();renderLab();toast('Fresh $10,000 pretend account!')">Yes, reset</button><button class="btn ghost" onclick="gmHide()">Cancel</button>`);}
+function labAcct(k){ST.lab.acct=k;LAB.bigOk=false;if(LAB.qmode==='amt')document.getElementById('lab-qty').value=k==='sb'?20:500;SFX.tap();save();renderLab();
+  if(k==='sb'&&!ST.lab.sbIntro){ST.lab.sbIntro=true;save();gmShow(`<div style="font-size:44px">⭐</div><div style="font-size:17px;font-weight:900;margin:6px 0">Savvy Bucks Investing</div><div style="font-size:12.5px;color:var(--text2);line-height:1.6;text-align:left;margin-bottom:10px">This account uses the Savvy Bucks YOU earned. Move some SB in from your wallet, then buy shares. You can buy a small piece of a share (a fractional share) with just a few SB!<br><br>If the stock goes up, your SB grows. If it goes down, you have less. That's the real risk of investing, so start small and think long-term. 🌱</div><button class="btn gold" onclick="gmHide()">Got it!</button>`);}}
+function labCancel(id){const a=curAcct();a.orders=a.orders.filter(o=>o.id!==id);save();labAccount();toast('Order canceled.');}
+function labReset(){gmShow(`<div style="font-size:16px;font-weight:900;margin-bottom:8px">Start your paper account over with $10,000?</div><div style="font-size:12px;color:var(--text2);margin-bottom:8px">Your paper positions, orders, and P/L reset. Your Savvy Bucks account, missions, and journal stay.</div>
+  <button class="btn gold" onclick="Object.assign(acctState().paper,{cash:10000,pos:{},orders:[],realized:0});save();gmHide();renderLab();toast('Fresh $10,000 paper trading account!')">Yes, reset</button><button class="btn ghost" onclick="gmHide()">Cancel</button>`);}
+
+// ── real companies, real prices (needs a market-data key in APP_CONFIG) ──
+const REAL_STOCKS=[{s:'AAPL',n:'Apple',em:'🍎'},{s:'DIS',n:'Disney',em:'🏰'},{s:'NKE',n:'Nike',em:'👟'},{s:'MCD',n:"McDonald's",em:'🍟'},{s:'RBLX',n:'Roblox',em:'🧱'},{s:'NFLX',n:'Netflix',em:'🎬'},
+  {s:'MSFT',n:'Microsoft (Minecraft, Xbox)',em:'🎮'},{s:'AMZN',n:'Amazon',em:'📦'},{s:'KO',n:'Coca-Cola',em:'🥤'},{s:'MAT',n:'Mattel (Barbie, Hot Wheels)',em:'🧸'},{s:'NVDA',n:'Nvidia',em:'💻'},{s:'SPY',n:'S&P 500 index fund (SPY)',em:'📊'}];
+const TD_INT={'1m':'1min','5m':'5min','15m':'15min','30m':'30min','1H':'1h','4H':'4h','1D':'1day','1W':'1week','1M':'1month','1Y':'1month'};
+const isRealSym=s=>REAL_STOCKS.some(x=>x.s===s);
+const stockInfo=s=>LAB_STOCKS.find(x=>x.s===s)||REAL_STOCKS.find(x=>x.s===s)||{s,n:s,em:'📈'};
+function etParts(d){const f=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',weekday:'short',hour:'numeric',minute:'numeric',hourCycle:'h23'}).formatToParts(d),g=t=>(f.find(p=>p.type===t)||{}).value;return{wd:g('weekday'),h:+g('hour')%24,m:+g('minute')};}
+function marketOpen(){const p=etParts(new Date()),mins=p.h*60+p.m;return!['Sat','Sun'].includes(p.wd)&&mins>=570&&mins<960;}
+function etOffset(d){try{const v=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',timeZoneName:'shortOffset'}).formatToParts(d).find(p=>p.type==='timeZoneName').value,m=/GMT([+-]\d+)(?::(\d+))?/.exec(v);return m?(+m[1])*60+(m[2]?Math.sign(+m[1])*+m[2]:0):-300;}catch(e){return-300;}}
+function etToEpoch(str){const [dp,tp]=String(str).split(' '),[y,mo,da]=dp.split('-').map(Number);if(!tp)return new Date(y,mo-1,da)/1000;
+  const [h,mi]=tp.split(':').map(Number),guess=Date.UTC(y,mo-1,da,h,mi);return(guess-etOffset(new Date(guess))*60000)/1000;}
+function toYears(rows){const m={};rows.forEach(r=>{const y=new Date(r.t*1000).getFullYear(),b=m[y];if(!b)m[y]={t:new Date(y,0,1)/1000,o:r.o,h:r.h,l:r.l,c:r.c,v:r.v};else{b.h=Math.max(b.h,r.h);b.l=Math.min(b.l,r.l);b.c=r.c;b.v+=r.v;}});return Object.values(m).sort((a,b)=>a.t-b.t);}
+function applyReal(sym,tf,rows){LAB.series[sym+tf]=rows;if(rows.length){const last=rows[rows.length-1].c;if(INTRADAY.includes(tf)||tf==='1D'||!LAB.price[sym])LAB.price[sym]=last;labState().px[sym]=+last.toFixed(2);}}
+LAB.loading={};LAB.realErr=null;
+async function realLoad(sym,tf,force){
+  const key=APP_CONFIG.marketDataKey;if(!key){LAB.realErr='nokey';return false;}
+  const ck='rd:'+sym+':'+tf,ttl=INTRADAY.includes(tf)&&marketOpen()?110e3:6*3600e3;
+  try{const c=JSON.parse(localStorage.getItem(ck)||'null');if(c&&!force&&Date.now()-c.at<ttl){applyReal(sym,tf,c.rows);return true;}}catch(e){}
+  if(LAB.loading[ck])return false;LAB.loading[ck]=true;
+  try{const t=LAB_TFS.find(x=>x[0]===tf);
+    const r=await fetch(`https://api.twelvedata.com/time_series?symbol=${encodeURIComponent(sym)}&interval=${TD_INT[tf]}&outputsize=${tf==='1Y'?600:Math.min(t[4],5000)}&apikey=${encodeURIComponent(key)}`),j=await r.json();
+    if(!j||j.status==='error'||!Array.isArray(j.values))throw new Error((j&&j.message)||'No data');
+    let rows=j.values.map(v=>({t:etToEpoch(v.datetime),o:+v.open,h:+v.high,l:+v.low,c:+v.close,v:+(v.volume||0)})).filter(x=>x.c>0).reverse();
+    if(tf==='1Y')rows=toYears(rows);
+    try{localStorage.setItem(ck,JSON.stringify({at:Date.now(),rows}));}catch(e){}
+    applyReal(sym,tf,rows);LAB.realErr=null;return true;
+  }catch(e){LAB.realErr=String((e&&e.message)||e);return false;}finally{LAB.loading[ck]=false;}
+}
+async function realEnsure(force){const L=ST.lab;if(L.market!=='real')return;
+  const held=[...new Set(Object.values(acctState()).flatMap(a=>Object.keys(a.pos)).filter(isRealSym))];
+  await realLoad(L.sym,'1D',force);if(L.tf!=='1D')await realLoad(L.sym,L.tf,force);
+  for(const s of held)if(s!==L.sym)await realLoad(s,'1D');
+  if(document.getElementById('s-lab').classList.contains('on')){labDraw();labHeader();labAccount();labTicket(true);labTfInfo();}}
+function labMarket(m){const L=ST.lab;if(L.market===m)return;L.market=m;L.sym=m==='real'?'AAPL':'SNAK';L.off=0;LAB.cross=null;SFX.tap();save();renderLab();
+  if(m==='real'&&!APP_CONFIG.marketDataKey)toast('Real prices need a market-data connection. A grown-up can set it up!');}
+function marketBadge(){const L=ST.lab;if(L.market!=='real')return'⚡ Practice market · open 24/7';
+  return marketOpen()?'🟢 Real market open':'🌙 Real market closed · opens weekdays 9:30 a.m. ET';}
+function labIntroHTML(){return`<details class="card lab-intro"${ST.lab.introSeen?'':' open'} ontoggle="ST.lab.introSeen=true;save()"><summary><b>📝 What is paper trading?</b></summary>
+  <p><b>Paper trading</b> means practicing buying and selling stocks without risking real money. The name comes from the old days, when people wrote pretend trades on paper to practice. Real apps like TradingView, thinkorswim, and Webull have paper trading too, and grown-up investors use it to learn!</p>
+  <p><b>Two accounts:</b> 📝 <b>Paper Trading</b> gives you $10,000 of practice money. ⭐ <b>Savvy Bucks Investing</b> lets you invest the SB you earned: if your stocks go up, your SB grows; if they go down, you have less.</p>
+  <p><b>Two markets:</b> 🎮 <b>Squad companies</b> are made up and move fast, so you can practice anytime. 🌎 <b>Real companies</b> use real stock prices, so you can follow Apple, Disney, Nike, Roblox, and more.</p>
+  <div class="grownup">👪 <b>For grown-ups:</b> this works like a real brokerage's paper-trading mode: market, limit, and stop orders; the bid/ask spread; dollar-based fractional investing; market hours (orders placed while the market is closed wait for the open); average cost; and realized vs. unrealized profit and loss. Learn it together: have your child explain a chart to you, or build a family watchlist. Real prices come from a market-data provider and may be delayed. Nothing here is investment advice.</div></details>`;}
+
 // ── feelings journal (the 6th sense: noticing emotions) ──
-function labFeel(sym,sh,pl){
+function labFeel(sym,sh,pl,k){
   const F=[['😄','Proud'],['😌','Calm'],['😐','Okay'],['😟','Worried'],['😤','Frustrated'],['🤑','Want more']];
-  gmShow(`<div class="meta" style="color:var(--pink)">Feelings check-in 📓</div><div style="font-size:15px;font-weight:900">You sold ${sh} ${sym} for a ${pl>=0?'profit':'loss'} of ${fmt$2(Math.abs(pl))}.</div>
+  gmShow(`<div class="meta" style="color:var(--pink)">Feelings check-in 📓</div><div style="font-size:15px;font-weight:900">You sold ${fmtSh(sh)} ${sym} for a ${pl>=0?'profit':'loss'} of ${money(Math.abs(pl),k)}.</div>
     <div style="font-size:12px;color:var(--text2);margin-top:4px">How does it make you feel? Noticing feelings is a trader superpower.</div>
-    <div class="feel">${F.map(([e,n])=>`<button onclick="labLog('${sym}',${pl.toFixed(2)},'${e}','${n}')" aria-label="${n}">${e}<small>${n}</small></button>`).join('')}</div>
+    <div class="feel">${F.map(([e,n])=>`<button onclick="labLog('${sym}',${pl.toFixed(2)},'${e}','${n}','${k||'paper'}')" aria-label="${n}">${e}<small>${n}</small></button>`).join('')}</div>
     <button class="btn ghost" onclick="gmHide()">Skip</button>`);
 }
-function labLog(sym,pl,e,n){const L=ST.lab;L.journal.unshift({d:today(),sym,pl,e,n});L.journal=L.journal.slice(0,30);labMission('journal');save();gmHide();labJournal();
+function labLog(sym,pl,e,n,k){const L=ST.lab;L.journal.unshift({d:today(),sym,pl,e,n,k});L.journal=L.journal.slice(0,30);labMission('journal');save();gmHide();labJournal();
   const tip={'😄':'Great! Remember: one good trade doesn\'t mean the next will be.','😌':'Staying calm is exactly what pros practice.','😐':'Okay is a fine place to be. Steady beats wild.',
     '😟':'Worried is normal. Small positions help worries stay small.','😤':'Losses happen to everyone. Take a breath before your next move.','🤑':'Wanting more is greed talking. Slow down and stick to your plan.'}[e];toast(tip);}
-function labJournal(){const J=(ST.lab.journal||[]);document.getElementById('lab-journal').innerHTML=J.length?J.slice(0,8).map(j=>`<div class="mis"><span style="font-size:20px">${j.e}</span><div style="flex:1">${j.sym}: <span class="${j.pl>=0?'up':'dn'}">${j.pl>=0?'+':'−'}${fmt$2(Math.abs(j.pl))}</span><div style="font-size:10.5px;color:var(--text2);font-weight:600">${j.d} · felt ${j.n.toLowerCase()}</div></div></div>`).join(''):`<div class="act-small" style="margin-top:0">After you sell, you'll log how the trade felt. Pros keep journals to learn from every choice.</div>`;}
+function labJournal(){const J=(ST.lab.journal||[]);document.getElementById('lab-journal').innerHTML=J.length?J.slice(0,8).map(j=>`<div class="mis"><span style="font-size:20px">${j.e}</span><div style="flex:1">${j.sym}: <span class="${j.pl>=0?'up':'dn'}">${j.pl>=0?'+':'−'}${money(Math.abs(j.pl),j.k)}</span><div style="font-size:10.5px;color:var(--text2);font-weight:600">${j.d} · felt ${j.n.toLowerCase()}</div></div></div>`).join(''):`<div class="act-small" style="margin-top:0">After you sell, you'll log how the trade felt. Pros keep journals to learn from every choice.</div>`;}
 // ── missions ──
 function labMission(id){const L=labState();if(L.missions[id])return;L.missions[id]=true;const m=LAB_MISSIONS.find(x=>x[0]===id);if(!m)return;
   addSB(10);seasonXP(25);toast(`🧪 Lab mission complete: ${m[1]}`);SFX.quest();
@@ -3814,8 +4036,10 @@ function openLab(m){go('lab');if(!m)return;setTimeout(()=>{const el=document.get
 function labToggleExplain(){const r=document.getElementById('lab-root');r.classList.toggle('explain');labMission('labels');
   document.getElementById('lab-help-btn').textContent=r.classList.contains('explain')?'✕ Hide labels':'❓ Explain this screen';
   if(r.classList.contains('explain')){toast('Tap the gold numbers to learn each part!');speak('Tap the gold numbers to learn each part of the screen.');}}
-function labExplainPart(n){const p=LAB_PARTS[n-1];SFX.open();speak(p[0]+'. '+p[1]);
+const LAB_TIPS=["Tickers belong to one company on one exchange. Search by company name if you're unsure, and double-check before placing an order: similar tickers can be very different companies.", "Most apps compare against the previous session's close. Pre-market and after-hours trading can move prices outside regular hours.", 'Zooming out to weekly or monthly candles helps avoid overreacting to short-term noise.', 'Charts show what happened, not what will happen. Many long-term investors look at charts rarely.', "Some platforms offer a log scale, which shows percent changes evenly. It's useful for long time ranges.", 'Intraday charts show regular hours (9:30 a.m. to 4 p.m. ET) unless extended hours are turned on.', 'Big moves on low volume can reverse easily. Volume shows how many people took part.', 'Real brokerages also offer stop-limit and trailing-stop orders, and let you choose how long an order lasts (day vs. good-til-canceled).'];
+function labExplainPart(n){const p=LAB_PARTS[n-1];SFX.open();playVoice('P|'+n,p[0]+'. '+p[1]);
   gmShow(`<div class="dec" style="border:none;cursor:default"><span class="n">${n}</span><div class="t" style="font-size:16px">${p[0]}</div></div><div style="font-size:13px;line-height:1.65;color:var(--text);font-weight:500;text-align:left">${p[1]}</div>
+    <div class="grownup" style="text-align:left">👪 <b>For grown-ups:</b> ${LAB_TIPS[n-1]}</div>
     <div style="display:flex;gap:8px;margin-top:8px">${n>1?`<button class="btn ghost" onclick="labExplainPart(${n-1})">← Part ${n-1}</button>`:''}${n<8?`<button class="btn gold" onclick="labExplainPart(${n+1})">Part ${n+1} →</button>`:`<button class="btn gold" onclick="gmHide();stopSpeak()">Got it!</button>`}</div>`);}
 function labDecoder(){document.getElementById('lab-decoder').innerHTML=LAB_PARTS.map((p,i)=>`<button class="dec" onclick="labExplainPart(${i+1})"><span class="n">${i+1}</span><div><div class="t">${p[0]}</div><div class="d">${p[1].split('. ')[0]}.</div></div></button>`).join('');}
 
@@ -3834,6 +4058,15 @@ function profKey(id){return id==='p1'?'ssa_v4':'ssa_v4_'+id;}
 function profState(id){if(id===profList().active)return ST;try{return JSON.parse(localStorage.getItem(profKey(id))||'{}');}catch(e){return{};}}
 function switchProfile(id){save();const p=profList();p.active=id;profSave(p);stopMusic();location.hash='';location.reload();}
 function addProfile(){const p=profList();if(p.list.length>=8){toast('Up to 8 players per device.');return;}save();const id='p'+Date.now().toString(36);p.list.push({id});p.active=id;profSave(p);location.hash='';location.reload();}
+const CHEERS=['Great job! ⭐','Love your outfit! 😍','Race you to the next lesson! 🏁','You\'re on fire! 🔥','Nice streak! 🙌','Let\'s learn together! 📚','Proud of you! 💛','You\'re so savvy! 🧠','Beat my Runway score! 👗','Keep going, you got this! 💪','Happy saving! 🐷','Thanks, friend! 🤝'];
+function cheerPicker(target,isFriend){gmShow(`<div class="meta" style="color:var(--pink)">Send a cheer 💌</div><div style="font-size:12px;color:var(--text2);margin-bottom:8px">Pick a message. Cheers are pre-written to keep everyone safe.</div>
+  <div class="cheer-grid">${CHEERS.map((c,i)=>`<button class="cheer" onclick="sendCheer('${target}',${i},${isFriend?1:0})">${c}</button>`).join('')}</div><button class="btn ghost" onclick="gmHide()">Cancel</button>`);}
+function sendCheer(target,i,isFriend){gmHide();ST.cheersSent=(ST.cheersSent||0)+1;if(ST.cheersSent>=5)badgeUp('Hype Squad');SFX.star();save();
+  if(isFriend){doShare(shareLink({cheer:i}),`${ST.name} sent you a Savvy Squad cheer: "${CHEERS[i]}"`);return;}
+  const k=profKey(target),o=profState(target);o.inbox=[...(o.inbox||[]),{from:ST.name,c:i,d:today()}].slice(-20);try{localStorage.setItem(k,JSON.stringify(o));}catch(e){}
+  confetti(80);toast(`💌 Cheer sent to ${o.name||'your squadmate'}!`);}
+function showInbox(){const box=(ST.inbox||[]).filter(x=>CHEERS[x.c]);if(!box.length)return;ST.inbox=[];save();
+  queueModal(()=>{gmShow(`<div style="font-size:48px">💌</div><div style="font-size:17px;font-weight:900;margin:6px 0">You got ${box.length} cheer${box.length>1?'s':''}!</div>${box.map(x=>`<div class="story-l p"><span class="story-em">💛</span><div><b>${esc(x.from)}</b><div>${CHEERS[x.c]}</div></div></div>`).join('')}<button class="btn gold" onclick="gmHide();go('ranks')">Cheer back!</button><button class="btn ghost" onclick="gmHide()">Close</button>`);confetti(140);SFX.win();});}
 const SQUAD_GOALS=[[25,'🎈 Squad Balloons'],[75,'🎆 Squad Fireworks'],[150,'🏆 Squad Trophy']];
 function renderSquad(){
   const p=profList(),players=p.list.map(x=>({id:x.id,s:profState(x.id)})).filter(x=>x.s&&x.s.name);
@@ -3846,7 +4079,7 @@ function renderSquad(){
       <span style="width:22px;font-weight:900;color:${['#F5C842','#c3cde3','#CD7F32'][i]||'var(--text2)'}">${i+1}</span>
       <div class="ava" style="width:40px;height:40px;overflow:hidden;background:var(--surface2)">${avatarSVG(lookOf(x.s),{crop:'head',noBg:true,noPet:true})}</div>
       <div style="flex:1"><div>${esc(x.s.name)}${x.id===p.active?' <span style="color:var(--teal);font-size:10px">(playing)</span>':''}</div><div style="font-size:10.5px;color:var(--text2)">🔥 ${x.s.streak||0} · 📚 ${x.s.totalLessons||0} lessons · ⭐ ${Object.values(x.s.stars||{}).reduce((a,b)=>a+b,0)}</div></div>
-      <div style="text-align:right"><div class="num" style="color:var(--gold)">${x.e} SB</div>${x.id!==p.active?`<button class="tool" style="margin-top:3px" onclick="switchProfile('${x.id}')">Switch</button>`:''}</div></div>`).join('')+
+      <div style="text-align:right"><div class="num" style="color:var(--gold)">${x.e} SB</div>${x.id!==p.active?`<div style="display:flex;gap:4px;margin-top:3px;justify-content:flex-end"><button class="tool" onclick="cheerPicker('${x.id}',0)" aria-label="Send a cheer">💌</button><button class="tool" onclick="switchProfile('${x.id}')">Switch</button></div>`:''}</div></div>`).join('')+
     `<button class="btn ghost sm" style="margin-top:10px" onclick="addProfile()">+ Add a player (sibling, friend, or classmate)</button></div>`;
   const cur=SQUAD_GOALS.find(g=>total<g[0])||SQUAD_GOALS[SQUAD_GOALS.length-1],claim=SQUAD_GOALS.filter(g=>total>=g[0]&&!(ST.squadClaimed||[]).includes(g[0]));
   html+=`<div class="card"><div class="meta" style="color:var(--pink)">Squad goal 🤝</div><div style="font-size:13px;font-weight:800">Finish ${cur[0]} lessons together to unlock ${cur[1]}</div>
@@ -3856,10 +4089,10 @@ function renderSquad(){
   html+=`<div class="card"><div class="meta" style="color:var(--blue)">Friends 💌</div>
     <div style="font-size:12px;color:var(--text2);line-height:1.55;font-weight:500">Share your player card or a Runway challenge link with a friend's grown-up. When they open it, you show up on their Squad board!</div>
     ${fr.length?fr.map(f=>`<div class="pos-row" style="cursor:default"><div class="ava" style="width:40px;height:40px;overflow:hidden;background:var(--surface2)">${avatarSVG(lookOf(f),{crop:'head',noBg:true,noPet:true})}</div>
-      <div style="flex:1"><div>${esc(f.name)}</div><div style="font-size:10.5px;color:var(--text2)">📚 ${f.l||0} lessons · ⭐ ${f.st||0} stars${f.beat?` · 👗 ${esc(f.beat)}`:''}</div></div><div class="num" style="color:var(--gold)">${f.sb||0} SB</div></div>`).join(''):'<div class="act-small">No friends added yet.</div>'}
+      <div style="flex:1"><div>${esc(f.name)}</div><div style="font-size:10.5px;color:var(--text2)">📚 ${f.l||0} lessons · ⭐ ${f.st||0} stars${f.beat?` · 👗 ${esc(f.beat)}`:''}</div></div><div style="text-align:right"><div class="num" style="color:var(--gold)">${f.sb||0} SB</div><button class="tool" style="margin-top:3px" onclick="cheerPicker('',1)" aria-label="Send a cheer">💌 Cheer</button></div></div>`).join(''):'<div class="act-small">No friends added yet.</div>'}
     <button class="btn gold" style="margin-top:10px" onclick="shareCard()">📣 Share my player card</button></div>
     <button class="btn ghost" style="margin-bottom:10px" onclick="openParent()">👪 Parent Center (Squad Plus, gems, Chore Payday)</button>
-    <div class="act-small" style="text-align:center;margin-bottom:10px">👪 For grown-ups: friend links only include a first name or nickname, an avatar, and game scores. There's no chat and no personal information.</div>`;
+    <div class="act-small" style="text-align:center;margin-bottom:10px">👪 For grown-ups: friend links only include a first name or nickname, an avatar, and game scores. There's no open chat: kids can only send pre-written cheers, and no personal information is shared.</div>`;
   document.getElementById('squad-view').innerHTML=html;
 }
 function claimSquad(g){ST.squadClaimed=[...(ST.squadClaimed||[]),g];giveChest('Squad goal reached!');confetti(220);SFX.win();save();renderSquad();}
@@ -3883,9 +4116,9 @@ function readInvite(){
   let d;try{d=b64d(m[1]);}catch(e){return;}if(!d||typeof d.n!=='string')return;
   const name=d.n.replace(/[^\p{L}\p{N} ._-]/gu,'').slice(0,18)||'Friend';if(name===ST.name)return;
   const f={name,look:validLook(d.look),sb:Math.max(0,d.sb|0),l:Math.max(0,d.l|0),st:Math.max(0,d.st|0),wk:typeof d.wk==='string'?d.wk.slice(0,10):'',wx:Math.max(0,Math.min(99999,d.wx|0))};
-  ST.friends=ST.friends||{};const ch=RUNWAY.find(x=>x.id===d.ch),cs=Math.max(0,Math.min(100,d.cs|0));
+  ST.friends=ST.friends||{};const ch=RUNWAY.find(x=>x.id===d.ch),cs=Math.max(0,Math.min(100,d.cs|0)),cheer=Number.isInteger(d.cheer)&&CHEERS[d.cheer]?CHEERS[d.cheer]:null;
   queueModal(()=>{
-    gmShow(`<div style="width:120px;margin:0 auto">${avatarSVG(f.look)}</div><div style="font-size:17px;font-weight:900;margin:8px 0 4px">${esc(name)} ${ch?'sent you a challenge!':'shared their player card!'}</div>
+    gmShow(`<div style="width:120px;margin:0 auto">${avatarSVG(f.look)}</div><div style="font-size:17px;font-weight:900;margin:8px 0 4px">${esc(name)} ${ch?'sent you a challenge!':cheer?'sent you a cheer!':'shared their player card!'}</div>${cheer?`<div class="story-l p" style="text-align:left"><span class="story-em">💌</span><div>${cheer}</div></div>`:''}
       <div style="font-size:12.5px;color:var(--text2);margin-bottom:8px">${ch?`Beat ${esc(name)}'s score of <b style="color:var(--gold)">${cs}</b> in the ${ch.em} ${ch.title} Runway Challenge!`:`Add ${esc(name)} to your Squad board to cheer each other on.`}</div>
       <button class="btn gold" onclick="acceptInvite()">${ch?'Accept the challenge!':'Add to my Squad'}</button><button class="btn ghost" onclick="gmHide()">No thanks</button>`);
     window._invite={f,ch:ch&&ch.id,cs};SFX.open();});
