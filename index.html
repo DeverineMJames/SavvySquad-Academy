@@ -482,6 +482,7 @@ body.calm .strutter{animation:none;transform:translateY(104px)}
 .tday-bar span{display:block;height:100%;border-radius:3px}
 .flyer svg{display:block}
 
+.disc-foot{font-size:10.5px;line-height:1.5;color:var(--text3);text-align:center;margin:18px 6px 8px;font-weight:600}
 .mini-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .mini-card{position:relative;background:var(--surface);border:1px solid var(--border2);border-radius:var(--rl);padding:12px 8px;cursor:pointer;font-family:inherit;color:var(--text);text-align:center;display:flex;flex-direction:column;align-items:center}
 .mc-t{font-size:12.5px;font-weight:900;margin-top:2px}.mc-s{font-size:10px;color:var(--text2);font-weight:700;margin-top:2px}
@@ -668,7 +669,7 @@ button.chip{font-family:inherit;color:var(--text);cursor:pointer}
   <div class="disc-box">
     <div style="font-size:28px;margin-bottom:8px">⚖️</div>
     <h2>Important Notice</h2>
-    <p>Savvy Squad Academy is designed for <strong>educational and entertainment purposes only</strong>. All trading games, simulations, and investment scenarios use <strong>virtual currency only</strong> — no real money is involved at any time. Nothing in this app constitutes financial, investment, or legal advice. Past performance does not guarantee future results. Trading and investing carry real risk. Always consult a licensed financial professional before making any investment decisions. By proceeding, you confirm you understand this is a learning tool.</p>
+    <p>Savvy Squad Academy is designed for <strong>educational and entertainment purposes only</strong>. All trading games, simulations, and investment scenarios use <strong>virtual currency only</strong> — no real money is involved at any time. Savvy Mommy LLC is not a financial advisor, and nothing in this app is financial, investment, tax, or legal advice. Past performance does not guarantee future results. Trading and investing carry real risk. Always consult a licensed financial professional before making any investment decisions. By proceeding, you confirm you understand this is a learning tool.</p>
     <p style="font-size:11px;margin-bottom:14px;color:#556688">© Savvy Mommy LLC — Faith · Finance · Fitness</p>
     <button class="disc-btn" onclick="acceptDisclaimer()">I Understand — Let's Learn! 🚀</button>
   </div>
@@ -700,7 +701,7 @@ button.chip{font-family:inherit;color:var(--text);cursor:pointer}
     </div>
     <input class="ob-inp" id="ob-name" placeholder="Enter your first name" maxlength="18" onkeydown="if(event.key==='Enter')startApp()">
     <button class="ob-btn" onclick="startApp()">Enter the Academy 🌍</button>
-    <div class="ob-fine">For entertainment and education only. No real money involved. Not financial advice.<br>© Savvy Mommy LLC — Faith · Finance · Fitness</div>
+    <div class="ob-fine">For education and entertainment only. No real money involved. Not financial advice. Savvy Mommy LLC is not a financial advisor.<br>© Savvy Mommy LLC — Faith · Finance · Fitness</div>
   </div>
 </div>
 
@@ -951,7 +952,7 @@ button.chip{font-family:inherit;color:var(--text);cursor:pointer}
     <div style="font-size:12px;color:var(--text2);line-height:1.6;font-weight:500;margin-bottom:8px">TradingView, thinkorswim, Webull, Robinhood… they all look different, but every one has these same 8 parts. Tap a part to learn it.</div>
     <div id="lab-decoder"></div></div>
   <div class="card"><div class="meta" style="color:var(--pink)">My trading journal 📓</div><div id="lab-journal"></div></div>
-  <div class="act-small" style="text-align:center;margin-bottom:10px">⚖️ Paper trading uses practice money, and Savvy Bucks are game money. Real company prices are for learning how markets work, not investment advice.</div>
+  <div class="act-small" style="text-align:center;margin-bottom:10px">⚖️ Paper trading uses practice money, and Savvy Bucks are game money. Real company prices are for learning how markets work, not investment advice. Savvy Mommy LLC is not a financial advisor.</div>
   </div>
 </div>
 
@@ -4404,7 +4405,7 @@ function openSettings(){
     <div style="font-size:12px;font-weight:800;margin:12px 0 2px">Reading voice (tap to hear it)</div>
     ${voicesHTML()}
     <div class="tk-row"><span>Read-aloud speed</span><div class="seg"><button class="${(ST.ttsRate||.95)<.9?'on':''}" onclick="ST.ttsRate=.8;save();openSettings();speak('This is slow reading speed.')">Slow</button><button class="${(ST.ttsRate||.95)>=.9?'on':''}" onclick="ST.ttsRate=.95;save();openSettings();speak('This is normal reading speed.')">Normal</button></div></div>
-  </div><button class="btn" style="margin-top:12px" onclick="gmHide();openParent()">👪 Parent Center</button><button class="btn ghost" onclick="gmHide()">Done</button><div class="act-small" style="text-align:center;margin-top:8px">© 2026 Savvy Mommy LLC. All rights reserved.</div>`);
+  </div><button class="btn" style="margin-top:12px" onclick="gmHide();openParent()">👪 Parent Center</button><button class="btn ghost" onclick="gmHide()">Done</button><div class="act-small" style="text-align:center;margin-top:8px">⚖️ For educational purposes only. Savvy Mommy LLC is not a financial advisor, and nothing here is financial, investment, tax, or legal advice.<br>© 2026 Savvy Mommy LLC. All rights reserved.</div>`);
 }
 const tgl=(t,k,on)=>`<div class="tk-row"><span>${t}</span><button class="tool${on?' on':''}" onclick="setTgl('${k}')" aria-pressed="${on}">${on?'On':'Off'}</button></div>`;
 function setTgl(k){if(k==='sfx'){ST.muted=!ST.muted;}if(k==='hap'){ST.noHaptics=!ST.noHaptics;buzz(30);}if(k==='auto')ST.autoRead=!ST.autoRead;if(k==='calm')setCalm(!ST.calm);save();openSettings();}
@@ -4920,6 +4921,7 @@ function acceptInvite(){const {f,ch,cs}=window._invite;ST.friends[f.name]=f;save
 
 // ── start the app once everything above is defined ──
 voxDetect();document.body.classList.toggle('calm',!!ST.calm);
+document.querySelectorAll('.screen').forEach(sc=>{if(!sc.querySelector('.disc-foot')){const d=document.createElement('p');d.className='disc-foot';d.textContent='⚖️ For educational purposes only. Savvy Mommy LLC is not a financial advisor, and nothing here is financial, investment, tax, or legal advice.';sc.appendChild(d);}});
 bootApp();
 syncMusicBtn();
 if(ST.name)readInvite();
