@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- © 2026 Savvy Mommy LLC. All rights reserved. Savvy Squad Academy™ is proprietary software; copying, modifying, or redistributing this code without written permission is prohibited. -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Savvy Squad Academy — Financial Literacy Universe</title>
@@ -4403,7 +4404,7 @@ function openSettings(){
     <div style="font-size:12px;font-weight:800;margin:12px 0 2px">Reading voice (tap to hear it)</div>
     ${voicesHTML()}
     <div class="tk-row"><span>Read-aloud speed</span><div class="seg"><button class="${(ST.ttsRate||.95)<.9?'on':''}" onclick="ST.ttsRate=.8;save();openSettings();speak('This is slow reading speed.')">Slow</button><button class="${(ST.ttsRate||.95)>=.9?'on':''}" onclick="ST.ttsRate=.95;save();openSettings();speak('This is normal reading speed.')">Normal</button></div></div>
-  </div><button class="btn" style="margin-top:12px" onclick="gmHide();openParent()">👪 Parent Center</button><button class="btn ghost" onclick="gmHide()">Done</button>`);
+  </div><button class="btn" style="margin-top:12px" onclick="gmHide();openParent()">👪 Parent Center</button><button class="btn ghost" onclick="gmHide()">Done</button><div class="act-small" style="text-align:center;margin-top:8px">© 2026 Savvy Mommy LLC. All rights reserved.</div>`);
 }
 const tgl=(t,k,on)=>`<div class="tk-row"><span>${t}</span><button class="tool${on?' on':''}" onclick="setTgl('${k}')" aria-pressed="${on}">${on?'On':'Off'}</button></div>`;
 function setTgl(k){if(k==='sfx'){ST.muted=!ST.muted;}if(k==='hap'){ST.noHaptics=!ST.noHaptics;buzz(30);}if(k==='auto')ST.autoRead=!ST.autoRead;if(k==='calm')setCalm(!ST.calm);save();openSettings();}
